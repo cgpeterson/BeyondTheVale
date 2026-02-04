@@ -4,11 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     
     if (hamburger && navMenu) {
-        // Make hamburger focusable and accessible
-        hamburger.setAttribute('role', 'button');
-        hamburger.setAttribute('aria-label', 'Toggle navigation menu');
+        // Set initial ARIA state
         hamburger.setAttribute('aria-expanded', 'false');
-        hamburger.setAttribute('tabindex', '0');
         
         const toggleMobileNav = function() {
             const isActive = hamburger.classList.contains('active');
@@ -20,7 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isActive) {
                 const firstLink = navMenu.querySelector('.nav-link');
                 if (firstLink) {
-                    setTimeout(() => firstLink.focus(), 100);
+                    // Use requestAnimationFrame to ensure CSS transitions complete
+                    requestAnimationFrame(() => {
+                        firstLink.focus();
+                    });
                 }
             }
         };
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Keyboard support (Enter and Space keys)
         hamburger.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
+            if (event.key === 'Enter' || event.key === ' ' || event.code === 'Space') {
                 event.preventDefault();
                 toggleMobileNav();
             }
