@@ -13,19 +13,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close mobile menu when a nav link is clicked
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            if (hamburger) {
+                hamburger.classList.remove('active');
+            }
+            if (navMenu) {
+                navMenu.classList.remove('active');
+            }
         });
     });
     
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(event) {
-        const isClickInsideNav = navMenu.contains(event.target);
-        const isClickOnHamburger = hamburger.contains(event.target);
-        
-        if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        if (hamburger && navMenu) {
+            const isClickInsideNav = navMenu.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         }
     });
 });
