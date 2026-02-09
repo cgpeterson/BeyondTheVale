@@ -302,12 +302,20 @@ h1, h2, h3, .logo a {
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
     .btn-small:hover {
         color: var(--accent-gold);
         border-color: var(--accent-gold);
     }
+
+/* Project Links Container */
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
 
 /* Skill Grid */
 .skills-grid {
@@ -375,3 +383,251 @@ h1, h2, h3, .logo a {
         font-size: 2rem;
     }
 }
+
+/* ============================================
+   PROJECT SECTIONS & FILTERING
+   ============================================ */
+
+/* Filter Section */
+.filter-section {
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+    padding: 0 2rem;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--glass-white);
+    border-radius: 4px;
+}
+
+.filter-container label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.tech-filter {
+    background-color: var(--galaxy-green-pearl);
+    color: var(--text-main);
+    border: 1px solid var(--glass-white);
+    padding: 0.6rem 1.2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 200px;
+}
+
+.tech-filter:hover,
+.tech-filter:focus {
+    border-color: var(--accent-gold);
+    outline: none;
+}
+
+.tech-filter option {
+    background-color: var(--galaxy-green-deep);
+    color: var(--text-main);
+}
+
+/* Project Sections */
+.project-section {
+    max-width: 1200px;
+    margin: 0 auto 3rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--accent-gold-bright);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--velvet-purple-glow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Placeholder Cards */
+.placeholder-card {
+    opacity: 0.5;
+    border-style: dashed;
+}
+
+.placeholder-card:hover {
+    opacity: 0.7;
+    transform: none;
+}
+
+/* Project Technology Tags */
+.project-tech {
+    font-size: 0.8rem;
+    color: var(--velvet-purple-glow);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Filter Animation */
+.project-card {
+    transition: var(--transition), opacity 0.3s ease;
+}
+
+.project-card.filtered-out {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+/* ============================================
+   CATEGORY CARDS (Projects Landing Page)
+   ============================================ */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid var(--glass-white);
+    padding: 3rem 2rem;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--velvet-purple-glow), var(--accent-gold));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-gold);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    filter: grayscale(20%);
+    transition: var(--transition);
+}
+
+.category-card:hover .category-icon {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+.category-card h2 {
+    font-size: 1.75rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+}
+
+.category-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.category-link {
+    color: var(--accent-gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+}
+
+.category-card:hover .category-link {
+    color: var(--accent-gold-bright);
+}
+
+/* ============================================
+   BREADCRUMB NAVIGATION
+   ============================================ */
+
+.breadcrumb {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--accent-gold);
+}
+
+/* Responsive adjustments for filters */
+@media screen and (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tech-filter {
+        width: 100%;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .category-icon {
+        font-size: 3rem;
+    }
+}
+

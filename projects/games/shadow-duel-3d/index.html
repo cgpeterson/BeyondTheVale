@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hollow Duel — Multiplayer Souls Combat</title>
+    <meta name="description" content="A 3D souls-like multiplayer combat game built with Three.js and Firebase. Fight procedurally generated bosses with friends.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="game-container">
+
+        <!-- LOADING SCREEN -->
+        <div id="loadingScreen" class="overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Entering the arena...</div>
+            </div>
+        </div>
+
+        <!-- MAIN MENU -->
+        <div id="menu" class="overlay">
+            <h1>Hollow Duel</h1>
+            <div class="menu-subtitle">A Souls-Like Combat Experience</div>
+            <div class="menu-divider"></div>
+            <div class="input-group">
+                <input type="text" id="playerNameInput" placeholder="Enter Your Name" maxlength="12" value="">
+                <input type="text" id="bossNameInput" placeholder="Boss Name (shared session)" maxlength="20" value="Sword Saint">
+                <select id="mapSelect">
+                    <option value="arena">Dark Arena</option>
+                    <option value="snow">Snowy Forest</option>
+                    <option value="meadow">Green Meadow</option>
+                </select>
+                <button id="startBtn">Enter the Arena</button>
+                <div class="status-text" id="statusText"></div>
+            </div>
+            <div class="controls">
+                <p><span class="key">WASD</span> Move &nbsp;&nbsp; <span class="key">SPACE</span> Dash &nbsp;&nbsp; <span class="key">E</span> Heal &nbsp;&nbsp; <span class="key">L-CLICK</span> Attack (hold heavy) &nbsp;&nbsp; <span class="key">R-CLICK</span> Deflect</p>
+                <p><span class="key">L-STICK</span> Move &nbsp;&nbsp; <span class="key">A</span> Dash &nbsp;&nbsp; <span class="key">Y</span> Heal &nbsp;&nbsp; <span class="key">X / RB</span> Attack &nbsp;&nbsp; <span class="key">LB</span> Deflect</p>
+            </div>
+        </div>
+
+        <!-- HUD -->
+        <div id="hud">
+            <div class="boss-hud">
+                <div class="boss-name-row">
+                    <div class="boss-name" id="hudBossName">Boss Name</div>
+                    <div class="boss-archetype" id="hudBossArchetype"></div>
+                </div>
+                <div class="bar-container">
+                    <div class="health-bar" id="bossHealth"></div>
+                </div>
+                <div class="posture-bar" id="bossPosture"></div>
+            </div>
+
+            <div class="player-hud">
+                <div class="boss-name" id="localPlayerName">Wolf</div>
+                <div class="bar-container">
+                    <div class="health-bar player-health-bar" id="playerHealth"></div>
+                </div>
+                <div class="posture-bar" id="playerPosture"></div>
+                <div class="stamina-bar" id="playerStamina"></div>
+            </div>
+
+            <div class="player-count" id="playerCount">Players: 1</div>
+
+            <div class="ally-huds" id="allyHuds"></div>
+
+            <div class="item-counter">
+                <div class="flask-icon"></div>
+                <span id="flaskCount">3</span>
+            </div>
+
+            <div id="kanji" class="kanji-flash">危</div>
+        </div>
+
+        <!-- END SCREEN -->
+        <div id="endScreen" class="overlay hidden">
+            <div id="endText" class="death-text">DEATH</div>
+            <button id="resurrectBtn">Return</button>
+        </div>
+    </div>
+
+    <script src="gameLogic.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

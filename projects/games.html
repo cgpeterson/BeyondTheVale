@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - Beyond The Vale</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html">Beyond The Vale</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link active">Projects</a>
+                </li>
+            </ul>
+            <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../projects.html">Projects</a> / Games
+            </div>
+            <h1>🎮 Games</h1>
+            <p>Interactive experiences and multiplayer projects</p>
+        </section>
+
+        <!-- Technology Filter -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <label for="tech-filter">Filter by Technology:</label>
+                <select id="tech-filter" class="tech-filter">
+                    <option value="all">All Technologies</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <div class="projects-grid">
+                <div class="project-card" data-technologies="Three.js,Firebase,JavaScript,HTML">
+                    <h3>Shadow Duel 3D</h3>
+                    <p class="project-tech">Technologies: Three.js, Firebase, JavaScript, HTML</p>
+                    <p>A Souls-like multiplayer 3D combat game featuring real-time combat, parry mechanics, boss AI with multiple archetypes, and online co-op via Firebase.</p>
+                    <div class="project-links">
+                        <a href="games/shadow-duel-3d/index.html" class="btn-small" target="_blank">View Demo</a>
+                        <a href="https://github.com/cgpeterson/MultiplayerBossFight" class="btn-small" target="_blank">Source Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card placeholder-card" data-technologies="">
+                    <h3>Coming Soon</h3>
+                    <p class="project-tech">Your next game project</p>
+                    <p>Add your game projects here by editing this file.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

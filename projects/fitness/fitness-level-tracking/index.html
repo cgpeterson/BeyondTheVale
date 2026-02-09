@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Level Tracking - Beyond The Vale</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        /* Project Detail Page Styles */
+        .project-detail {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .project-header h1 {
+            color: var(--accent-gold-bright);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .tech-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-tag {
+            background: var(--velvet-purple-glow);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 3px;
+        }
+        
+        .project-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .screenshot-gallery {
+            margin: 3rem 0;
+        }
+        
+        .screenshot-gallery h2 {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .screenshot-placeholder {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px dashed var(--glass-white);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .screenshot-grid img {
+            width: 100%;
+            border: 1px solid var(--glass-white);
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot-grid img:hover {
+            transform: scale(1.02);
+        }
+        
+        .feature-list {
+            margin: 3rem 0;
+        }
+        
+        .feature-list h2 {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--glass-white);
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        
+        .download-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-white);
+            padding: 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .download-section h2 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .download-section p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../../index.html">Beyond The Vale</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../projects.html" class="nav-link active">Projects</a>
+                </li>
+            </ul>
+            <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../../projects.html">Projects</a> / 
+                <a href="../fitness.html">Fitness</a> / 
+                Fitness Level Tracking
+            </div>
+        </section>
+
+        <section class="project-detail">
+            <div class="project-header">
+                <h1>💪 Fitness Level Tracking</h1>
+                <p>A data-driven desktop application for tracking multiple athletes and their physical metrics</p>
+            </div>
+
+            <div class="tech-tags">
+                <span class="tech-tag">C#</span>
+                <span class="tech-tag">.NET</span>
+                <span class="tech-tag">Windows Forms</span>
+                <span class="tech-tag">Data-Driven</span>
+            </div>
+
+            <div class="project-actions">
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking" class="btn" target="_blank">View on GitHub</a>
+                <!-- Uncomment when you have releases
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking/releases" class="btn-small" target="_blank">Download Latest</a>
+                -->
+            </div>
+
+            <!-- Project Description -->
+            <div class="card">
+                <h2>About This Project</h2>
+                <p>
+                    Fitness Level Tracking is a locally-run, data-driven Windows Forms application designed for coaches and athletes. 
+                    It enables tracking of multiple athletes through a tabbed interface, with comprehensive test metrics to monitor 
+                    physical growth and performance over time. The application supports advanced filtering capabilities for 
+                    in-depth self-study and performance analysis.
+                </p>
+            </div>
+
+            <!-- Features -->
+            <div class="feature-list">
+                <h2>Key Features</h2>
+                <ul>
+                    <li>Multi-athlete support with tabbed profile management</li>
+                    <li>Comprehensive physical test metrics tracking</li>
+                    <li>Growth visualization and progress monitoring</li>
+                    <li>Advanced data filtering for self-study analysis</li>
+                    <li>Local data storage for privacy and offline use</li>
+                    <li>Clean, intuitive Windows desktop interface</li>
+                </ul>
+            </div>
+
+            <!-- Screenshots -->
+            <div class="screenshot-gallery">
+                <h2>Screenshots</h2>
+                <div class="screenshot-placeholder">
+                    <p>📸 Add screenshots of your application here</p>
+                    <p style="font-size: 0.85rem; margin-top: 1rem;">
+                        Place images in this folder and update the HTML:<br>
+                        <code>projects/fitness/fitness-level-tracking/screenshots/</code>
+                    </p>
+                </div>
+                <!-- Uncomment and update when you have screenshots
+                <div class="screenshot-grid">
+                    <img src="screenshots/main-dashboard.png" alt="Main Dashboard">
+                    <img src="screenshots/workout-log.png" alt="Workout Log">
+                    <img src="screenshots/progress-chart.png" alt="Progress Chart">
+                </div>
+                -->
+            </div>
+
+            <!-- Download Section -->
+            <div class="download-section">
+                <h2>Download</h2>
+                <p>This is a Windows desktop application. Clone the repository and build locally, or download from GitHub Releases.</p>
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking" class="btn" target="_blank">
+                    View on GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
+    </footer>
+
+    <script src="../../script.js"></script>
+</body>
+</html>

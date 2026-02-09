@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness - Beyond The Vale</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html">Beyond The Vale</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link active">Projects</a>
+                </li>
+            </ul>
+            <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../projects.html">Projects</a> / Fitness
+            </div>
+            <h1>💪 Fitness</h1>
+            <p>Health and fitness applications</p>
+        </section>
+
+        <!-- Technology Filter -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <label for="tech-filter">Filter by Technology:</label>
+                <select id="tech-filter" class="tech-filter">
+                    <option value="all">All Technologies</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <div class="projects-grid">
+                <!-- Fitness Level Tracking - Windows Forms App -->
+                <div class="project-card" data-technologies="Windows Forms,C#,.NET,Desktop">
+                    <h3>Fitness Level Tracking</h3>
+                    <p class="project-tech">Technologies: Windows Forms, C#, .NET</p>
+                    <p>A data-driven desktop application for tracking multiple athletes with tabbed profiles, test metrics for physical growth, and advanced filtering for self-study analysis.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/cgpeterson/Fitness-Level-Tracking/releases" class="btn-small" target="_blank">⬇ Download</a>
+                        <a href="https://github.com/cgpeterson/Fitness-Level-Tracking" class="btn-small" target="_blank">Source Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card placeholder-card" data-technologies="">
+                    <h3>Add Your Project</h3>
+                    <p class="project-tech">Your next fitness project</p>
+                    <p>Add your fitness projects here by editing this file.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

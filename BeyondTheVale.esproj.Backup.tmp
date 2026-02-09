@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.784122">
+  <PropertyGroup>
+    <StartupCommand>npm start</StartupCommand>
+    <StartupItem>index.html</StartupItem>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="index.html" />
+    <None Include="about.html" />
+    <None Include="projects.html" />
+    <None Include="styles.css" />
+    <None Include="script.js" />
+  </ItemGroup>
+</Project>
