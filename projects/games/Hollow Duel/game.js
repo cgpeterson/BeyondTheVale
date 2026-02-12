@@ -296,6 +296,7 @@ let localPlayerId = null;
 let sessionId = null;
 let isHost = false;
 let remotePlayers = {}; // { oderId: { character, lastUpdate, data } }
+let currentHostId = null;
 let sessionRef = null;
 let playersRef = null;
 let bossRef = null;
@@ -305,6 +306,21 @@ let lastSyncTime = 0;
 
 // Player colors for multiplayer
 const PLAYER_COLORS = [0xaaaaaa, 0x4fc3f7, 0x81c784, 0xffb74d, 0xba68c8, 0xf06292];
+
+// Color picker interaction
+let selectedPlayerColor = 0xaaaaaa;
+document.addEventListener('DOMContentLoaded', () => {
+    const picker = document.getElementById('colorPicker');
+    if (picker) {
+        picker.addEventListener('click', (e) => {
+            const swatch = e.target.closest('.color-swatch');
+            if (!swatch) return;
+            picker.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+            swatch.classList.add('selected');
+            selectedPlayerColor = parseInt(swatch.dataset.color);
+        });
+    }
+});
 
 // ===========================================
 // NETWORK MANAGER
@@ -374,7 +390,8 @@ const NetworkManager = {
                 const remainingCount = Object.keys(playersData).length - staleKeys.length;
 
                 if (remainingCount <= 0) {
-                    // No live players - take over
+                    // No live players - mark stale session and take over
+                    await sessionRef.update({ state: 'ENDED' });
                     shouldBeHost = true;
                 } else {
                     // There are players, but check if the current host is still among them
@@ -390,6 +407,7 @@ const NetworkManager = {
 
         if (shouldBeHost) {
             isHost = true;
+            currentHostId = localPlayerId;
             // Clear any leftover players from previous session before setting up fresh
             await playersRef.remove();
 
@@ -401,8 +419,12 @@ const NetworkManager = {
                 hostId: localPlayerId,
                 playerCount: 1
             });
+
+            // If we disconnect, remove hostId so others know to migrate
+            sessionRef.child('hostId').onDisconnect().remove();
         } else {
             isHost = false;
+            currentHostId = sessionData.hostId;
             await sessionRef.update({
                 playerCount: firebase.database.ServerValue.increment(1)
             });
@@ -412,7 +434,7 @@ const NetworkManager = {
         const playerRef = playersRef.child(localPlayerId);
         await playerRef.set({
             name: playerName || 'Wolf',
-            color: PLAYER_COLORS[Object.keys(remotePlayers).length % PLAYER_COLORS.length],
+            color: selectedPlayerColor,
             joinedAt: firebase.database.ServerValue.TIMESTAMP,
             state: {}
         });
@@ -458,6 +480,15 @@ const NetworkManager = {
     },
 
     onPlayerJoined(playerId, data) {
+        // If this player already exists (e.g. rejoin), remove old character first
+        if (remotePlayers[playerId]) {
+            const old = remotePlayers[playerId];
+            if (old.character && old.character.mesh) {
+                scene.remove(old.character.mesh);
+            }
+            delete remotePlayers[playerId];
+        }
+
         const spawnAngle = Math.random() * Math.PI * 2;
         const spawnDist = 6 + Math.random() * 2;
         const spawnPos = new THREE.Vector3(
@@ -503,20 +534,99 @@ const NetworkManager = {
                 scaleBossForPlayerCount();
             }
         }
+
+        // Check if the host just left — if so, attempt migration
+        if (playerId === currentHostId && !isHost) {
+            this.attemptHostMigration();
+        }
+    },
+
+    attemptHostMigration() {
+        // Deterministic election: all clients compute the same result
+        const allIds = [localPlayerId, ...Object.keys(remotePlayers)].sort();
+        const newHostId = allIds[0];
+
+        if (newHostId === localPlayerId) {
+            this.promoteToHost();
+        } else {
+            // Someone else will be host, just update cached hostId
+            currentHostId = newHostId;
+        }
+    },
+
+    async promoteToHost() {
+        isHost = true;
+        currentHostId = localPlayerId;
+
+        // Stop client boss listener (prevents overwriting our own AI decisions)
+        if (bossRef) bossRef.off('value');
+
+        // Update Firebase with new host
+        if (sessionRef) {
+            await sessionRef.update({ hostId: localPlayerId });
+            // Register new onDisconnect for host duties
+            sessionRef.child('hostId').onDisconnect().remove();
+        }
+
+        // Read last boss state from Firebase to sync local boss
+        if (bossRef && boss) {
+            const bossSnap = await bossRef.once('value');
+            const bossData = bossSnap.val();
+            if (bossData) {
+                this.applyBossState(bossData, true);
+            }
+        }
+
+        // Reconstruct base stats from boss config
+        if (sessionRef) {
+            const sessionSnap = await sessionRef.once('value');
+            const sessionData = sessionSnap.val();
+            if (sessionData && sessionData.bossName) {
+                const config = GL.getBossConfig(sessionData.bossName);
+                baseBossHealth = config.health;
+                baseBossPosture = config.posture;
+            }
+        }
+
+        // Reset damage tracker and rescale boss for current player count
+        bossDamageTracker = {};
+        localBossDamage = 0;
+        scaleBossForPlayerCount();
+
+        createFloatingText('HOST MIGRATED', new THREE.Vector3(0, 3, 0), '#ffd700');
     },
 
     onPlayerUpdate(playerId, data) {
         const remote = remotePlayers[playerId];
-        if (!remote || !data.state) return;
+        if (!remote) return;
 
-        const s = data.state;
         remote.lastUpdate = Date.now();
+        remote.data = data;
+
+        // Update color if it changed (e.g. player rejoined with different color)
+        if (data.color !== undefined && remote.character && remote.character.baseColor !== data.color) {
+            const newColor = data.color || 0x4fc3f7;
+            remote.character.baseColor = newColor;
+            remote.character.bodyMat.color.setHex(newColor);
+            remote.character.bodyMat.emissive.setHex(newColor);
+            if (remote.character.innerGlow) {
+                remote.character.innerGlow.color.setHex(newColor);
+            }
+        }
+
+        if (!data.state) return;
+        const s = data.state;
 
         if (s.pos) {
             remote.targetPos.set(s.pos.x, s.pos.y || 0, s.pos.z);
         }
         if (s.rot !== undefined) {
             remote.targetRot = s.rot;
+        }
+
+        // Host uses client-reported damage for boss targeting
+        if (isHost && s.bossDmg !== undefined) {
+            bossDamageTracker[playerId] = s.bossDmg;
         }
 
         // Apply action states
@@ -553,7 +663,8 @@ const NetworkManager = {
             healing: player.isHealing,
             health: player.health,
             posture: player.posture,
-            stunned: player.stunTimer > 0
+            stunned: player.stunTimer > 0,
+            bossDmg: localBossDamage
         };
 
         playersRef.child(localPlayerId).child('state').set(state);
@@ -571,6 +682,7 @@ const NetworkManager = {
             attacking: boss.isAttacking,
             attackType: boss.attackType,
             attackTimer: boss.attackTimer,
+            swingType: boss.swingType,
             specialAttacking: boss.isSpecialAttacking,
             specialType: boss.specialType,
             stunned: boss.stunTimer > 0,
@@ -579,8 +691,8 @@ const NetworkManager = {
         bossRef.set(state);
     },
 
-    applyBossState(data) {
-        if (!boss || isHost) return;
+    applyBossState(data, force = false) {
+        if (!boss || (isHost && !force)) return;
         // Interpolate position
         boss.mesh.position.lerp(
             new THREE.Vector3(data.pos.x, data.pos.y || 0, data.pos.z),
@@ -600,6 +712,8 @@ const NetworkManager = {
             boss.isAttacking = true;
             boss.attackType = data.attackType;
             boss.attackTimer = data.attackTimer;
+            boss.swingType = data.swingType || 0;
+            boss.hasHit = false;
         } else if (!data.attacking) {
             boss.isAttacking = false;
         }
@@ -613,6 +727,11 @@ const NetworkManager = {
         }
 
         boss.stunTimer = data.stunned ? 1.0 : 0;
+
+        // Sync target from host so client boss faces the same player
+        if (data.targetId) {
+            boss.currentTargetId = data.targetId;
+        }
     },
 
     updatePlayerCount() {
@@ -638,7 +757,16 @@ const NetworkManager = {
     },
 
     updateRemotePlayers(dt) {
+        const staleIds = [];
+
         for (const [id, remote] of Object.entries(remotePlayers)) {
+            // Check for stale players (no update in >10 seconds)
+            const timeSinceUpdate = Date.now() - remote.lastUpdate;
+            if (timeSinceUpdate > 10000) {
+                staleIds.push(id);
+                continue;
+            }
+
             const char = remote.character;
             if (!char || !char.mesh) continue;
 
@@ -657,10 +785,37 @@ const NetworkManager = {
             char.update(dt, boss);
         }
 
+        // Remove stale players
+        for (const id of staleIds) {
+            this.onPlayerLeft(id);
+            if (playersRef) playersRef.child(id).remove();
+        }
+
         this.updateAllyHuds();
     },
 
+    discoverExistingPlayers() {
+        if (!playersRef) return;
+        playersRef.once('value', snap => {
+            const playersData = snap.val();
+            if (!playersData) return;
+            for (const [id, data] of Object.entries(playersData)) {
+                if (id !== localPlayerId && !remotePlayers[id]) {
+                    this.onPlayerJoined(id, data);
+                }
+            }
+        });
+    },
+
     cleanup() {
+        // Mark session ENDED if we're the host and no remote players remain
+        if (isHost && sessionRef) {
+            const remainingRemotes = Object.keys(remotePlayers).length;
+            if (remainingRemotes === 0) {
+                sessionRef.update({ state: 'ENDED' });
+            }
+        }
+
         if (playersRef) {
             playersRef.off();
             if (localPlayerId) {
@@ -675,6 +830,7 @@ const NetworkManager = {
             }
         }
         remotePlayers = {};
+        currentHostId = null;
         sessionRef = null;
         playersRef = null;
         bossRef = null;
@@ -687,6 +843,8 @@ const NetworkManager = {
 // ===========================================
 let baseBossHealth = 0;
 let baseBossPosture = 0;
+let bossDamageTracker = {}; // { playerId: totalDamage }
+let localBossDamage = 0; // cumulative damage this player dealt to boss
 
 function scaleBossForPlayerCount() {
     if (!boss) return;
@@ -752,7 +910,8 @@ function selectBossTarget() {
             isStunned: char.stunTimer > 0,
             isHealing: char.isHealing,
             health: char.health,
-            maxHealth: char.maxHealth
+            maxHealth: char.maxHealth,
+            damageDealt: bossDamageTracker[target.id] || 0
         };
 
         const score = GL.calculateThreatScore(targetData, boss.mesh.position, boss.currentTargetId);
@@ -1103,58 +1262,166 @@ class Character {
         }
 
         this.baseColor = this.config.color !== undefined ? this.config.color : (isPlayer ? 0xaaaaaa : 0xff0000);
-        this.bodyMat = new THREE.MeshStandardMaterial({ color: this.baseColor });
 
         this.bodyRadius = 0.5;
-        this.bodyHeight = 0.6;
-
-        const cylGeo = new THREE.CylinderGeometry(this.bodyRadius, this.bodyRadius, this.bodyHeight, 16);
-        const cylinder = new THREE.Mesh(cylGeo, this.bodyMat);
+        this.bodyHeight = 1.2;
         const bodyY = 1.0 + this.bodyHeight / 2;
-        cylinder.position.y = bodyY;
-        cylinder.castShadow = true;
-        this.mesh.add(cylinder);
 
-        const capGeo = new THREE.SphereGeometry(this.bodyRadius, 16, 16);
-        const topCap = new THREE.Mesh(capGeo, this.bodyMat);
-        topCap.position.y = bodyY + this.bodyHeight / 2;
-        this.mesh.add(topCap);
+        if (!isPlayer) {
+            this.buildSamuraiModel(bodyY);
+        } else {
+            // --- Slime Material (translucent, shiny, slight inner glow) ---
+            this.baseOpacity = 0.7;
+            this.baseEmissiveIntensity = 0.08;
+            this.bodyMat = new THREE.MeshStandardMaterial({
+                color: this.baseColor,
+                transparent: true,
+                opacity: this.baseOpacity,
+                metalness: 0.1,
+                roughness: 0.15,
+                emissive: this.baseColor,
+                emissiveIntensity: this.baseEmissiveIntensity,
+                side: THREE.DoubleSide
+            });
 
-        const botCap = new THREE.Mesh(capGeo, this.bodyMat);
-        botCap.position.y = bodyY - this.bodyHeight / 2;
-        this.mesh.add(botCap);
+            // --- Single pear-shaped body (Grimace silhouette via LatheGeometry) ---
+            const profile = [];
+            const bodySegs = 24;
+            for (let i = 0; i <= bodySegs; i++) {
+                const t = i / bodySegs;
+                const y = t * 1.5 - 0.75;
+                let r;
+                if (t < 0.05) {
+                    r = (t / 0.05) * 0.25;
+                } else if (t < 0.35) {
+                    const bt = (t - 0.05) / 0.3;
+                    r = 0.25 + Math.sin(bt * Math.PI / 2) * 0.37;
+                } else if (t < 0.75) {
+                    const ut = (t - 0.35) / 0.4;
+                    r = 0.62 - ut * 0.3;
+                } else {
+                    const nt = (t - 0.75) / 0.25;
+                    r = 0.32 - nt * 0.2;
+                }
+                profile.push(new THREE.Vector2(r, y));
+            }
+            const bodyGeo = new THREE.LatheGeometry(profile, 20);
+            this.slimeBody = new THREE.Mesh(bodyGeo, this.bodyMat);
+            this.slimeBody.position.y = bodyY;
+            this.slimeBody.castShadow = true;
+            this.mesh.add(this.slimeBody);
+            this.slimeBodyBasePos = new Float32Array(bodyGeo.attributes.position.array);
 
-        const headRadius = 0.35;
-        const headGeo = new THREE.SphereGeometry(headRadius, 16, 16);
-        const headMat = new THREE.MeshStandardMaterial({ color: 0x333333, emissive: 0x111111 });
-        this.head = new THREE.Mesh(headGeo, headMat);
-        this.head.position.set(0, bodyY + this.bodyHeight / 2 + headRadius + 0.05, 0);
-        this.mesh.add(this.head);
+            // Inner glow light
+            const innerGlow = new THREE.PointLight(this.baseColor, 0.55, 3);
+            innerGlow.position.y = bodyY;
+            this.mesh.add(innerGlow);
+            this.innerGlow = innerGlow;
 
-        const eyeGeo = new THREE.BoxGeometry(0.4, 0.1, 0.2);
-        const eyeColor = (!isPlayer && this.config.ai && this.config.ai.aggro > 0.8) ? 0xff0000 : 0x00ffff;
-        const eye = new THREE.Mesh(eyeGeo, new THREE.MeshBasicMaterial({ color: isPlayer ? 0x00ff00 : eyeColor }));
-        eye.position.set(0, 0, 0.25);
-        this.head.add(eye);
+            // --- Small head on spring (Human Fall Flat style lag) ---
+            this.headRestY = bodyY + 0.72;
+            this.head = new THREE.Group();
+            this.head.position.set(0, this.headRestY, 0);
+            this.mesh.add(this.head);
 
+            // Visible small head sphere
+            const headGeo = new THREE.SphereGeometry(0.22, 14, 12);
+            const headMesh = new THREE.Mesh(headGeo, this.bodyMat);
+            headMesh.castShadow = true;
+            this.head.add(headMesh);
+
+            // Neck nub (connects head to body)
+            const neckGeo = new THREE.SphereGeometry(0.13, 10, 8);
+            const neck = new THREE.Mesh(neckGeo, this.bodyMat);
+            neck.position.y = -0.18;
+            neck.scale.set(1.0, 1.4, 1.0);
+            this.head.add(neck);
+
+            // Spring physics state
+            this.headSpringOffset = new THREE.Vector3();
+            this.headSpringVel = new THREE.Vector3();
+
+            // Googly eyes (on the small head)
+            this.pupils = [];
+            const eyeWhiteGeo = new THREE.SphereGeometry(0.12, 12, 12);
+            const eyeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0.0 });
+            const pupilGeo = new THREE.SphereGeometry(0.065, 10, 10);
+            const pupilMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+
+            for (let i = -1; i <= 1; i += 2) {
+                const eyeWhite = new THREE.Mesh(eyeWhiteGeo, eyeWhiteMat);
+                eyeWhite.position.set(i * 0.13, 0.04, 0.17);
+                if (i > 0) eyeWhite.scale.setScalar(1.1);
+                this.head.add(eyeWhite);
+
+                const pupil = new THREE.Mesh(pupilGeo, pupilMat);
+                pupil.position.set(0, 0, 0.08);
+                eyeWhite.add(pupil);
+                this.pupils.push(eyeWhite);
+            }
+        }
+
+        // --- Weapon (sword) ---
         this.armPivot = new THREE.Group();
-        this.armPivot.position.set(0, bodyY + 0.2, 0.8);
+        this.armPivot.position.set(0, bodyY + 0.35, 0.8);
         this.mesh.add(this.armPivot);
 
         this.weaponGroup = new THREE.Group();
         this.armPivot.add(this.weaponGroup);
 
         const swordLen = 3.5;
-        const bladeGeo = new THREE.BoxGeometry(0.15, swordLen, 0.05);
-        const swordMat = new THREE.MeshStandardMaterial({
-            color: 0xeeeeee,
-            emissive: 0x111111,
-            metalness: 0.9,
-            roughness: 0.2
-        });
-        this.sword = new THREE.Mesh(bladeGeo, swordMat);
-        this.sword.position.y = swordLen / 2;
-        this.weaponGroup.add(this.sword);
+
+        if (!isPlayer) {
+            // --- Katana ---
+            const bladeGeo = new THREE.BoxGeometry(0.08, swordLen, 0.02);
+            // Shear for katana curve
+            const posAttr = bladeGeo.attributes.position;
+            for (let vi = 0; vi < posAttr.count; vi++) {
+                const y = posAttr.getY(vi);
+                posAttr.setZ(vi, posAttr.getZ(vi) + y * 0.06);
+            }
+            posAttr.needsUpdate = true;
+            const katanaMat = new THREE.MeshStandardMaterial({
+                color: 0xf0f0f0, metalness: 0.95, roughness: 0.05
+            });
+            this.sword = new THREE.Mesh(bladeGeo, katanaMat);
+            this.sword.position.y = swordLen / 2;
+            this.weaponGroup.add(this.sword);
+
+            // Tsuba (guard)
+            const tsubaGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.04, 8);
+            const tsubaMat = new THREE.MeshStandardMaterial({
+                color: 0xb8860b, metalness: 0.9, roughness: 0.15,
+                emissive: 0x4a3000, emissiveIntensity: 0.3
+            });
+            const tsuba = new THREE.Mesh(tsubaGeo, tsubaMat);
+            this.weaponGroup.add(tsuba);
+
+            // Tsuka (handle)
+            const tsukaGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.8);
+            const tsukaMat = new THREE.MeshStandardMaterial({ color: 0x1a0a0a, roughness: 0.9 });
+            const tsuka = new THREE.Mesh(tsukaGeo, tsukaMat);
+            tsuka.position.y = -0.4;
+            this.weaponGroup.add(tsuka);
+        } else {
+            // --- Regular sword ---
+            const bladeGeo = new THREE.BoxGeometry(0.12, swordLen, 0.04);
+            const swordMat = new THREE.MeshStandardMaterial({
+                color: 0xdadada, metalness: 0.9, roughness: 0.1, emissive: 0x111111
+            });
+            this.sword = new THREE.Mesh(bladeGeo, swordMat);
+            this.sword.position.y = swordLen / 2;
+            this.weaponGroup.add(this.sword);
+
+            const guardGeo = new THREE.BoxGeometry(0.6, 0.1, 0.1);
+            const guard = new THREE.Mesh(guardGeo, new THREE.MeshStandardMaterial({ color: 0x333333 }));
+            this.weaponGroup.add(guard);
+
+            const handleGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.6);
+            const handle = new THREE.Mesh(handleGeo, new THREE.MeshStandardMaterial({ color: 0x5c3a21 }));
+            handle.position.y = -0.3;
+            this.weaponGroup.add(handle);
+        }
 
         this.hitboxPoints = [];
         const numPoints = 12;
@@ -1167,15 +1434,7 @@ class Character {
             this.hitboxPoints.push(pt);
         }
 
-        const guardGeo = new THREE.BoxGeometry(0.6, 0.1, 0.1);
-        const guard = new THREE.Mesh(guardGeo, new THREE.MeshStandardMaterial({ color: 0x333333 }));
-        this.weaponGroup.add(guard);
-
-        const handleGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.6);
-        const handle = new THREE.Mesh(handleGeo, new THREE.MeshStandardMaterial({ color: 0x5c3a21 }));
-        handle.position.y = -0.3;
-        this.weaponGroup.add(handle);
-
+        // Hand targets (IK)
         this.ikJoints = {};
         this.handTargets = { left: new THREE.Object3D(), right: new THREE.Object3D() };
         this.weaponGroup.add(this.handTargets.right);
@@ -1184,8 +1443,8 @@ class Character {
         this.handTargets.left.position.set(0, -0.4, 0);
 
         this.shoulderPos = {
-            left: new THREE.Vector3(-0.55, bodyY + 0.3, 0),
-            right: new THREE.Vector3(0.55, bodyY + 0.3, 0)
+            left: new THREE.Vector3(-0.5, bodyY + 0.35, 0),
+            right: new THREE.Vector3(0.5, bodyY + 0.35, 0)
         };
 
         this.createLimb('left', 'arm');
@@ -1194,8 +1453,8 @@ class Character {
         this.ikJointsLegs = {};
         this.walkTimer = 0;
         this.hipPos = {
-            left: new THREE.Vector3(-0.3, bodyY - this.bodyHeight / 2 - 0.1, 0),
-            right: new THREE.Vector3(0.3, bodyY - this.bodyHeight / 2 - 0.1, 0)
+            left: new THREE.Vector3(-0.25, bodyY - this.bodyHeight / 2 - 0.12, 0),
+            right: new THREE.Vector3(0.25, bodyY - this.bodyHeight / 2 - 0.12, 0)
         };
         this.footTargets = {
             left: new THREE.Vector3(-0.3, 0, 0),
@@ -1204,6 +1463,31 @@ class Character {
 
         this.createLimb('left', 'leg');
         this.createLimb('right', 'leg');
+
+        // Swap limb materials for boss (armored look)
+        if (!isPlayer) {
+            const armorLimbMat = new THREE.MeshStandardMaterial({
+                color: 0x1a1a2e, metalness: 0.85, roughness: 0.35
+            });
+            const armorJointMat = new THREE.MeshStandardMaterial({
+                color: 0x2a2a3e, metalness: 0.7, roughness: 0.3
+            });
+            for (const side of ['left', 'right']) {
+                for (const joints of [this.ikJoints, this.ikJointsLegs]) {
+                    if (joints[side]) {
+                        joints[side].upper.material = armorLimbMat;
+                        joints[side].lower.material = armorLimbMat;
+                        joints[side].rootMesh.material = armorJointMat;
+                        if (joints[side].upper.children.length > 0) {
+                            joints[side].upper.children[0].material = armorJointMat;
+                        }
+                        if (joints[side].lower.children.length > 0) {
+                            joints[side].lower.children[0].material = armorJointMat;
+                        }
+                    }
+                }
+            }
+        }
 
         this.maxHealth = this.config.health || (isPlayer ? 100 : 300);
         this.health = this.maxHealth;
@@ -1242,27 +1526,220 @@ class Character {
         this.hasSlammed = false;
     }
 
+    buildSamuraiModel(bodyY) {
+        // --- Materials ---
+        const armorMat = new THREE.MeshStandardMaterial({
+            color: 0x1a1a2e, metalness: 0.85, roughness: 0.35
+        });
+        const lacquerColor = new THREE.Color(this.baseColor).multiplyScalar(0.45);
+        const lacquerMat = new THREE.MeshStandardMaterial({
+            color: lacquerColor, metalness: 0.4, roughness: 0.2,
+            emissive: this.baseColor, emissiveIntensity: 0.12
+        });
+        const goldMat = new THREE.MeshStandardMaterial({
+            color: 0xb8860b, metalness: 0.9, roughness: 0.15,
+            emissive: 0x4a3000, emissiveIntensity: 0.3
+        });
+        const faceMat = new THREE.MeshStandardMaterial({
+            color: 0x2a2a2a, metalness: 0.7, roughness: 0.3
+        });
+
+        this.baseOpacity = 1.0;
+        this.baseEmissiveIntensity = 0.08;
+        this.bodyMat = armorMat;
+
+        // --- Dō (chest armor torso) — tapered cylinder ---
+        const torsoGeo = new THREE.CylinderGeometry(0.45, 0.35, 1.2, 14);
+        this.slimeBody = new THREE.Mesh(torsoGeo, armorMat);
+        this.slimeBody.scale.z = 0.75;
+        this.slimeBody.position.y = bodyY;
+        this.slimeBody.castShadow = true;
+        this.mesh.add(this.slimeBody);
+        this.slimeBodyBasePos = null; // skip vertex deformation
+
+        // Breast plate overlay
+        const breastGeo = new THREE.SphereGeometry(0.42, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+        const breast = new THREE.Mesh(breastGeo, lacquerMat);
+        breast.rotation.x = Math.PI;
+        breast.position.set(0, bodyY + 0.25, 0.08);
+        breast.scale.set(1, 0.4, 0.5);
+        this.mesh.add(breast);
+
+        // Gold chest bands (3 half-ring tori)
+        for (let b = 0; b < 3; b++) {
+            const bandGeo = new THREE.TorusGeometry(0.38, 0.015, 6, 18, Math.PI);
+            const band = new THREE.Mesh(bandGeo, goldMat);
+            band.position.set(0, bodyY + 0.2 - b * 0.2, 0.2);
+            band.rotation.y = Math.PI;
+            band.scale.z = 0.75;
+            this.mesh.add(band);
+        }
+
+        // --- Shoulder plates (sode) — half-sphere + gold edge ---
+        for (let i = -1; i <= 1; i += 2) {
+            const sodeGeo = new THREE.SphereGeometry(0.18, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+            const sode = new THREE.Mesh(sodeGeo, lacquerMat);
+            sode.scale.set(1.1, 0.6, 1.4);
+            sode.rotation.z = i * -0.3;
+            sode.position.set(i * 0.55, bodyY + 0.48, 0);
+            this.mesh.add(sode);
+
+            const edgeGeo = new THREE.TorusGeometry(0.17, 0.012, 6, 14);
+            const edge = new THREE.Mesh(edgeGeo, goldMat);
+            edge.scale.set(1.1, 1, 1.4);
+            edge.rotation.x = Math.PI / 2;
+            edge.rotation.z = i * -0.3;
+            edge.position.set(i * 0.55, bodyY + 0.48, 0);
+            this.mesh.add(edge);
+        }
+
+        // --- Kusazuri (skirt plates) ---
+        const skirtY = bodyY - 0.6 - 0.25;
+        // Front: 5 thin hanging strips fanned in arc
+        for (let i = -2; i <= 2; i++) {
+            const stripGeo = new THREE.CylinderGeometry(0.04, 0.05, 0.5, 6);
+            const strip = new THREE.Mesh(stripGeo, lacquerMat);
+            strip.position.set(i * 0.17, skirtY, 0.28);
+            strip.rotation.x = -0.12 + Math.abs(i) * 0.06;
+            strip.rotation.z = i * 0.04;
+            strip.scale.set(2.2, 1, 0.4);
+            this.mesh.add(strip);
+        }
+        // Back: curved partial cylinder
+        const backGeo = new THREE.CylinderGeometry(0.45, 0.5, 0.5, 10, 1, true, Math.PI * 0.2, Math.PI * 0.6);
+        const backPlate = new THREE.Mesh(backGeo, lacquerMat);
+        backPlate.position.set(0, skirtY, 0);
+        backPlate.rotation.y = Math.PI;
+        this.mesh.add(backPlate);
+
+        // Inner glow (dimmer for armor)
+        const innerGlow = new THREE.PointLight(this.baseColor, 0.3, 3);
+        innerGlow.position.y = bodyY;
+        this.mesh.add(innerGlow);
+        this.innerGlow = innerGlow;
+
+        // --- Kabuto (helmet head) ---
+        this.headRestY = bodyY + 0.72;
+        this.head = new THREE.Group();
+        this.head.position.set(0, this.headRestY, 0);
+        this.mesh.add(this.head);
+
+        // Dome (half sphere)
+        const domeGeo = new THREE.SphereGeometry(0.3, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2);
+        const dome = new THREE.Mesh(domeGeo, armorMat);
+        dome.castShadow = true;
+        this.head.add(dome);
+
+        // Dome ridges — 8 thin cylinders radiating up
+        for (let r = 0; r < 8; r++) {
+            const angle = (r / 8) * Math.PI * 2;
+            const ridgeGeo = new THREE.CylinderGeometry(0.008, 0.008, 0.3, 4);
+            const ridge = new THREE.Mesh(ridgeGeo, goldMat);
+            ridge.position.set(
+                Math.sin(angle) * 0.15,
+                0.12,
+                Math.cos(angle) * 0.15
+            );
+            ridge.rotation.x = Math.cos(angle) * 0.45;
+            ridge.rotation.z = -Math.sin(angle) * 0.45;
+            this.head.add(ridge);
+        }
+
+        // Shikoro (neck guard)
+        const shikoroGeo = new THREE.CylinderGeometry(0.35, 0.45, 0.15, 8, 1, true);
+        const shikoro = new THREE.Mesh(shikoroGeo, lacquerMat);
+        shikoro.position.set(0, -0.08, -0.05);
+        this.head.add(shikoro);
+
+        // Maedate (crest) — lathe blade profile
+        const crestProfile = [
+            new THREE.Vector2(0, 0),
+            new THREE.Vector2(0.07, 0.1),
+            new THREE.Vector2(0.04, 0.35),
+            new THREE.Vector2(0.015, 0.5),
+            new THREE.Vector2(0, 0.55)
+        ];
+        const crestGeo = new THREE.LatheGeometry(crestProfile, 2);
+        const crest = new THREE.Mesh(crestGeo, goldMat);
+        crest.position.set(0, 0.15, 0.08);
+        this.head.add(crest);
+
+        // Mabisashi (visor brim) — curved partial cylinder
+        const visorGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.04, 12, 1, true, -Math.PI * 0.45, Math.PI * 0.9);
+        const visor = new THREE.Mesh(visorGeo, armorMat);
+        visor.position.set(0, -0.02, 0.05);
+        visor.rotation.x = -0.15;
+        this.head.add(visor);
+
+        // --- Menpo (face mask) — curved jaw ---
+        const menpoGeo = new THREE.SphereGeometry(0.22, 10, 8, 0, Math.PI * 2, Math.PI * 0.35, Math.PI * 0.35);
+        const menpo = new THREE.Mesh(menpoGeo, faceMat);
+        menpo.position.set(0, 0.04, 0.08);
+        menpo.scale.set(1, 0.9, 0.85);
+        this.head.add(menpo);
+
+        // Eye slits (emissive glow — matches archetype)
+        const eyeSlitMat = new THREE.MeshStandardMaterial({
+            color: this.baseColor, emissive: this.baseColor, emissiveIntensity: 0.8
+        });
+        for (let i = -1; i <= 1; i += 2) {
+            const slitGeo = new THREE.BoxGeometry(0.12, 0.03, 0.05);
+            const slit = new THREE.Mesh(slitGeo, eyeSlitMat);
+            slit.position.set(i * 0.1, -0.08, 0.21);
+            this.head.add(slit);
+        }
+
+        this.pupils = null; // skip googly eye wobble
+
+        // Spring physics state
+        this.headSpringOffset = new THREE.Vector3();
+        this.headSpringVel = new THREE.Vector3();
+    }
+
     createLimb(side, type) {
-        const armMat = new THREE.MeshStandardMaterial({ color: this.config.color || (this.isPlayer ? 0xaaaaaa : 0x800000) });
-        const jointColor = new THREE.Color(armMat.color).multiplyScalar(0.5);
-        const jointMat = new THREE.MeshStandardMaterial({ color: jointColor });
+        const limbMat = new THREE.MeshStandardMaterial({
+            color: this.baseColor,
+            transparent: true,
+            opacity: this.baseOpacity * 0.88,
+            metalness: 0.1,
+            roughness: 0.2,
+            emissive: this.baseColor,
+            emissiveIntensity: 0.05
+        });
+        const jointMat = new THREE.MeshStandardMaterial({
+            color: this.baseColor,
+            transparent: true,
+            opacity: this.baseOpacity,
+            metalness: 0.1,
+            roughness: 0.25,
+            emissive: this.baseColor,
+            emissiveIntensity: 0.06
+        });
 
         const isLeg = type === 'leg';
         const len = isLeg ? 0.55 : 0.6;
         const rad = isLeg ? 0.15 : 0.12;
 
-        const upperGeo = new THREE.CylinderGeometry(rad, rad * 0.8, len, 8);
+        // Blobby capsule-like segments
+        const upperGeo = new THREE.CylinderGeometry(rad, rad * 0.9, len, 10);
         upperGeo.rotateX(-Math.PI / 2);
         upperGeo.translate(0, 0, len / 2);
 
-        const lowerGeo = new THREE.CylinderGeometry(rad * 0.8, rad * 0.6, len, 8);
+        const lowerGeo = new THREE.CylinderGeometry(rad * 0.9, rad * 0.7, len, 10);
         lowerGeo.rotateX(-Math.PI / 2);
         lowerGeo.translate(0, 0, len / 2);
 
-        const upper = new THREE.Mesh(upperGeo, armMat);
-        const lower = new THREE.Mesh(lowerGeo, armMat);
-        const joint = new THREE.Mesh(new THREE.SphereGeometry(rad * 0.9), jointMat);
-        const root = new THREE.Mesh(new THREE.SphereGeometry(rad * 1.1), jointMat);
+        const upper = new THREE.Mesh(upperGeo, limbMat);
+        const lower = new THREE.Mesh(lowerGeo, limbMat);
+
+        const joint = new THREE.Mesh(new THREE.SphereGeometry(rad * 1.0), jointMat);
+        const root = new THREE.Mesh(new THREE.SphereGeometry(rad * 1.2), jointMat);
+
+        // Blobby cap at the end of lower limb
+        const capGeo = new THREE.SphereGeometry(rad * 0.8, 8, 8);
+        const endCap = new THREE.Mesh(capGeo, jointMat);
+        endCap.position.z = len;
+        lower.add(endCap);
 
         this.mesh.add(root);
         this.mesh.add(upper);
@@ -1292,15 +1769,21 @@ class Character {
             this.invulnTimer -= dt;
             this.mesh.traverse(c => {
                 if (c.isMesh && c.material) {
+                    if (c.material._origOpacity === undefined) {
+                        c.material._origOpacity = c.material.opacity;
+                        c.material._origTransparent = c.material.transparent;
+                    }
                     c.material.transparent = true;
-                    c.material.opacity = 0.5;
+                    c.material.opacity = c.material._origOpacity * 0.35;
                 }
             });
         } else {
             this.mesh.traverse(c => {
-                if (c.isMesh && c.material) {
-                    c.material.transparent = false;
-                    c.material.opacity = 1.0;
+                if (c.isMesh && c.material && c.material._origOpacity !== undefined) {
+                    c.material.opacity = c.material._origOpacity;
+                    c.material.transparent = c.material._origTransparent;
+                    delete c.material._origOpacity;
+                    delete c.material._origTransparent;
                 }
             });
         }
@@ -1333,8 +1816,8 @@ class Character {
             this.wasLockedOut = false;
             this.mesh.scale.setScalar(this.baseScale);
             this.bodyMat.color.setHex(this.baseColor);
-            this.bodyMat.emissive.setHex(0x000000);
-            this.bodyMat.emissiveIntensity = 0;
+            this.bodyMat.emissive.setHex(this.baseColor);
+            this.bodyMat.emissiveIntensity = this.baseEmissiveIntensity;
         }
 
         // Stamina Regen using GameLogic
@@ -1516,11 +1999,6 @@ class Character {
                 this.mesh.rotation.x = bossLean;
                 // Subtle weight shift side to side
                 this.mesh.rotation.z = Math.sin(t * 0.5) * 0.01;
-                // Head tracking micro-movement (menacing)
-                if (this.head) {
-                    this.head.rotation.x = Math.sin(t * 2.5) * 0.03;
-                    this.head.rotation.z = Math.sin(t * 1.3) * 0.02;
-                }
                 // Sword held low and ready with subtle drift
                 targetRotX = -Math.PI / 12 + Math.sin(t * 0.8) * 0.06;
                 targetRotY = Math.sin(t * 0.6) * 0.08;
@@ -1528,14 +2006,11 @@ class Character {
                 // Player idle: lighter, more alert
                 targetRotX = -Math.PI / 20 + Math.sin(t * 2.0) * 0.04;
                 targetRotY = Math.sin(t * 1.5) * 0.04;
-                if (this.head) {
-                    this.head.rotation.x = Math.sin(t * 3.0) * 0.015;
-                }
             }
 
             this.smoothRot(targetRotX, targetRotY, targetRotZ, 5, dt);
             this.armPivot.position.set(0, this.bodyHeight / 2 + 1.2, 0.8);
-            this.armPivot.position.y = 1.0 + this.bodyHeight / 2 + 0.2;
+            this.armPivot.position.y = 1.0 + this.bodyHeight / 2 + 0.35;
         }
 
         this.mesh.position.add(this.velocity.clone().multiplyScalar(dt));
@@ -1546,6 +2021,65 @@ class Character {
         this.lastPos.copy(currentPos);
 
         const speed = delta.length() / dt;
+
+        // Head spring physics (Human Fall Flat style lag)
+        if (this.head && this.headSpringVel) {
+            const localMoveDelta = delta.clone().applyQuaternion(this.mesh.quaternion.clone().invert());
+
+            // Body movement creates inertia (head lags behind)
+            const inertia = 15;
+            this.headSpringVel.x -= localMoveDelta.x * inertia;
+            this.headSpringVel.z -= localMoveDelta.z * inertia;
+            this.headSpringVel.y -= localMoveDelta.y * inertia * 0.5;
+
+            // Subtle idle wander so head bobs even when standing still
+            const t2 = Date.now() * 0.001;
+            this.headSpringVel.x += Math.sin(t2 * 1.3) * 0.3 * dt;
+            this.headSpringVel.y += Math.sin(t2 * 2.5) * 0.2 * dt;
+
+            // Spring restoration: F = -kx - dv
+            const stiffness = 35;
+            const damping = 8;
+            this.headSpringVel.x += (-stiffness * this.headSpringOffset.x - damping * this.headSpringVel.x) * dt;
+            this.headSpringVel.z += (-stiffness * this.headSpringOffset.z - damping * this.headSpringVel.z) * dt;
+            this.headSpringVel.y += (-stiffness * this.headSpringOffset.y - damping * this.headSpringVel.y) * dt;
+
+            // Integrate
+            this.headSpringOffset.add(this.headSpringVel.clone().multiplyScalar(dt));
+
+            // Clamp max offset
+            if (this.headSpringOffset.length() > 0.35) {
+                this.headSpringOffset.setLength(0.35);
+            }
+
+            // Apply position (offset from rest position)
+            this.head.position.set(
+                this.headSpringOffset.x,
+                this.headRestY + this.headSpringOffset.y,
+                this.headSpringOffset.z
+            );
+
+            // Head tilts — top of head falls behind (opposite to movement)
+            this.head.rotation.z = -this.headSpringOffset.x * 2.5;
+            this.head.rotation.x = this.headSpringOffset.z * 2.0;
+
+            // Curve the body like a tree in wind (vertex deformation)
+            if (this.slimeBody && this.slimeBodyBasePos) {
+                const positions = this.slimeBody.geometry.attributes.position;
+                const base = this.slimeBodyBasePos;
+                for (let vi = 0; vi < positions.count; vi++) {
+                    const idx = vi * 3;
+                    const baseY = base[idx + 1];
+                    // Height: 0 at bottom (-0.75), 1 at top (+0.75)
+                    const h = Math.max(0, (baseY + 0.75) / 1.5);
+                    const curve = h * h; // quadratic — more bend at top
+                    positions.array[idx] = base[idx] + this.headSpringOffset.x * curve * 0.85;
+                    positions.array[idx + 2] = base[idx + 2] + this.headSpringOffset.z * curve * 0.85;
+                }
+                positions.needsUpdate = true;
+                this.slimeBody.geometry.computeVertexNormals();
+            }
+        }
 
         if (speed > 0.5) {
             this.walkTimer += dt * speed * 2;
@@ -1567,6 +2101,29 @@ class Character {
         } else {
             this.footTargets.left.lerp(new THREE.Vector3(-0.3, 0, 0.2), 0.1);
             this.footTargets.right.lerp(new THREE.Vector3(0.3, 0, -0.2), 0.1);
+        }
+
+        // Slime jiggle — squash and stretch the pear body
+        if (this.slimeBody && this.slimeBodyBasePos) {
+            const t = Date.now() * 0.001;
+            const breathe = Math.sin(t * 2.5) * 0.04;
+            const moveJiggle = Math.min(speed * 0.008, 0.06);
+            this.slimeBody.scale.set(
+                1.0 + Math.sin(t * 3.7) * 0.03 + Math.sin(this.walkTimer * 3) * moveJiggle,
+                1.0 + breathe - moveJiggle * 0.5,
+                1.0 + Math.cos(t * 4.1) * 0.025 + Math.cos(this.walkTimer * 3) * moveJiggle
+            );
+        }
+
+        // Googly eye wobble
+        if (this.pupils && this.pupils.length) {
+            const t = Date.now() * 0.001;
+            for (let i = 0; i < this.pupils.length; i++) {
+                const eye = this.pupils[i];
+                const off = i * 1.7;
+                eye.rotation.x = Math.sin(t * 1.3 + off) * 0.4 + Math.sin(this.walkTimer * 2 + off) * speed * 0.02;
+                eye.rotation.y = Math.sin(t * 0.9 + off + 2) * 0.5;
+            }
         }
 
         let allowRotation = !this.isAttacking;
@@ -1759,7 +2316,24 @@ class Character {
             AudioSystem.playPostureBreak();
         }
         if (this.health <= 0) {
-            endGame(this.isPlayer ? false : true);
+            if (this.isRemote) {
+                // Remote player death is handled by their own client — don't end our game
+                return;
+            }
+            if (!this.isPlayer) {
+                // Boss died — victory for everyone
+                endGame(true);
+            } else {
+                // Local player died
+                const hasAllies = Object.keys(remotePlayers).length > 0;
+                if (hasAllies) {
+                    // Other players still alive — leave the session, don't end for everyone
+                    onLocalPlayerDeath();
+                } else {
+                    // Solo — normal death
+                    endGame(false);
+                }
+            }
         }
     }
 }
@@ -1849,6 +2423,10 @@ function startGame() {
         }
         remotePlayers = {};
 
+        // Re-discover existing remote players (e.g. the host) that were
+        // found by child_added during joinOrCreateSession but wiped above.
+        NetworkManager.discoverExistingPlayers();
+
         // Initialize Map
         createEnvironment(mapType);
 
@@ -1871,8 +2449,7 @@ function startGame() {
         );
 
         // Create Characters
-        const playerColor = PLAYER_COLORS[existingPlayers % PLAYER_COLORS.length];
-        player = new Character(true, playerColor, spawnPos);
+        player = new Character(true, selectedPlayerColor, spawnPos);
         boss = new Character(false, bossConfig, new THREE.Vector3(0, 0, -5));
 
         // Add aura glow light to boss
@@ -1886,6 +2463,8 @@ function startGame() {
         // Store base boss stats for scaling
         baseBossHealth = boss.maxHealth;
         baseBossPosture = boss.maxPosture;
+        bossDamageTracker = {};
+        localBossDamage = 0;
 
         // Reset aura state
         bossAuraParticles.forEach(p => { scene.remove(p); p.material.dispose(); });
@@ -1924,7 +2503,7 @@ function startGame() {
             }
 
             document.getElementById('loadingScreen').classList.add('hidden');
-            player = new Character(true, 0xaaaaaa, new THREE.Vector3(0, 0, 5));
+            player = new Character(true, selectedPlayerColor, new THREE.Vector3(0, 0, 5));
             boss = new Character(false, bossConfig, new THREE.Vector3(0, 0, -5));
 
             // Add aura glow light to boss (offline)
@@ -2087,19 +2666,49 @@ function updatePhysics(dt) {
     resolveCollision(boss.mesh.position, boss.bodyRadius);
 
     // Get current boss target for updates
-    const bossTarget = selectBossTarget();
-    const bossTargetChar = bossTarget ? bossTarget.character : player;
+    let bossTargetChar = player;
+    if (isHost) {
+        // Host runs target selection with threat scoring
+        const bossTarget = selectBossTarget();
+        bossTargetChar = bossTarget ? bossTarget.character : player;
+    } else {
+        // Client uses the host's synced targetId for consistent visuals
+        const syncedTargetId = boss.currentTargetId;
+        if (syncedTargetId === localPlayerId) {
+            bossTargetChar = player;
+        } else if (syncedTargetId && remotePlayers[syncedTargetId]) {
+            bossTargetChar = remotePlayers[syncedTargetId].character;
+        }
+    }
 
     player.update(dt, boss);
     boss.update(dt, bossTargetChar);
 
-    // Handle attacks between local player and boss
-    handleAttacks(player, boss, dt);
-    handleAttacks(boss, player, dt);
+    // Tick attack timers once per frame (not per-defender in handleAttacks)
+    tickAttackTimer(player, dt);
+    tickAttackTimer(boss, dt);
+    for (const [, remote] of Object.entries(remotePlayers)) {
+        tickAttackTimer(remote.character, dt);
+    }
 
-    // Handle attacks between boss and remote players
+    // Handle attacks between local player and boss
+    const bossHpBefore = boss.health;
+    handleAttacks(player, boss);
+    if (boss.health < bossHpBefore) {
+        const dmg = bossHpBefore - boss.health;
+        bossDamageTracker[localPlayerId] = (bossDamageTracker[localPlayerId] || 0) + dmg;
+        localBossDamage += dmg;
+    }
+    handleAttacks(boss, player);
+
+    // Handle attacks between boss and remote players (both directions)
     for (const [id, remote] of Object.entries(remotePlayers)) {
-        handleAttacks(boss, remote.character, dt);
+        const hpBefore = boss.health;
+        handleAttacks(remote.character, boss);
+        if (boss.health < hpBefore) {
+            bossDamageTracker[id] = (bossDamageTracker[id] || 0) + (hpBefore - boss.health);
+        }
+        handleAttacks(boss, remote.character);
     }
 
     const midPoint = player.mesh.position.clone().add(boss.mesh.position).multiplyScalar(0.5);
@@ -2173,7 +2782,12 @@ function updateBossAI(dt) {
         }
     }
 
-    if (target.isAttacking && target.attackTimer > 0.15 && dist < 6.0 &&
+    // Boss can only react to attacks it can see (within frontal arc)
+    const bossForward = new THREE.Vector3(0, 0, 1).applyQuaternion(boss.mesh.quaternion);
+    const toTarget = target.mesh.position.clone().sub(boss.mesh.position).normalize();
+    const canSeeTarget = bossForward.dot(toTarget) > 0.2; // ~145° frontal arc
+
+    if (canSeeTarget && target.isAttacking && target.attackTimer > 0.15 && dist < 6.0 &&
         boss.aiState !== 'DEFEND' && boss.aiState !== 'ATTACK' &&
         boss.aiState !== 'PERILOUS_PREP' && boss.aiState !== 'RECOVER' &&
         !target.isHealing && !target.stunTimer) {
@@ -2332,7 +2946,18 @@ function updateBossAI(dt) {
     }
 }
 
-function handleAttacks(attacker, defender, dt) {
+function tickAttackTimer(char, dt) {
+    if (!char) return;
+    if (char.isAttacking) {
+        char.attackTimer -= dt;
+        if (char.attackTimer <= 0) {
+            char.isAttacking = false;
+            char.hasHit = false;
+        }
+    }
+}
+
+function handleAttacks(attacker, defender) {
     if (attacker.isSpecialAttacking) {
         let hit = false;
         const defPos = defender.mesh.position;
@@ -2368,8 +2993,6 @@ function handleAttacks(attacker, defender, dt) {
     }
 
     if (attacker.isAttacking) {
-        attacker.attackTimer -= dt;
-
         // Use GameLogic for hit windows
         if (GL.isInHitWindow(attacker.attackTimer, attacker.attackType) && !attacker.hasHit) {
             let hitRegistered = false;
@@ -2438,11 +3061,6 @@ function handleAttacks(attacker, defender, dt) {
                     }
                 }
             }
-        }
-
-        if (attacker.attackTimer <= 0) {
-            attacker.isAttacking = false;
-            attacker.hasHit = false;
         }
     }
 }
@@ -2667,6 +3285,37 @@ function animate() {
     }
 
     renderer.render(scene, camera);
+}
+
+function onLocalPlayerDeath() {
+    // Player died in multiplayer — leave the session so others can continue
+    gameState = 'ENDED';
+    document.exitPointerLock?.();
+
+    // Remove local player from Firebase so others see them leave (triggers host migration if needed)
+    if (playersRef && localPlayerId) {
+        playersRef.child(localPlayerId).remove();
+    }
+
+    const endScreen = document.getElementById('endScreen');
+    const endText = document.getElementById('endText');
+    const bossName = document.getElementById('hudBossName').innerText;
+
+    endScreen.classList.remove('hidden');
+    endScreen.classList.add('death-screen');
+
+    const loseMessages = [
+        "DEATH",
+        "YOU DIED",
+        `CRUSHED BY ${bossName}`,
+        "UNWORTHY",
+        "FATE SEALED",
+        "BROKEN"
+    ];
+    endText.innerText = loseMessages[Math.floor(Math.random() * loseMessages.length)];
+    endText.classList.remove('victory-text');
+    endText.classList.add('death-text');
+    setTimeout(() => endScreen.classList.add('show-death'), 100);
 }
 
 function endGame(victory) {
