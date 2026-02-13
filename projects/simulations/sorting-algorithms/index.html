@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms - Beyond The Vale</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
+        h1 { font-size: 1.4rem; color: #c5a059; margin-bottom: 0.5rem; }
+        .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.5rem; }
+        button { background: #011a13; color: #c5a059; border: 1px solid #c5a059; padding: 0.4rem 0.8rem; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; transition: background 0.2s; }
+        button:hover { background: #033526; }
+        button.active { background: #c5a059; color: #010604; }
+        .info { font-size: 0.75rem; color: #a0a0a0; margin-bottom: 0.5rem; text-align: center; }
+        .algo-name { color: #c5a059; font-weight: 600; }
+        .legend { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; font-size: 0.7rem; color: #a0a0a0; }
+        .legend span::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 3px; vertical-align: middle; }
+        .leg-default::before { background: #c5a059; }
+        .leg-compare::before { background: #f3e5ab; }
+        .leg-swap::before { background: #4b0082; }
+        .leg-sorted::before { background: #033526; }
+        canvas { border: 1px solid #c5a059; max-width: 100%; }
+        a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
+        a.back:hover { color: #f3e5ab; }
+    </style>
+</head>
+<body>
+    <h1>Sorting Algorithm Visualizer</h1>
+    <div class="info"><span class="algo-name" id="algoName">-</span> | <span id="ops">0</span> comparisons | <span id="count">80</span> elements</div>
+    <div class="legend">
+        <span class="leg-default">Unsorted</span>
+        <span class="leg-compare">Comparing</span>
+        <span class="leg-swap">Swapping</span>
+        <span class="leg-sorted">Sorted</span>
+    </div>
+    <div class="controls">
+        <button id="mergeBtn">Merge Sort</button>
+        <button id="quickBtn">Quick Sort</button>
+        <button id="heapBtn">Heap Sort</button>
+        <button id="shellBtn">Shell Sort</button>
+        <button id="sizeBtn">Size: 80</button>
+        <button id="speedBtn">Speed: Fast</button>
+    </div>
+    <canvas id="c"></canvas>
+    <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
+    <script>
+    (function() {
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const algoEl = document.getElementById('algoName');
+        const opsEl = document.getElementById('ops');
+        const countEl = document.getElementById('count');
+
+        let W = Math.min(900, window.innerWidth - 32);
+        let H = Math.min(400, window.innerHeight - 220);
+        canvas.width = W; canvas.height = H;
+
+        let arr = [], n = 80, ops = 0, running = false;
+        let highlight = { compare: [], swap: [], sorted: new Set() };
+        let queue = [], animTimer = null;
+        let speeds = [1, 4, 16, 50];
+        let speedNames = ['Slow', 'Medium', 'Fast', 'Instant'];
+        let speedIdx = 2;
+        let sizes = [40, 80, 160, 320];
+        let sizeIdx = 1;
+
+        function init() {
+            n = sizes[sizeIdx];
+            countEl.textContent = n;
+            arr = [];
+            for (let i = 1; i <= n; i++) arr.push(i);
+            shuffle(arr);
+            ops = 0; opsEl.textContent = 0;
+            highlight = { compare: [], swap: [], sorted: new Set() };
+            queue = [];
+            if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+            running = false;
+            draw();
+        }
+
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+        }
+
+        function draw() {
+            ctx.fillStyle = '#010604';
+            ctx.fillRect(0, 0, W, H);
+            const bw = W / arr.length;
+            for (let i = 0; i < arr.length; i++) {
+                const bh = (arr[i] / n) * (H - 4);
+                let color = '#c5a059';
+                if (highlight.sorted.has(i)) color = '#033526';
+                if (highlight.compare.includes(i)) color = '#f3e5ab';
+                if (highlight.swap.includes(i)) color = '#4b0082';
+                ctx.fillStyle = color;
+                ctx.fillRect(i * bw + 0.5, H - bh, Math.max(bw - 1, 1), bh);
+            }
+        }
+
+        function enqueue(type, indices, vals) {
+            queue.push({ type, indices, vals });
+        }
+
+        function playQueue() {
+            running = true;
+            function next() {
+                if (queue.length === 0) {
+                    highlight.compare = []; highlight.swap = [];
+                    for (let i = 0; i < arr.length; i++) highlight.sorted.add(i);
+                    draw();
+                    running = false;
+                    return;
+                }
+                const stepsPerFrame = speeds[speedIdx];
+                for (let s = 0; s < stepsPerFrame && queue.length > 0; s++) {
+                    const op = queue.shift();
+                    if (op.type === 'compare') {
+                        highlight.compare = op.indices; highlight.swap = [];
+                        ops++; opsEl.textContent = ops;
+                    } else if (op.type === 'swap') {
+                        highlight.swap = op.indices; highlight.compare = [];
+                        const [a, b] = op.indices;
+                        [arr[a], arr[b]] = [arr[b], arr[a]];
+                    } else if (op.type === 'sorted') {
+                        for (const i of op.indices) highlight.sorted.add(i);
+                    } else if (op.type === 'set') {
+                        arr[op.indices[0]] = op.vals[0];
+                    }
+                }
+                draw();
+                animTimer = setTimeout(next, speeds[speedIdx] >= 50 ? 0 : 16);
+            }
+            next();
+        }
+
+        // Merge Sort
+        function genMergeSort() {
+            const a = arr;
+            function msort(lo, hi) {
+                if (hi - lo <= 1) return;
+                const mid = (lo + hi) >> 1;
+                msort(lo, mid);
+                msort(mid, hi);
+                merge(lo, mid, hi);
+            }
+            function merge(lo, mid, hi) {
+                const tmp = a.slice(lo, hi);
+                let i = 0, j = mid - lo, k = lo;
+                while (i < mid - lo && j < hi - lo) {
+                    enqueue('compare', [lo + i, lo + j]);
+                    if (tmp[i] <= tmp[j]) {
+                        a[k] = tmp[i];
+                        enqueue('set', [k], [tmp[i]]);
+                        i++;
+                    } else {
+                        a[k] = tmp[j];
+                        enqueue('set', [k], [tmp[j]]);
+                        j++;
+                    }
+                    k++;
+                }
+                while (i < mid - lo) { a[k] = tmp[i]; enqueue('set', [k], [tmp[i]]); i++; k++; }
+                while (j < hi - lo) { a[k] = tmp[j]; enqueue('set', [k], [tmp[j]]); j++; k++; }
+                const sorted = []; for (let x = lo; x < hi; x++) sorted.push(x);
+                if (lo === 0 && hi === a.length) enqueue('sorted', sorted);
+            }
+            msort(0, a.length);
+        }
+
+        // Quick Sort
+        function genQuickSort() {
+            const a = arr;
+            function qsort(lo, hi) {
+                if (lo >= hi) { if (lo === hi) enqueue('sorted', [lo]); return; }
+                const pivot = a[hi];
+                let i = lo;
+                for (let j = lo; j < hi; j++) {
+                    enqueue('compare', [j, hi]);
+                    if (a[j] < pivot) {
+                        [a[i], a[j]] = [a[j], a[i]];
+                        enqueue('swap', [i, j]);
+                        i++;
+                    }
+                }
+                [a[i], a[hi]] = [a[hi], a[i]];
+                enqueue('swap', [i, hi]);
+                enqueue('sorted', [i]);
+                qsort(lo, i - 1);
+                qsort(i + 1, hi);
+            }
+            qsort(0, a.length - 1);
+        }
+
+        // Heap Sort
+        function genHeapSort() {
+            const a = arr;
+            const len = a.length;
+            function heapify(n, i) {
+                let largest = i, l = 2 * i + 1, r = 2 * i + 2;
+                enqueue('compare', [l < n ? l : i, i]);
+                if (l < n && a[l] > a[largest]) largest = l;
+                enqueue('compare', [r < n ? r : i, largest]);
+                if (r < n && a[r] > a[largest]) largest = r;
+                if (largest !== i) {
+                    [a[i], a[largest]] = [a[largest], a[i]];
+                    enqueue('swap', [i, largest]);
+                    heapify(n, largest);
+                }
+            }
+            for (let i = (len >> 1) - 1; i >= 0; i--) heapify(len, i);
+            for (let i = len - 1; i > 0; i--) {
+                [a[0], a[i]] = [a[i], a[0]];
+                enqueue('swap', [0, i]);
+                enqueue('sorted', [i]);
+                heapify(i, 0);
+            }
+            enqueue('sorted', [0]);
+        }
+
+        // Shell Sort
+        function genShellSort() {
+            const a = arr;
+            const len = a.length;
+            for (let gap = len >> 1; gap > 0; gap >>= 1) {
+                for (let i = gap; i < len; i++) {
+                    const tmp = a[i];
+                    let j = i;
+                    enqueue('compare', [j, j - gap]);
+                    while (j >= gap && a[j - gap] > tmp) {
+                        a[j] = a[j - gap];
+                        enqueue('swap', [j, j - gap]);
+                        j -= gap;
+                        if (j >= gap) enqueue('compare', [j, j - gap]);
+                    }
+                    a[j] = tmp;
+                    enqueue('set', [j], [tmp]);
+                }
+            }
+        }
+
+        function run(name, genFn) {
+            if (running) return;
+            init();
+            algoEl.textContent = name;
+            const saved = arr.slice();
+            genFn();
+            for (let i = 0; i < arr.length; i++) arr[i] = saved[i];
+            playQueue();
+        }
+
+        document.getElementById('mergeBtn').addEventListener('click', () => run('Merge Sort', genMergeSort));
+        document.getElementById('quickBtn').addEventListener('click', () => run('Quick Sort', genQuickSort));
+        document.getElementById('heapBtn').addEventListener('click', () => run('Heap Sort', genHeapSort));
+        document.getElementById('shellBtn').addEventListener('click', () => run('Shell Sort', genShellSort));
+        document.getElementById('sizeBtn').addEventListener('click', function() {
+            if (running) return;
+            sizeIdx = (sizeIdx + 1) % sizes.length;
+            this.textContent = 'Size: ' + sizes[sizeIdx];
+            init();
+        });
+        document.getElementById('speedBtn').addEventListener('click', function() {
+            speedIdx = (speedIdx + 1) % speeds.length;
+            this.textContent = 'Speed: ' + speedNames[speedIdx];
+        });
+
+        algoEl.textContent = 'Select an algorithm';
+        init();
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway's Game of Life - Beyond The Vale</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
+        h1 { font-size: 1.4rem; color: #c5a059; margin-bottom: 0.5rem; }
+        .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.5rem; }
+        button { background: #011a13; color: #c5a059; border: 1px solid #c5a059; padding: 0.4rem 0.8rem; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; transition: background 0.2s; }
+        button:hover { background: #033526; }
+        button.active { background: #c5a059; color: #010604; }
+        .info { font-size: 0.75rem; color: #a0a0a0; margin-bottom: 0.5rem; }
+        canvas { border: 1px solid #c5a059; cursor: crosshair; max-width: 100%; }
+        a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
+        a.back:hover { color: #f3e5ab; }
+    </style>
+</head>
+<body>
+    <h1>Conway's Game of Life</h1>
+    <div class="info">Gen: <span id="gen">0</span> | Alive: <span id="alive">0</span> | Click to draw, drag to paint</div>
+    <div class="controls">
+        <button id="playBtn">Play</button>
+        <button id="stepBtn">Step</button>
+        <button id="clearBtn">Clear</button>
+        <button id="randomBtn">Random</button>
+        <button id="speedBtn">Speed: 10</button>
+    </div>
+    <canvas id="c"></canvas>
+    <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
+    <script>
+    (function() {
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const CELL = 8;
+        const COLS = Math.min(120, Math.floor((window.innerWidth - 32) / CELL));
+        const ROWS = Math.min(80, Math.floor((window.innerHeight - 160) / CELL));
+        canvas.width = COLS * CELL;
+        canvas.height = ROWS * CELL;
+
+        // Double-buffer with typed arrays
+        let front = new Uint8Array(COLS * ROWS);
+        let back = new Uint8Array(COLS * ROWS);
+        let generation = 0;
+        let running = false;
+        let interval = null;
+        let speed = 10;
+        const speeds = [5, 10, 20, 40, 60];
+        let speedIdx = 1;
+
+        const genEl = document.getElementById('gen');
+        const aliveEl = document.getElementById('alive');
+        const playBtn = document.getElementById('playBtn');
+
+        function idx(x, y) { return y * COLS + x; }
+
+        function countNeighbors(x, y) {
+            let n = 0;
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    if (dx === 0 && dy === 0) continue;
+                    const nx = (x + dx + COLS) % COLS;
+                    const ny = (y + dy + ROWS) % ROWS;
+                    n += front[idx(nx, ny)];
+                }
+            }
+            return n;
+        }
+
+        function step() {
+            let alive = 0;
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    const i = idx(x, y);
+                    const n = countNeighbors(x, y);
+                    const cell = front[i];
+                    back[i] = (cell && (n === 2 || n === 3)) || (!cell && n === 3) ? 1 : 0;
+                    alive += back[i];
+                }
+            }
+            [front, back] = [back, front];
+            generation++;
+            genEl.textContent = generation;
+            aliveEl.textContent = alive;
+            draw();
+        }
+
+        function draw() {
+            ctx.fillStyle = '#010604';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#c5a059';
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (front[idx(x, y)]) {
+                        ctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 1, CELL - 1);
+                    }
+                }
+            }
+        }
+
+        function togglePlay() {
+            running = !running;
+            playBtn.textContent = running ? 'Pause' : 'Play';
+            playBtn.classList.toggle('active', running);
+            if (running) { interval = setInterval(step, 1000 / speed); }
+            else { clearInterval(interval); }
+        }
+
+        function clear() {
+            front.fill(0);
+            generation = 0;
+            genEl.textContent = 0;
+            aliveEl.textContent = 0;
+            if (running) togglePlay();
+            draw();
+        }
+
+        function randomize() {
+            for (let i = 0; i < front.length; i++) front[i] = Math.random() < 0.3 ? 1 : 0;
+            generation = 0;
+            genEl.textContent = 0;
+            aliveEl.textContent = front.reduce((a, b) => a + b, 0);
+            draw();
+        }
+
+        // Drawing
+        let painting = false;
+        let paintVal = 1;
+        function paint(e) {
+            const r = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - r.left) / CELL);
+            const y = Math.floor((e.clientY - r.top) / CELL);
+            if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+                front[idx(x, y)] = paintVal;
+                draw();
+                aliveEl.textContent = front.reduce((a, b) => a + b, 0);
+            }
+        }
+        canvas.addEventListener('mousedown', function(e) { painting = true; paintVal = front[idx(Math.floor((e.clientX - canvas.getBoundingClientRect().left) / CELL), Math.floor((e.clientY - canvas.getBoundingClientRect().top) / CELL))] ? 0 : 1; paint(e); });
+        canvas.addEventListener('mousemove', function(e) { if (painting) paint(e); });
+        document.addEventListener('mouseup', function() { painting = false; });
+
+        playBtn.addEventListener('click', togglePlay);
+        document.getElementById('stepBtn').addEventListener('click', step);
+        document.getElementById('clearBtn').addEventListener('click', clear);
+        document.getElementById('randomBtn').addEventListener('click', randomize);
+        document.getElementById('speedBtn').addEventListener('click', function() {
+            speedIdx = (speedIdx + 1) % speeds.length;
+            speed = speeds[speedIdx];
+            this.textContent = 'Speed: ' + speed;
+            if (running) { clearInterval(interval); interval = setInterval(step, 1000 / speed); }
+        });
+
+        randomize();
+        draw();
+    })();
+    </script>
+</body>
+</html>

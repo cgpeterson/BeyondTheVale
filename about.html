@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a href="projects.html" class="nav-link">Projects</a>
                 </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
             </ul>
             <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span class="bar"></span>
@@ -41,38 +44,158 @@
             <p>Bridging the gap between technical complexity and business value.</p>
         </header>
 
-        <section class="content">
-            <div class="about-section">
-                <div class="profile-grid">
-                    <div class="profile-img-container">
-                        <img src="AIHeadshot.jpg" alt="Professional Headshot of Rowan Vale" class="profile-img">
-                    </div>
-
-                    <div class="consultant-bio">
-                        <h2>Engineering Business Growth</h2>
-                        <p>I don't just write code; I design intelligent systems that drive business objectives. With a deep background in full-stack architecture and digital strategy, I partner with forward-thinking organizations to solve complex technical challenges.</p>
-                        <p>My approach is rooted in the belief that software excellence is a competitive advantage. Whether you are scaling a legacy system, launching a new digital product, or optimizing engineering workflows, I provide the strategic oversight and technical execution required to succeed.</p>
-                    </div>
+        <section class="about-layout">
+            <div class="about-profile-grid">
+                <div class="about-card about-card--headshot">
+                    <img src="AIHeadshot.jpg" alt="Professional Headshot of Rowan Vale" class="profile-img">
                 </div>
 
-                <h2 class="mt-large">Strategic Capabilities</h2>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <h3>System Architecture</h3>
-                        <p>Designing resilient, high-availability infrastructure that scales with your user base and reduces technical debt.</p>
-                    </div>
-                    <div class="skill-item">
-                        <h3>Technical Strategy</h3>
-                        <p>Aligning technology roadmaps with long-term business goals to ensure efficient resource allocation.</p>
-                    </div>
-                    <div class="skill-item">
-                        <h3>Full-Stack Execution</h3>
-                        <p>End-to-end development capabilities using modern frameworks to deliver robust, secure applications.</p>
-                    </div>
-                    <div class="skill-item">
-                        <h3>Performance Optimization</h3>
-                        <p>Auditing and refining systems for speed, accessibility, and SEO to maximize user retention and conversion.</p>
-                    </div>
+                <div class="about-card about-card--bio">
+                    <h2>Rowan Vale - Engineering Business Growth</h2>
+                    <p>I'm a software engineer with 4 years of experience building scalable, mission-critical systems in C#/.NET. I started as a DevOps Engineer, moved into a Tech Lead role, and now work as an Architect on a large-scale government project, designing backend services, mentoring developers, and making sure the systems I build actually hold up under real-world pressure.</p>
+                    <p>Outside of enterprise work, I spend a lot of time in Unity and Three.js building real-time 3D applications, everything from multiplayer combat games to physics simulations. I'm drawn to problems that sit at the intersection of software architecture, real-time systems, and interactive design. Whether that's architecting a CI/CD pipeline that cuts deployment from 4 hours to 15 minutes, or wiring up WebSocket state sync for a multiplayer game, I care about building things that work well and are built to last.</p>
+                </div>
+            </div>
+
+            <div class="capabilities-bar">
+                <h2>Strategic Capabilities</h2>
+            </div>
+
+            <div class="skills-grid">
+                <a href="#arch-detail" class="skill-item skill-item--link">
+                    <h3>System Architecture</h3>
+                    <p>Designing resilient, high-availability infrastructure that scales with your user base and reduces technical debt.</p>
+                    <span class="skill-cta">View Examples &darr;</span>
+                </a>
+                <a href="#strategy-detail" class="skill-item skill-item--link">
+                    <h3>Technical Strategy</h3>
+                    <p>Aligning technology roadmaps with long-term business goals to ensure efficient resource allocation.</p>
+                    <span class="skill-cta">View Examples &darr;</span>
+                </a>
+                <a href="#fullstack-detail" class="skill-item skill-item--link">
+                    <h3>Full-Stack Execution</h3>
+                    <p>End-to-end development capabilities using modern frameworks to deliver robust, secure applications.</p>
+                    <span class="skill-cta">View Examples &darr;</span>
+                </a>
+                <a href="#perf-detail" class="skill-item skill-item--link">
+                    <h3>Performance Optimization</h3>
+                    <p>Auditing and refining systems for speed, accessibility, and SEO to maximize user retention and conversion.</p>
+                    <span class="skill-cta">View Examples &darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="about-layout capability-details">
+
+            <div class="capabilities-bar" id="arch-detail">
+                <h2>System Architecture</h2>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <span class="detail-label">Enterprise</span>
+                    <h3>IRIS Enterprise Platform</h3>
+                    <p>Architected a highly available enterprise system (99.9% uptime) serving 500+ users at In Time Tec. Designed core backend components in C#/.NET handling complex business logic, data processing, and system integrations &mdash; focusing on scalability and long-term maintainability.</p>
+                    <div class="detail-tech">C# &middot; .NET &middot; Azure &middot; SQL</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Real-Time</span>
+                    <h3>Hollow Duel</h3>
+                    <p>Designed a real-time multiplayer architecture using WebSockets and Firebase for synchronized game state across clients. Built a Souls-like 3D combat system with Three.js requiring low-latency state management and authoritative server logic.</p>
+                    <div class="detail-tech">Three.js &middot; Firebase &middot; JavaScript &middot; WebSockets</div>
+                    <a href="projects/games.html" class="btn-small">View Project</a>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Simulation</span>
+                    <h3>Autonomous Robotics Turret</h3>
+                    <p>Co-developed an autonomous targeting system integrating computer vision (Python) with real-time hardware control (C++). Architected the communication layer between sensors, actuators, and the vision pipeline for cohesive real-time operation.</p>
+                    <div class="detail-tech">Python &middot; C++ &middot; Computer Vision &middot; Hardware Integration</div>
+                </div>
+            </div>
+
+            <div class="capabilities-bar" id="strategy-detail">
+                <h2>Technical Strategy</h2>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <span class="detail-label">Leadership</span>
+                    <h3>DevOps to Architect in 2 Years</h3>
+                    <p>Rapidly advanced from DevOps Engineer to Tech Lead to Architect on a large-scale government project. Translated complex business requirements into actionable technical tasks and enforced architectural consistency through rigorous code reviews.</p>
+                    <div class="detail-tech">Architecture &middot; Agile &middot; Technical Leadership</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Team Growth</span>
+                    <h3>Engineering Team Management</h3>
+                    <p>Managed and mentored a software engineering team, improving productivity by 25% through process optimization and technical guidance. Established code review standards focused on performance and long-term maintainability.</p>
+                    <div class="detail-tech">People Management &middot; Mentorship &middot; Process Optimization</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Planning</span>
+                    <h3>Module Lifecycle Delivery</h3>
+                    <p>Led the complete development lifecycle for a major system module on the IRIS platform &mdash; from technical design through production deployment. Aligned technology decisions with long-term business goals and resource constraints.</p>
+                    <div class="detail-tech">System Design &middot; RAD &middot; Azure DevOps</div>
+                </div>
+            </div>
+
+            <div class="capabilities-bar" id="fullstack-detail">
+                <h2>Full-Stack Execution</h2>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <span class="detail-label">Backend</span>
+                    <h3>IRIS Platform &mdash; C#/.NET Core</h3>
+                    <p>Designed and implemented core backend services handling complex business logic, data processing pipelines, and third-party integrations for an enterprise system used by hundreds of government employees daily.</p>
+                    <div class="detail-tech">C# &middot; .NET &middot; SQL &middot; Azure</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">3D / Frontend</span>
+                    <h3>Castle Defender</h3>
+                    <p>Built an asymmetric castle defense/RTS game in Unity combining real-time strategy mechanics with physics-based interactions. Implemented game systems, AI behavior trees, and responsive UI from scratch using C# scripting.</p>
+                    <div class="detail-tech">Unity &middot; C# &middot; Physics Simulation &middot; AI</div>
+                    <a href="projects/games.html" class="btn-small">View Project</a>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Desktop App</span>
+                    <h3>Fitness Level Tracking</h3>
+                    <p>Developed a desktop fitness application for tracking multiple athletes' performance metrics. Built the data layer, UI components, and progression algorithms to deliver actionable insights from workout data.</p>
+                    <div class="detail-tech">JavaScript &middot; HTML/CSS &middot; Data Visualization</div>
+                    <a href="projects/fitness.html" class="btn-small">View Project</a>
+                </div>
+            </div>
+
+            <div class="capabilities-bar" id="perf-detail">
+                <h2>Performance Optimization</h2>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <span class="detail-label">CI/CD</span>
+                    <h3>Deployment Pipeline &mdash; 4 Hours to 15 Minutes</h3>
+                    <p>Engineered and fully automated the CI/CD pipeline using Azure DevOps, reducing deployment time by 94% and eliminating manual errors for a mission-critical government system.</p>
+                    <div class="detail-tech">Azure DevOps &middot; PowerShell &middot; CI/CD &middot; Git</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Automation</span>
+                    <h3>Document Template Automation</h3>
+                    <p>Independently developed a PowerShell tool automating mass edits of Word document templates, saving approximately 40 hours of manual effort and eliminating human error from a repetitive process.</p>
+                    <div class="detail-tech">PowerShell &middot; Automation &middot; Microsoft Office</div>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Machine Learning</span>
+                    <h3>ML Speech Recognition</h3>
+                    <p>Built a machine learning project allowing users to teach the program speech recognition through iterative training. Optimized the training pipeline for faster convergence and reduced processing overhead.</p>
+                    <div class="detail-tech">Python &middot; Machine Learning &middot; Audio Processing</div>
+                    <a href="projects/tools.html" class="btn-small">View Project</a>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="about-layout connect-section">
+            <div class="connect-bar">
+                <h2>Let's Connect</h2>
+                <p>Interested in working together or want to learn more about my experience?</p>
+                <div class="connect-links">
+                    <a href="https://www.linkedin.com/in/cody-peterson-837526129" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+                    <a href="contact.html" class="btn btn--outline">Contact Me</a>
                 </div>
             </div>
         </section>

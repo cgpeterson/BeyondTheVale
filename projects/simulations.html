@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulations - Beyond The Vale</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html">Beyond The Vale</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../projects.html">Projects</a> / Simulations
+            </div>
+            <h1>🧪 Simulations</h1>
+            <p>Algorithm visualizations and cellular automata</p>
+        </section>
+
+        <section class="project-section">
+            <div class="projects-grid">
+                <div class="project-card" data-technologies="JavaScript,Canvas,Cellular Automata">
+                    <h3>Conway's Game of Life</h3>
+                    <p class="project-tech">Technologies: JavaScript, Canvas, Cellular Automata</p>
+                    <p>A streamlined implementation of Conway's classic cellular automaton. Features draw-to-paint cells, adjustable speed, and wrapping grid edges. Built with typed arrays and canvas for maximum performance.</p>
+                    <div class="project-links">
+                        <a href="simulations/conways-game-of-life/index.html" class="btn-small">Run Simulation</a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-technologies="JavaScript,Canvas,A* Algorithm,Pathfinding">
+                    <h3>A* Pathfinding</h3>
+                    <p class="project-tech">Technologies: JavaScript, Canvas, A* Algorithm</p>
+                    <p>An interactive A* search visualization. Draw walls, place start and end points, then watch the algorithm explore. Supports diagonal movement, step-through mode, and random maze generation.</p>
+                    <div class="project-links">
+                        <a href="simulations/astar-search/index.html" class="btn-small">Run Simulation</a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-technologies="JavaScript,Canvas,Sorting Algorithms,Data Structures">
+                    <h3>Sorting Algorithm Visualizer</h3>
+                    <p class="project-tech">Technologies: JavaScript, Canvas, Sorting Algorithms</p>
+                    <p>Compare Merge Sort, Quick Sort, Heap Sort, and Shell Sort side by side. Visualizes comparisons, swaps, and sorted regions in real time with adjustable speed and array size.</p>
+                    <div class="project-links">
+                        <a href="simulations/sorting-algorithms/index.html" class="btn-small">Run Simulation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A* Pathfinding - Beyond The Vale</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
+        h1 { font-size: 1.4rem; color: #c5a059; margin-bottom: 0.5rem; }
+        .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.5rem; }
+        button { background: #011a13; color: #c5a059; border: 1px solid #c5a059; padding: 0.4rem 0.8rem; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; transition: background 0.2s; }
+        button:hover { background: #033526; }
+        button.active { background: #c5a059; color: #010604; }
+        .info { font-size: 0.75rem; color: #a0a0a0; margin-bottom: 0.5rem; text-align: center; }
+        .legend { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; font-size: 0.7rem; color: #a0a0a0; }
+        .legend span::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 3px; vertical-align: middle; }
+        .leg-start::before { background: #c5a059; }
+        .leg-end::before { background: #f3e5ab; }
+        .leg-wall::before { background: #033526; }
+        .leg-open::before { background: #1a0a2e; }
+        .leg-closed::before { background: #310049; }
+        .leg-path::before { background: #c5a059; }
+        canvas { border: 1px solid #c5a059; cursor: crosshair; max-width: 100%; }
+        a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
+        a.back:hover { color: #f3e5ab; }
+    </style>
+</head>
+<body>
+    <h1>A* Pathfinding</h1>
+    <div class="info">Click: place walls | Shift+click: set start | Ctrl+click: set end</div>
+    <div class="legend">
+        <span class="leg-start">Start</span>
+        <span class="leg-end">End</span>
+        <span class="leg-wall">Wall</span>
+        <span class="leg-open">Open</span>
+        <span class="leg-closed">Closed</span>
+        <span class="leg-path">Path</span>
+    </div>
+    <div class="controls">
+        <button id="runBtn">Run</button>
+        <button id="stepBtn">Step</button>
+        <button id="resetBtn">Reset Path</button>
+        <button id="clearBtn">Clear All</button>
+        <button id="mazeBtn">Random Maze</button>
+        <button id="diagBtn">Diag: On</button>
+    </div>
+    <canvas id="c"></canvas>
+    <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
+    <script>
+    (function() {
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const CELL = 14;
+        const COLS = Math.min(60, Math.floor((window.innerWidth - 32) / CELL));
+        const ROWS = Math.min(40, Math.floor((window.innerHeight - 200) / CELL));
+        canvas.width = COLS * CELL;
+        canvas.height = ROWS * CELL;
+
+        const EMPTY = 0, WALL = 1, START = 2, END = 3;
+        let grid = new Uint8Array(COLS * ROWS);
+        let start = { x: 1, y: 1 };
+        let end = { x: COLS - 2, y: ROWS - 2 };
+        let allowDiag = true;
+        let openSet = [], closedSet = new Set(), cameFrom = new Map(), gScore = new Map(), fScore = new Map();
+        let pathCells = new Set();
+        let searching = false;
+        let found = false;
+        let animInterval = null;
+
+        function idx(x, y) { return y * COLS + x; }
+        function h(a, b) { return allowDiag ? Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) : Math.abs(a.x - b.x) + Math.abs(a.y - b.y); }
+        function key(x, y) { return y * COLS + x; }
+
+        function initSearch() {
+            openSet = [{ x: start.x, y: start.y }];
+            closedSet = new Set();
+            cameFrom = new Map();
+            gScore = new Map();
+            fScore = new Map();
+            pathCells = new Set();
+            found = false;
+            const sk = key(start.x, start.y);
+            gScore.set(sk, 0);
+            fScore.set(sk, h(start, end));
+        }
+
+        function neighbors(node) {
+            const result = [];
+            const x = node.x, y = node.y;
+            const passable = (px, py) => px >= 0 && px < COLS && py >= 0 && py < ROWS && grid[idx(px, py)] !== WALL;
+            // Cardinal directions
+            const up = passable(x, y - 1), down = passable(x, y + 1);
+            const left = passable(x - 1, y), right = passable(x + 1, y);
+            if (up) result.push({ x, y: y - 1 });
+            if (down) result.push({ x, y: y + 1 });
+            if (left) result.push({ x: x - 1, y });
+            if (right) result.push({ x: x + 1, y });
+            // Diagonals — only if both adjacent cardinal cells are clear
+            if (allowDiag) {
+                if (up && left && passable(x - 1, y - 1)) result.push({ x: x - 1, y: y - 1 });
+                if (up && right && passable(x + 1, y - 1)) result.push({ x: x + 1, y: y - 1 });
+                if (down && left && passable(x - 1, y + 1)) result.push({ x: x - 1, y: y + 1 });
+                if (down && right && passable(x + 1, y + 1)) result.push({ x: x + 1, y: y + 1 });
+            }
+            return result;
+        }
+
+        function stepSearch() {
+            if (found || openSet.length === 0) return false;
+
+            // Find lowest fScore in openSet
+            let bestIdx = 0;
+            let bestF = fScore.get(key(openSet[0].x, openSet[0].y)) || Infinity;
+            for (let i = 1; i < openSet.length; i++) {
+                const f = fScore.get(key(openSet[i].x, openSet[i].y)) || Infinity;
+                if (f < bestF) { bestF = f; bestIdx = i; }
+            }
+            const current = openSet[bestIdx];
+            const ck = key(current.x, current.y);
+
+            if (current.x === end.x && current.y === end.y) {
+                found = true;
+                reconstructPath();
+                return false;
+            }
+
+            openSet.splice(bestIdx, 1);
+            closedSet.add(ck);
+
+            for (const nb of neighbors(current)) {
+                const nk = key(nb.x, nb.y);
+                if (closedSet.has(nk)) continue;
+                const isDiag = nb.x !== current.x && nb.y !== current.y;
+                const tentG = (gScore.get(ck) || 0) + (isDiag ? 1.414 : 1);
+                const prevG = gScore.get(nk);
+                if (prevG === undefined || tentG < prevG) {
+                    cameFrom.set(nk, ck);
+                    gScore.set(nk, tentG);
+                    fScore.set(nk, tentG + h(nb, end));
+                    if (!openSet.some(n => key(n.x, n.y) === nk)) {
+                        openSet.push(nb);
+                    }
+                }
+            }
+            return openSet.length > 0;
+        }
+
+        function reconstructPath() {
+            pathCells = new Set();
+            let ck = key(end.x, end.y);
+            while (ck !== undefined) {
+                pathCells.add(ck);
+                ck = cameFrom.get(ck);
+            }
+        }
+
+        const COLORS = {
+            bg: '#010604',
+            wall: '#033526',
+            start: '#c5a059',
+            end: '#f3e5ab',
+            open: '#1a0a2e',
+            closed: '#310049',
+            path: '#c5a059',
+            grid: '#011a13'
+        };
+
+        function draw() {
+            ctx.fillStyle = COLORS.bg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Grid lines
+            ctx.strokeStyle = COLORS.grid;
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x * CELL, 0); ctx.lineTo(x * CELL, canvas.height); ctx.stroke(); }
+            for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0, y * CELL); ctx.lineTo(canvas.width, y * CELL); ctx.stroke(); }
+            // Cells
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    const k = key(x, y);
+                    let color = null;
+                    if (x === start.x && y === start.y) color = COLORS.start;
+                    else if (x === end.x && y === end.y) color = COLORS.end;
+                    else if (pathCells.has(k)) color = COLORS.path;
+                    else if (grid[idx(x, y)] === WALL) color = COLORS.wall;
+                    else if (closedSet.has(k)) color = COLORS.closed;
+                    else if (openSet.some(n => key(n.x, n.y) === k)) color = COLORS.open;
+                    if (color) {
+                        ctx.fillStyle = color;
+                        ctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 1, CELL - 1);
+                    }
+                }
+            }
+        }
+
+        function resetPath() {
+            if (animInterval) { clearInterval(animInterval); animInterval = null; }
+            searching = false;
+            document.getElementById('runBtn').textContent = 'Run';
+            document.getElementById('runBtn').classList.remove('active');
+            openSet = []; closedSet = new Set(); cameFrom = new Map(); gScore = new Map(); fScore = new Map(); pathCells = new Set(); found = false;
+            draw();
+        }
+
+        function clearAll() {
+            grid.fill(EMPTY);
+            start = { x: 1, y: 1 };
+            end = { x: COLS - 2, y: ROWS - 2 };
+            resetPath();
+        }
+
+        function randomMaze() {
+            clearAll();
+            for (let i = 0; i < grid.length; i++) grid[i] = Math.random() < 0.3 ? WALL : EMPTY;
+            grid[idx(start.x, start.y)] = EMPTY;
+            grid[idx(end.x, end.y)] = EMPTY;
+            draw();
+        }
+
+        function runAnim() {
+            if (searching) {
+                if (animInterval) clearInterval(animInterval);
+                animInterval = null;
+                searching = false;
+                document.getElementById('runBtn').textContent = 'Run';
+                document.getElementById('runBtn').classList.remove('active');
+                return;
+            }
+            resetPath();
+            initSearch();
+            searching = true;
+            document.getElementById('runBtn').textContent = 'Pause';
+            document.getElementById('runBtn').classList.add('active');
+            animInterval = setInterval(function() {
+                const cont = stepSearch();
+                draw();
+                if (!cont) {
+                    clearInterval(animInterval);
+                    animInterval = null;
+                    searching = false;
+                    document.getElementById('runBtn').textContent = 'Run';
+                    document.getElementById('runBtn').classList.remove('active');
+                }
+            }, 20);
+        }
+
+        function doStep() {
+            if (!searching && openSet.length === 0) { initSearch(); searching = true; }
+            stepSearch();
+            draw();
+            if (found || openSet.length === 0) searching = false;
+        }
+
+        // Drawing walls
+        let painting = false;
+        let paintVal = WALL;
+        canvas.addEventListener('mousedown', function(e) {
+            const r = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - r.left) / CELL);
+            const y = Math.floor((e.clientY - r.top) / CELL);
+            if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return;
+            if (e.shiftKey) { start = { x, y }; grid[idx(x, y)] = EMPTY; draw(); return; }
+            if (e.ctrlKey) { end = { x, y }; grid[idx(x, y)] = EMPTY; draw(); return; }
+            painting = true;
+            paintVal = grid[idx(x, y)] === WALL ? EMPTY : WALL;
+            if (!(x === start.x && y === start.y) && !(x === end.x && y === end.y)) {
+                grid[idx(x, y)] = paintVal;
+            }
+            draw();
+        });
+        canvas.addEventListener('mousemove', function(e) {
+            if (!painting) return;
+            const r = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - r.left) / CELL);
+            const y = Math.floor((e.clientY - r.top) / CELL);
+            if (x >= 0 && x < COLS && y >= 0 && y < ROWS && !(x === start.x && y === start.y) && !(x === end.x && y === end.y)) {
+                grid[idx(x, y)] = paintVal;
+                draw();
+            }
+        });
+        document.addEventListener('mouseup', function() { painting = false; });
+
+        document.getElementById('runBtn').addEventListener('click', runAnim);
+        document.getElementById('stepBtn').addEventListener('click', doStep);
+        document.getElementById('resetBtn').addEventListener('click', resetPath);
+        document.getElementById('clearBtn').addEventListener('click', clearAll);
+        document.getElementById('mazeBtn').addEventListener('click', randomMaze);
+        document.getElementById('diagBtn').addEventListener('click', function() {
+            allowDiag = !allowDiag;
+            this.textContent = 'Diag: ' + (allowDiag ? 'On' : 'Off');
+            resetPath();
+        });
+
+        grid[idx(start.x, start.y)] = EMPTY;
+        grid[idx(end.x, end.y)] = EMPTY;
+        draw();
+    })();
+    </script>
+</body>
+</html>

@@ -6,9 +6,9 @@
 
 :root {
     /* The Galaxy Green - Deep base with green pearl "flop" */
-    --galaxy-green-deep: #020a08;
-    --galaxy-green-pearl: #012D21;
-    --galaxy-green-highlight: #044d3a;
+    --galaxy-green-deep: #010604;
+    --galaxy-green-pearl: #011a13;
+    --galaxy-green-highlight: #033526;
     /* Crushed Velvet Purple - Multi-tonal richness */
     --velvet-purple: #1a0a2e;
     --velvet-purple-light: #310049;
@@ -36,8 +36,11 @@ body {
     font-family: 'Inter', sans-serif;
     line-height: 1.7;
     color: var(--text-main);
-    background-color: var(--galaxy-green-deep);
-    background-image: radial-gradient(circle at 50% -20%, var(--galaxy-green-highlight) 0%, transparent 50%);
+    background-color: #0d0515;
+    background-image:
+        radial-gradient(ellipse at 50% -10%, var(--velvet-purple-light) 0%, transparent 45%),
+        radial-gradient(ellipse at 20% 50%, rgba(75, 0, 130, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(49, 0, 73, 0.1) 0%, transparent 50%);
     background-attachment: fixed;
 }
 
@@ -57,9 +60,9 @@ h1, h2, h3, .logo a {
 
 /* Navigation Bar */
 .navbar {
-    background-color: rgba(2, 10, 8, 0.95);
+    background: linear-gradient(180deg, var(--galaxy-green-pearl), var(--galaxy-green-deep));
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--glass-white);
+    border-bottom: 1px solid var(--accent-gold);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -150,15 +153,55 @@ h1, h2, h3, .logo a {
     transition: var(--transition);
 }
 
+/* Home Simulation Card */
+.sim-card {
+    display: block;
+    text-decoration: none;
+    background: var(--galaxy-green-deep);
+    border: 1px solid var(--accent-gold);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+}
+
+.sim-card:hover {
+    border-color: var(--accent-gold-bright);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 160, 89, 0.15);
+    transform: translateY(-4px);
+}
+
+.sim-card canvas {
+    display: block;
+    width: 100%;
+    height: 220px;
+}
+
+.sim-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(transparent, rgba(1, 6, 4, 0.9));
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    text-align: right;
+}
+
 /* Hero Section */
 .hero {
     text-align: center;
     padding: 8rem 2rem;
     background: radial-gradient(circle at center, var(--galaxy-green-pearl) 0%, var(--galaxy-green-deep) 100%);
-    border: 1px solid var(--glass-white);
+    border: 1px solid var(--accent-gold);
     margin-top: 2rem;
     border-radius: 4px;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-soft), 0 0 15px rgba(197, 160, 89, 0.08);
 }
 
     .hero h1 {
@@ -169,20 +212,30 @@ h1, h2, h3, .logo a {
         font-weight: 900;
     }
 
-    .hero p {
-        font-size: 1.2rem;
+    .hero p.hero-tagline {
+        font-size: 1.15rem;
         color: var(--text-muted);
-        max-width: 600px;
-        margin: 0 auto 2.5rem;
+        max-width: 620px;
+        margin: 0 auto 1.5rem;
         font-weight: 300;
+        line-height: 1.8;
+    }
+
+    .hero p.hero-sub {
+        font-size: 0.8rem;
+        color: var(--accent-gold);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 0 auto 2.5rem;
+        font-weight: 600;
     }
 
 /* Page Header */
 .page-header {
     text-align: center;
     padding: 5rem 2rem;
-    background: linear-gradient(135deg, var(--velvet-purple) 0%, var(--velvet-purple-light) 50%, var(--velvet-purple) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, var(--galaxy-green-deep) 0%, var(--galaxy-green-pearl) 50%, var(--galaxy-green-deep) 100%);
+    border: 1px solid var(--accent-gold);
     position: relative;
     overflow: hidden;
     margin-bottom: 3rem;
@@ -209,15 +262,16 @@ h1, h2, h3, .logo a {
 
 /* Main Cards */
 .card, .project-card, .about-section {
-    background-color: rgba(255, 255, 255, 0.02);
+    background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
     backdrop-filter: blur(5px);
     padding: 3rem;
-    border: 1px solid var(--glass-white);
+    border: 1px solid var(--accent-gold);
     transition: var(--transition);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
 }
 
     .card:hover, .project-card:hover {
-        background-color: rgba(255, 255, 255, 0.04);
+        background: radial-gradient(ellipse at top left, var(--galaxy-green-highlight), var(--galaxy-green-pearl));
         border-color: var(--accent-gold);
         transform: translateY(-8px);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
@@ -229,27 +283,83 @@ h1, h2, h3, .logo a {
         font-size: 1.75rem;
     }
 
-/* Profile Grid */
-.profile-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    align-items: start;
-}
-
-@media (min-width: 850px) {
-    .profile-grid {
-        grid-template-columns: 300px 1fr;
-    }
-}
-
-.profile-img-container {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
+/* About Page Layout */
+.about-layout {
+    width: 90%;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
+.about-profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 850px) {
+    .about-profile-grid {
+        grid-template-columns: auto 1fr;
+    }
+}
+
+.about-card {
+    background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
+    border: 1px solid var(--accent-gold);
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+}
+
+.about-card--headshot {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.about-card--headshot .profile-img {
+    width: 300px;
+    max-width: 100%;
+    display: block;
+}
+
+.about-card--bio {
+    padding: 2.5rem;
+}
+
+.about-card--bio h2 {
+    color: var(--accent-gold-bright);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.about-card--bio p {
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    opacity: 0.9;
+}
+
+.about-card--bio p:last-child {
+    margin-bottom: 0;
+}
+
+/* Capabilities Bar */
+.capabilities-bar {
+    background: linear-gradient(135deg, var(--galaxy-green-deep) 0%, var(--galaxy-green-pearl) 50%, var(--galaxy-green-deep) 100%);
+    border: 1px solid var(--accent-gold);
+    padding: 1.25rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+}
+
+.capabilities-bar h2 {
+    font-size: 1.5rem;
+    color: var(--accent-gold-bright);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Profile Image (shared) */
 .profile-img {
     width: 100%;
     height: auto;
@@ -257,18 +367,6 @@ h1, h2, h3, .logo a {
     border: 2px solid var(--accent-gold);
     box-shadow: 0 0 25px rgba(197, 160, 89, 0.15);
     display: block;
-}
-
-.consultant-bio h2 {
-    color: var(--accent-gold-bright);
-    margin-top: 0;
-    font-size: 2rem;
-}
-
-.consultant-bio p {
-    margin-bottom: 1.5rem;
-    color: var(--text-main);
-    opacity: 0.9;
 }
 
 /* Buttons */
@@ -326,9 +424,39 @@ h1, h2, h3, .logo a {
 }
 
 .skill-item {
-    background: linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent);
+    background: linear-gradient(to bottom right, var(--galaxy-green-pearl), var(--galaxy-green-deep));
     padding: 2rem;
-    border-left: 3px solid var(--velvet-purple-glow);
+    border: 1px solid var(--accent-gold);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+}
+
+.skill-item--link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.skill-item--link:hover {
+    background: linear-gradient(to bottom right, var(--galaxy-green-highlight), var(--galaxy-green-pearl));
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 160, 89, 0.12);
+}
+
+.skill-cta {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    transition: var(--transition);
+}
+
+.skill-item--link:hover .skill-cta {
+    color: var(--accent-gold-bright);
 }
 
     .skill-item h3 {
@@ -341,6 +469,127 @@ h1, h2, h3, .logo a {
         font-size: 0.9rem;
         color: var(--text-muted);
     }
+
+/* Capability Detail Sections */
+.capability-details {
+    margin-top: 4rem;
+}
+
+.capability-details .capabilities-bar {
+    scroll-margin-top: 100px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.detail-card {
+    background: linear-gradient(to bottom right, var(--galaxy-green-pearl), var(--galaxy-green-deep));
+    border: 1px solid var(--accent-gold);
+    padding: 2rem;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 160, 89, 0.12);
+}
+
+.detail-label {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 1rem;
+    width: fit-content;
+}
+
+.detail-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    color: var(--accent-gold-bright);
+    margin-bottom: 0.75rem;
+}
+
+.detail-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.detail-tech {
+    font-size: 0.8rem;
+    color: var(--galaxy-green-highlight);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.detail-card .btn-small {
+    width: fit-content;
+    margin-top: auto;
+}
+
+/* Connect / LinkedIn Section */
+.connect-section {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+}
+
+.connect-bar {
+    background: linear-gradient(135deg, var(--galaxy-green-deep) 0%, var(--galaxy-green-pearl) 50%, var(--galaxy-green-deep) 100%);
+    border: 1px solid var(--accent-gold);
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+}
+
+.connect-bar h2 {
+    font-size: 2rem;
+    color: var(--accent-gold-bright);
+    margin-bottom: 0.75rem;
+}
+
+.connect-bar p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.connect-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn--outline {
+    background: transparent;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+}
+
+.btn--outline:hover {
+    background-color: var(--accent-gold);
+    color: var(--galaxy-green-deep);
+}
+
+@media screen and (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 /* Responsive & Mobile Navigation */
 @media screen and (max-width: 768px) {
@@ -400,10 +649,11 @@ h1, h2, h3, .logo a {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--galaxy-green-deep);
     padding: 1rem 1.5rem;
-    border: 1px solid var(--glass-white);
+    border: 1px solid var(--accent-gold);
     border-radius: 4px;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
 }
 
 .filter-container label {
@@ -448,7 +698,7 @@ h1, h2, h3, .logo a {
     color: var(--accent-gold-bright);
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--velvet-purple-glow);
+    border-bottom: 2px solid var(--accent-gold);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -475,7 +725,7 @@ h1, h2, h3, .logo a {
 /* Project Technology Tags */
 .project-tech {
     font-size: 0.8rem;
-    color: var(--velvet-purple-glow);
+    color: var(--galaxy-green-highlight);
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -508,8 +758,8 @@ h1, h2, h3, .logo a {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-    border: 1px solid var(--glass-white);
+    background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
+    border: 1px solid var(--accent-gold);
     padding: 3rem 2rem;
     text-decoration: none;
     color: var(--text-main);
@@ -525,13 +775,13 @@ h1, h2, h3, .logo a {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--velvet-purple-glow), var(--accent-gold));
+    background: linear-gradient(90deg, var(--galaxy-green-highlight), var(--accent-gold));
     transform: scaleX(0);
     transition: transform 0.4s ease;
 }
 
 .category-card:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: radial-gradient(ellipse at top left, var(--galaxy-green-highlight), var(--galaxy-green-pearl));
     border-color: var(--accent-gold);
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
