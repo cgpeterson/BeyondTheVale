@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies - Beyond The Vale | Rowan Vale</title>
+    <meta name="description" content="Real-world case studies: Bulk Dataverse import pipeline cutting 40,000 API calls to 40, and a multi-provider AI integration layer built for production resilience.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .case-studies-layout {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .case-study-card {
+            background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
+            border: 1px solid var(--accent-gold);
+            padding: 2.5rem;
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+            margin-bottom: 2.5rem;
+        }
+        .case-study-card h2 {
+            color: var(--accent-gold-bright);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .case-study-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 0.2rem 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+        .case-study-section {
+            margin-bottom: 1.25rem;
+        }
+        .case-study-section h3 {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .case-study-section p {
+            color: var(--text-main);
+            line-height: 1.75;
+        }
+        .case-study-tech {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(197, 160, 89, 0.15);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .case-study-tech strong {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <a href="index.html">BEYOND THE VALE</a>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+            <li class="nav-item"><a href="projects.html" class="nav-link active">Projects</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+        <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</nav>
+
+<main class="main-content">
+    <header class="page-header">
+        <h1>Case Studies</h1>
+        <p>Real problems, real solutions, real results.</p>
+    </header>
+
+    <section class="case-studies-layout mt-large">
+
+        <div class="case-study-card">
+            <span class="case-study-label">Azure Functions &middot; Government</span>
+            <h2>Bulk Dataverse Import Pipeline</h2>
+
+            <div class="case-study-section">
+                <h3>Problem</h3>
+                <p>A government client needed to migrate large datasets &mdash; 20,000-row Excel files &mdash; into Microsoft Dataverse. The manual process required staff to enter records one by one, taking weeks per file. Errors were common, there was no audit trail, and the volume was only growing.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Solution</h3>
+                <p>Built an Azure Function deployed to Azure Government that handles the entire pipeline: Excel parsing, parent record lookups against existing Dataverse data, and batched inserts using the Dataverse Web API's <code>$batch</code> endpoint at 1,000 operations per request. Authentication uses System-Assigned Managed Identity &mdash; no credentials stored in code or configuration. Failed rows are logged back to a SharePoint list with full error details, giving the client a per-row audit trail and a clear queue for any records that need manual review.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Result</h3>
+                <p>A process that had required weeks of manual data entry became a fully automated, repeatable pipeline. 40,000 individual API calls were reduced to roughly 40 batched requests. The client now imports new data files in minutes, with a complete audit log and zero manual intervention for the happy path.</p>
+            </div>
+
+            <div class="case-study-tech">
+                <strong>Technologies:</strong> Azure Functions &middot; C# &middot; Dataverse Web API &middot; System-Assigned Managed Identity &middot; SharePoint &middot; Azure Government &middot; Excel parsing
+            </div>
+        </div>
+
+        <div class="case-study-card">
+            <span class="case-study-label">AI Integration &middot; Architecture</span>
+            <h2>DelveMUD AI Integration Layer</h2>
+
+            <div class="case-study-section">
+                <h3>Problem</h3>
+                <p>Building AI-powered game features &mdash; NPC conversation, procedural dungeon generation, quest creation, item crafting and appraisal &mdash; with a naive single-provider integration creates hard dependencies: one vendor outage or rate limit cascade takes down all AI functionality at once. Model upgrades require touching game logic. There's no isolation between subsystems.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Solution</h3>
+                <p>Designed and built a multi-provider LLM abstraction layer where each AI subsystem (NPC agent, dungeon director, quest generator, item appraiser) is implemented as an independent module behind a common provider interface. Each subsystem has its own rate limiting, response caching, and fallback chain &mdash; so a rate limit on the NPC agent doesn't affect dungeon generation, and a model provider going down triggers an automatic fallback rather than an error. Providers are registered by name; swapping the model behind any subsystem is a configuration change, not a code change.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Result</h3>
+                <p>Models are hot-swappable with zero game-side code changes. Subsystem failures are isolated. The architecture absorbs provider outages and rate limits without cascading. The pattern is directly applicable to enterprise production systems: any application that needs resilient, observable, multi-provider AI features without vendor lock-in.</p>
+            </div>
+
+            <div class="case-study-tech">
+                <strong>Technologies:</strong> Go &middot; Anthropic Claude API &middot; Microservices Patterns &middot; Rate Limiting &middot; Response Caching &middot; Fallback Chains &middot; RAG Patterns &middot; Provider Abstraction
+            </div>
+        </div>
+
+        <div class="card" style="text-align:center;max-width:700px;margin:0 auto 3rem;">
+            <h2>Need this kind of work?</h2>
+            <p>Both of these projects are representative of how I approach real engagements: understand the actual problem, design for the failure cases, build it to stay up. If you have a similar challenge, let's talk.</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;">
+                <a href="contact.html" class="btn">Scope a Project</a>
+                <a href="services.html" class="btn btn--outline">View Services</a>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <p>&copy; 2026 Beyond The Vale. Built with precision and intent.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
