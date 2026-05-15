@@ -4,8 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rowan Vale - Software Consultant | Beyond The Vale</title>
-    <meta name="description" content="Home of a software engineering consultant showcasing scalable architectures, digital transformation initiatives, and full-stack solutions that drive modern enterprise growth.">
+    <meta name="description" content="Enterprise software consulting: C#/.NET architecture, Azure integrations, Power Platform, and production AI integrations for teams that cannot afford downtime.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .metrics-bar {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
+            border: 1px solid var(--accent-gold);
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
+        }
+        .metric-item {
+            text-align: center;
+            padding: 1rem;
+            border-right: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        .metric-item:last-child { border-right: none; }
+        .metric-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            display: block;
+            line-height: 1.1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.4rem;
+            display: block;
+        }
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+            .metric-item:nth-child(2) { border-right: none; }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -16,6 +61,7 @@
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
                 <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
                 <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
@@ -29,10 +75,34 @@
 
     <main class="main-content">
         <section class="hero">
-            <h1>What You See Is Only the Surface</h1>
-            <p class="hero-tagline">The best software architecture is invisible &mdash; until it isn't. I engineer the systems beneath: scalable, resilient, built to outlast the trends that spawned them.</p>
+            <h1>Enterprise Systems That Hold Up Under Pressure.</h1>
+            <p class="hero-tagline">C#/.NET architecture, Azure integrations, Power Platform, and production AI &mdash; for teams that can&rsquo;t afford downtime.</p>
             <p class="hero-sub">Software Engineer &middot; Architect &middot; Boise, ID</p>
-            <a href="projects.html" class="btn">Step Beyond</a>
+            <div class="hero-cta-group">
+                <a href="projects.html" class="btn">Step Beyond</a>
+                <a href="services.html" class="btn">View Services</a>
+            </div>
+        </section>
+
+        <section class="content mt-xlarge">
+        <div class="metrics-bar">
+            <div class="metric-item">
+                <span class="metric-number">94%</span>
+                <span class="metric-label">Faster Deployments</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number">500+</span>
+                <span class="metric-label">User Enterprise Platform</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number">4 yrs</span>
+                <span class="metric-label">Mission-Critical Gov Systems</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number">99.9%</span>
+                <span class="metric-label">Uptime</span>
+            </div>
+        </div>
         </section>
 
         <section class="content mt-xlarge">
@@ -43,11 +113,14 @@
         </section>
 
         <section class="content mt-xlarge">
-            <div class="card">
-                <h2>Technical Proficiency</h2>
-                <p>Specializing in full-stack development, cloud architecture, and intuitive UI design. Explore how I translate complex problems into elegant code.</p>
+        <div class="card">
+            <h2>Technical Proficiency</h2>
+            <p>From legacy modernization to greenfield architecture to production AI integrations, I build systems your business can rely on &mdash; then stay out of your way.</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
                 <a href="about.html" class="btn-small">Learn More About My Process</a>
+                <a href="casestudies.html" class="btn-small">View Case Studies</a>
             </div>
+        </div>
         </section>
     </main>
 
