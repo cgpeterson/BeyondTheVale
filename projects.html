@@ -13,19 +13,22 @@
                 <a href="index.html">Beyond The Vale</a>
             </div>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="projects.html" class="nav-link active">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </li>
-            </ul>
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="services.html" class="nav-link">Services</a>
+            </li>
+            <li class="nav-item">
+                <a href="projects.html" class="nav-link active">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a href="contact.html" class="nav-link">Contact</a>
+            </li>
+        </ul>
             <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -71,7 +74,33 @@
                 </a>
             </div>
         </section>
-    </main>
+    
+    <section class="content mt-xlarge" id="case-studies">
+        <div class="capabilities-bar">
+            <h2>Case Studies</h2>
+        </div>
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">Real problems, real solutions, real results.</p>
+        <div class="detail-grid">
+            <div class="detail-card">
+                <span class="detail-label">Azure Functions</span>
+                <h3>Bulk Dataverse Import Pipeline</h3>
+                <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> 20,000-row Excel files requiring weeks of manual data entry into Microsoft Dataverse for a government client.</p>
+                <p><strong style="color:var(--accent-gold-bright);">Solution:</strong> Azure Function on Azure Government handling Excel parsing, parent record lookups, and <code>$batch</code> inserts at 1,000 operations per request. System-Assigned Managed Identity for auth (no credentials in code), per-row error logging back to SharePoint for full audit trail.</p>
+                <p><strong style="color:var(--accent-gold-bright);">Result:</strong> 40,000 individual API calls reduced to roughly 40. A process that would have taken weeks was fully automated and repeatable.</p>
+                <div class="detail-tech">Azure Functions &middot; C# &middot; Dataverse Web API &middot; Managed Identity &middot; SharePoint</div>
+            </div>
+            <div class="detail-card">
+                <span class="detail-label">AI Integration</span>
+                <h3>DelveMUD AI Integration Layer</h3>
+                <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> Building AI features (NPC conversation, dungeon generation, quest creation, item crafting) that need to stay up under real load without creating vendor lock-in or a single point of failure.</p>
+                <p><strong style="color:var(--accent-gold-bright);">Solution:</strong> Multi-provider LLM abstraction layer where each AI subsystem (NPC agent, dungeon director, quest generator, item appraiser) runs independently behind a provider interface. Per-subsystem rate limiting, caching, and fallback chains ensure resilience. No game-side code needs to change when a model is swapped.</p>
+                <p><strong style="color:var(--accent-gold-bright);">Result:</strong> Models are hot-swappable with zero game-side changes. The architecture pattern translates directly to production enterprise AI features.</p>
+                <div class="detail-tech">Go &middot; Anthropic Claude API &middot; Microservices &middot; Rate Limiting &middot; RAG Patterns</div>
+            </div>
+        </div>
+    </section>
+
+</main>
 
     <footer class="footer">
         <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
