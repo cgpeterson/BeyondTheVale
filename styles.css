@@ -881,3 +881,191 @@ h1, h2, h3, .logo a {
     }
 }
 
+/* ============================================
+   MOBILE OPTIMIZATIONS (2026)
+   Centralized mobile/responsive rules. Everything below is scoped to
+   small viewports (or prefers-reduced-motion), so DESKTOP IS UNTOUCHED.
+   Selectors that override per-page inline <style> rules are prefixed with
+   `.main-content ` to win on specificity regardless of source order.
+   ============================================ */
+
+/* --- Tablet / phone (<= 768px) --- */
+@media screen and (max-width: 768px) {
+
+    /* Kill scroll-jank from fixed background on touch devices */
+    body {
+        background-attachment: scroll;
+    }
+
+    /* One consistent page gutter (respects notch safe-areas) */
+    .main-content {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+
+    /* Neutralize the various per-page percentage widths so the gutter
+       above is the single source of horizontal spacing */
+    .main-content .hero,
+    .main-content .content,
+    .main-content .metrics-bar,
+    .main-content .about-layout,
+    .main-content .services-layout,
+    .main-content .contact-layout,
+    .main-content .case-studies-layout,
+    .main-content .filter-section,
+    .main-content .project-section {
+        width: 100%;
+        max-width: 100%;
+        margin-inline: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Prevent any media from forcing horizontal scroll */
+    img,
+    canvas {
+        max-width: 100%;
+    }
+
+    /* Tighter nav gives the logo room beside the hamburger */
+    .nav-container {
+        padding: 0.85rem 1.25rem;
+    }
+
+    .logo a {
+        letter-spacing: 2px;
+    }
+
+    /* Hamburger: larger, comfortable hit area */
+    .hamburger {
+        padding: 0.4rem;
+        margin: -0.4rem;
+    }
+
+    /* --- Section padding: scale down so content can breathe --- */
+    .hero {
+        padding: 2rem 1.25rem;
+    }
+
+    .page-header {
+        padding: 3rem 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .card,
+    .project-card,
+    .about-section,
+    .main-content .service-card,
+    .main-content .contact-info-card,
+    .main-content .contact-form-card,
+    .main-content .case-study-card {
+        padding: 1.5rem;
+    }
+
+    .connect-bar {
+        padding: 2rem 1.5rem;
+    }
+
+    .detail-card,
+    .skill-item,
+    .about-card--bio {
+        padding: 1.5rem;
+    }
+
+    /* --- Single-column grids (centralized from per-page inline styles) --- */
+    .main-content .services-grid,
+    .main-content .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* --- Metrics bar: tighter, balanced --- */
+    .main-content .metrics-bar {
+        padding: 1.25rem 1rem;
+    }
+
+    .metric-item {
+        padding: 0.5rem;
+    }
+
+    /* --- Fluid headings (smooth scaling, no hard jump) --- */
+    .hero h1 {
+        font-size: clamp(1.9rem, 8vw, 2.5rem);
+        letter-spacing: -0.5px;
+    }
+
+    .hero p.hero-sub {
+        letter-spacing: 2px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(1.6rem, 7vw, 2rem);
+    }
+
+    .card h2,
+    .project-card h3,
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    /* --- Touch targets: keep small buttons tappable (>=44px) --- */
+    .btn-small {
+        padding: 0.75rem 1.2rem;
+    }
+
+    /* --- Prevent iOS auto-zoom on form focus (needs >=16px) --- */
+    .main-content .form-group input,
+    .main-content .form-group textarea {
+        font-size: 16px;
+    }
+
+    /* --- Footer: give it real spacing + safe-area on mobile --- */
+    .footer {
+        text-align: center;
+        padding: 2rem 1.25rem;
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    }
+}
+
+/* --- Small phones (<= 480px) --- */
+@media screen and (max-width: 480px) {
+
+    .card,
+    .project-card,
+    .about-section,
+    .connect-bar,
+    .main-content .service-card,
+    .main-content .contact-info-card,
+    .main-content .contact-form-card,
+    .main-content .case-study-card {
+        padding: 1.25rem;
+    }
+
+    /* Full-width, thumb-friendly primary CTAs */
+    .hero-cta-group {
+        flex-direction: column;
+    }
+
+    .hero-cta-group .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Stack connect buttons full-width too */
+    .connect-links .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* --- Respect reduced-motion preference (all viewports) --- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
