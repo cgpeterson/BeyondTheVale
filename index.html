@@ -46,6 +46,12 @@
             justify-content: center;
             flex-wrap: wrap;
         }
+        /* Full-bleed sections pulled in slightly from the screen edges */
+        .hero,
+        .content {
+            width: 95%;
+            margin-inline: auto;
+        }
         @media (max-width: 768px) {
             .metrics-bar { grid-template-columns: repeat(2, 1fr); }
             .metric-item:nth-child(2) { border-right: none; }
