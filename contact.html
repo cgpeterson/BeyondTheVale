@@ -4,145 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Contact - Beyond The Vale</title>
-    <meta name="description" content="Get in touch with Rowan Vale for software consulting, architecture, and engineering inquiries.">
+    <meta name="description" content="Get in touch with Cody Peterson for software consulting, architecture, and engineering inquiries.">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .contact-layout {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        .contact-info-card {
-            background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
-            border: 1px solid var(--accent-gold);
-            padding: 2.5rem;
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
-        }
-        .contact-info-card h2 {
-            color: var(--accent-gold-bright);
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-        }
-        .contact-detail {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .contact-detail:last-child {
-            margin-bottom: 0;
-        }
-        .contact-icon {
-            font-size: 1.25rem;
-            color: var(--accent-gold);
-            min-width: 24px;
-            text-align: center;
-            padding-top: 0.15rem;
-        }
-        .contact-detail h3 {
-            color: var(--accent-gold);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 0.25rem;
-        }
-        .contact-detail p,
-        .contact-detail a {
-            color: var(--text-main);
-            font-size: 1rem;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        .contact-detail a:hover {
-            color: var(--accent-gold-bright);
-        }
-        .contact-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        .contact-form-card {
-            background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
-            border: 1px solid var(--accent-gold);
-            padding: 2.5rem;
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
-        }
-        .contact-form-card h2 {
-            color: var(--accent-gold-bright);
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-        }
-        .contact-form-card .form-sub {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent-gold);
-            margin-bottom: 0.4rem;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            background: var(--galaxy-green-deep);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--text-main);
-            padding: 0.75rem 1rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 10px rgba(197, 160, 89, 0.15);
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 140px;
-        }
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--text-muted);
-            opacity: 0.5;
-        }
-        .btn-submit {
-            display: inline-block;
-            background-color: var(--accent-gold);
-            color: var(--galaxy-green-deep);
-            padding: 0.85rem 2.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            border: none;
-            cursor: pointer;
-            font-family: 'Outfit', sans-serif;
-            transition: var(--transition);
-        }
-        .btn-submit:hover {
-            background-color: var(--accent-gold-bright);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
-        }
-        /* Mobile/responsive rules centralized in styles.css */
-    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -183,13 +46,13 @@
 
         <section class="contact-layout">
             <div class="contact-grid">
-                <div class="contact-info-card">
+                <div class="contact-info-card reveal">
                     <h2>Contact Info</h2>
                     <div class="contact-detail">
                         <span class="contact-icon">&#9993;</span>
                         <div>
                             <h3>Email</h3>
-                            <a href="mailto:BeyondTheVale.Rowan@gmail.com">BeyondTheVale.Rowan@gmail.com</a>
+                            <a href="mailto:peterson.cody16@gmail.com">peterson.cody16@gmail.com</a>
                         </div>
                     </div>
                     <div class="contact-detail">
@@ -207,12 +70,12 @@
                         </div>
                     </div>
                     <div class="contact-actions">
-                        <a href="mailto:BeyondTheVale.Rowan@gmail.com" class="btn">Email Me</a>
+                        <a href="mailto:peterson.cody16@gmail.com" class="btn">Email Me</a>
                         <a href="https://www.linkedin.com/in/cody-peterson-837526129" target="_blank" rel="noopener" class="btn btn--outline">LinkedIn</a>
                     </div>
                 </div>
 
-                <div class="contact-form-card">
+                <div class="contact-form-card reveal">
                     <h2>Send a Message</h2>
                     <p class="form-sub">Fill out the form and I'll get back to you within one business day.</p>
                     <form id="contactForm">
@@ -235,7 +98,7 @@
                         <div id="formStatus" style="display:none;padding:0.75rem 1rem;margin-bottom:1rem;border-radius:2px;font-size:0.9rem;"></div>
                         <button type="submit" class="btn" style="width:100%;">Send Message</button>
                     </form>
-                    <p style="margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem;text-align:center;">Or reach out directly at <a href="mailto:BeyondTheVale.Rowan@gmail.com" style="color:var(--accent-gold);">BeyondTheVale.Rowan@gmail.com</a></p>
+                    <p style="margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem;text-align:center;">Or reach out directly at <a href="mailto:peterson.cody16@gmail.com" style="color:var(--accent-gold);">peterson.cody16@gmail.com</a></p>
                 </div>
             </div>
         </section>
@@ -282,7 +145,7 @@
                 throw new Error(result.error || 'Submission failed.');
             }
         } catch (err) {
-            statusEl.textContent = 'Something went wrong. Please email BeyondTheVale.Rowan@gmail.com directly.';
+            statusEl.textContent = 'Something went wrong. Please email peterson.cody16@gmail.com directly.';
             statusEl.style.background = 'rgba(80, 0, 0, 0.3)';
             statusEl.style.border = '1px solid rgba(200, 50, 50, 0.4)';
             statusEl.style.color = '#ff9999';

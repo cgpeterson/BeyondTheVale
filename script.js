@@ -91,7 +91,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // PROJECT FILTERING SYSTEM
     // ============================================
     initProjectFilters();
+
+    // ============================================
+    // SCROLL REVEAL (progressive enhancement)
+    // ============================================
+    initScrollReveal();
+
+    // ============================================
+    // CARD SPOTLIGHT — a soft light that follows the cursor across cards,
+    // so each surface catches light individually instead of looking printed.
+    // ============================================
+    initCardSpotlight();
 });
+
+/**
+ * Cursor-follow spotlight on card surfaces. Uses a single delegated
+ * pointermove listener, rAF-throttled, and only writes CSS custom
+ * properties (--mx/--my) on the card currently under the cursor.
+ */
+function initCardSpotlight() {
+    const selector = '.card, .project-card, .service-card, .detail-card, .skill-item, ' +
+        '.category-card, .contact-info-card, .contact-form-card, .case-study-card, .about-card';
+    let pending = null, frame = null;
+
+    function apply() {
+        frame = null;
+        if (!pending) return;
+        const { card, x, y } = pending;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((x - rect.left) / rect.width * 100) + '%');
+        card.style.setProperty('--my', ((y - rect.top) / rect.height * 100) + '%');
+    }
+
+    document.addEventListener('pointermove', function(e) {
+        const card = e.target.closest(selector);
+        if (!card) return;
+        pending = { card: card, x: e.clientX, y: e.clientY };
+        if (!frame) frame = requestAnimationFrame(apply);
+    }, { passive: true });
+}
+
+/**
+ * Reveal elements with the `.reveal` class as they scroll into view.
+ * Only activates when motion is allowed and IntersectionObserver exists;
+ * otherwise content stays fully visible (the hidden state is scoped to
+ * the `.js-reveal` class we add here).
+ */
+function initScrollReveal() {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const targets = document.querySelectorAll('.reveal');
+    if (prefersReduced || !('IntersectionObserver' in window) || !targets.length) return;
+
+    document.body.classList.add('js-reveal');
+
+    const observer = new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+
+    targets.forEach(function(el) { observer.observe(el); });
+}
 
 /**
  * Initialize project filtering system

@@ -5,24 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Beyond The Vale - Projects</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Match the home page hero width (95% of viewport) so the
-           project cards and case studies line up with that heading box. */
-        .content {
-            width: 95%;
-            margin-inline: auto;
-        }
-        .category-grid {
-            max-width: none;
-            padding: 0;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="index.html">Beyond The Vale</a>
+                <a href="index.html">BEYOND THE VALE</a>
             </div>
             <ul class="nav-menu">
             <li class="nav-item">
@@ -57,28 +45,28 @@
 
         <section class="content">
             <div class="category-grid">
-                <a href="projects/tools.html" class="category-card">
+                <a href="projects/tools.html" class="category-card reveal">
                     <div class="category-icon">🔧</div>
                     <h2>Tools</h2>
                     <p>Utility applications, productivity tools, and helpful scripts for everyday tasks.</p>
                     <span class="category-link">View Projects →</span>
                 </a>
 
-                <a href="projects/simulations.html" class="category-card">
+                <a href="projects/simulations.html" class="category-card reveal">
                     <div class="category-icon">🧪</div>
                     <h2>Simulations</h2>
                     <p>Algorithm visualizations and cellular automata, including Conway's Game of Life and A* pathfinding.</p>
                     <span class="category-link">View Projects →</span>
                 </a>
 
-                <a href="projects/fitness.html" class="category-card">
+                <a href="projects/fitness.html" class="category-card reveal">
                     <div class="category-icon">💪</div>
                     <h2>Fitness</h2>
                     <p>Health and fitness applications including workout trackers, meal planners, and progress tools.</p>
                     <span class="category-link">View Projects →</span>
                 </a>
 
-                <a href="projects/games.html" class="category-card">
+                <a href="projects/games.html" class="category-card reveal">
                     <div class="category-icon">🎮</div>
                     <h2>Games</h2>
                     <p>Interactive experiences, 3D games, and multiplayer projects built with modern web technologies.</p>
@@ -93,7 +81,7 @@
         </div>
         <p style="text-align:center;color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">Real problems, real solutions, real results.</p>
         <div class="detail-grid">
-            <div class="detail-card">
+            <div class="detail-card reveal">
                 <span class="detail-label">Azure Functions</span>
                 <h3>Bulk Dataverse Import Pipeline</h3>
                 <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> 20,000-row Excel files requiring weeks of manual data entry into Microsoft Dataverse for a government client.</p>
@@ -101,7 +89,7 @@
                 <p><strong style="color:var(--accent-gold-bright);">Result:</strong> 40,000 individual API calls reduced to roughly 40. A process that would have taken weeks was fully automated and repeatable.</p>
                 <div class="detail-tech">Azure Functions &middot; C# &middot; Dataverse Web API &middot; Managed Identity &middot; SharePoint</div>
             </div>
-            <div class="detail-card">
+            <div class="detail-card reveal">
                 <span class="detail-label">AI Integration</span>
                 <h3>DelveMUD AI Integration Layer</h3>
                 <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> Building AI features (NPC conversation, dungeon generation, quest creation, item crafting) that need to stay up under real load without creating vendor lock-in or a single point of failure.</p>

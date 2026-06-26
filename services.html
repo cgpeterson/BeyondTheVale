@@ -6,64 +6,6 @@
     <title>Services - Beyond The Vale | Cody Peterson Software Consulting</title>
     <meta name="description" content="Software consulting services: .NET architecture, Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .services-layout {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        .service-card {
-            background: radial-gradient(ellipse at top left, var(--galaxy-green-pearl), var(--galaxy-green-deep));
-            border: 1px solid var(--accent-gold);
-            padding: 2.5rem;
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.08);
-            display: flex;
-            flex-direction: column;
-        }
-        .service-card h2 {
-            color: var(--accent-gold-bright);
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-        .service-card p {
-            color: var(--text-main);
-            line-height: 1.7;
-            margin-bottom: 1rem;
-            flex: 1;
-        }
-        .service-engagement {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent-gold);
-            margin-bottom: 1.25rem;
-            font-weight: 600;
-        }
-        .service-tech {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        .service-tech strong {
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.75rem;
-        }
-        .service-card .btn {
-            align-self: flex-start;
-            margin-top: auto;
-        }
-        /* Mobile/responsive rules centralized in styles.css */
-    </style>
 </head>
 <body>
 <nav class="navbar">
@@ -95,7 +37,7 @@
     <section class="services-layout mt-large">
         <div class="services-grid">
 
-            <div class="service-card">
+            <div class="service-card reveal">
                 <h2>System Architecture &amp; Technical Strategy</h2>
                 <p class="service-engagement">Fixed-Scope Engagement &mdash; 2-Week Audit + Written Recommendations</p>
                 <p>Architecture reviews, greenfield system design, and modernization roadmaps for teams that need an outside eye before committing to a direction. You get a written deliverable: a clear assessment of what you have, what's fragile, and a prioritized path forward &mdash; with trade-offs explained, not glossed over.</p>
@@ -104,7 +46,7 @@
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card reveal">
                 <h2>Enterprise Platform Development</h2>
                 <p class="service-engagement">Project-Based or Retainer</p>
                 <p>Backend services, Azure integrations, and Dynamics 365 / Power Platform builds and customizations. This is the work of taking requirements that are vague on paper and making them real in production: designing data models, wiring up integrations, handling edge cases, and shipping something the business can rely on daily.</p>
@@ -113,7 +55,7 @@
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card reveal">
                 <h2>AI Integration Architecture</h2>
                 <p class="service-engagement">Project-Based</p>
                 <p>Production AI integrations using LLM APIs (Anthropic Claude, OpenAI, and others), including multi-provider abstraction layers, per-subsystem rate limiting, caching, fallback chains, and RAG patterns. Not chatbot wrappers &mdash; production-grade AI features built to stay up under real load, without vendor lock-in.</p>
@@ -122,7 +64,7 @@
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card reveal">
                 <h2>CI/CD &amp; DevOps Modernization</h2>
                 <p class="service-engagement">Project-Based</p>
                 <p>Pipeline design, build automation, and deployment modernization using Azure DevOps. I've cut deployment time by 94% &mdash; from 4 hours to 15 minutes &mdash; on a mission-critical government system, eliminating manual steps that were a source of human error and release anxiety.</p>
