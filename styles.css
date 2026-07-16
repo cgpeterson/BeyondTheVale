@@ -501,7 +501,7 @@ h1, h2, h3, .logo a {
     max-width: var(--container);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     background: var(--surface-panel);
     border: 1px solid var(--surface-line);
     border-radius: var(--r);
@@ -1025,9 +1025,10 @@ h1, h2, h3, .logo a {
     .nav-item { padding: 1.2rem 0; }
     .nav-link { font-size: 1rem; }
 
-    .metrics-bar { grid-template-columns: repeat(2, 1fr); padding: 1.25rem 0.5rem; }
-    .metric-item:nth-child(2)::after { display: none; }
-    .metric-item { padding: 0.75rem 0.5rem; }
+    .metrics-bar { grid-template-columns: 1fr; padding: 1.25rem 0.5rem; }
+    .metric-item::after { display: none; }
+    .metric-item:not(:last-child) { border-bottom: 1px solid var(--surface-line); }
+    .metric-item { padding: 1rem 0.5rem; }
 
     .detail-grid, .contact-grid { grid-template-columns: 1fr; }
     .category-grid { grid-template-columns: 1fr 1fr; }
