@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Tools - Beyond The Vale</title>
-        <link rel="stylesheet" href="../styles.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - Beyond The Vale</title>
+    <meta name="description" content="Developer tools by Cody Peterson, including IRIS Translator, an LLM-powered translation tool with a provider-agnostic abstraction layer.">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+</head>
 <body>
-        <nav class="navbar">
-                    <div class="nav-container">
-                                    <div class="logo">
-                                                        <a href="../index.html">Beyond The Vale</a>a>
-                                    </div>div>
-                                    <ul class="nav-menu">
-                                                        <li class="nav-item">
-                                                                                <a href="../index.html" class="nav-link">Home</a>a>
-                                                        </li>li>
-                                                        <li class="nav-item">
-                                                                                <a href="../about.html" class="nav-link">About</a>a>
-                                                        </li>li>
-                                                        <li class="nav-item">
-                                                                                <a href="../projects.html" class="nav-link active">Projects</a>a>
-                                                        </li>li>
-                                                        <li class="nav-item">
-                                                                                <a href="../contact.html" class="nav-link">Contact</a>a>
-                                                        </li>li>
-                                    </ul>ul>
-                                    <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
-                                                        <span class="bar"></span>span>
-                                                        <span class="bar"></span>span>
-                                                        <span class="bar"></span>span>
-                                    </button>button>
-                    </div>div>
-        </nav>nav>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html">Beyond The Vale</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../services.html" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
 
-        <main class="main-content">
-                    <section class="page-header">
-                                    <div class="breadcrumb">
-                                                        <a href="../projects.html">Projects</a>a> / Tools
-                                    </div>div>
-                                    <h1>&#x1F527; Tools</h1>
-                                <p>Utility applications and productivity tools</p>
-                    </section>section>
-        
-                <!-- Technology Filter -->
-                <section class="filter-section">
-                            <div class="filter-container">
-                                            <label for="tech-filter">Filter by Technology:</label>label>
-                                            <select id="tech-filter" class="tech-filter">
-                                                                <option value="all">All Technologies</option>option>
-                                            </select>select>
-                            </div>div>
-                </section>section>
-        
-                <section class="project-section">
-                            <div class="projects-grid">
-                                            <!-- IRISTranslator - Featured -->
-                                            <div class="project-card featured" data-technologies="JavaScript,Node.js,Google Gemini,AI,LLM,React,Vite,Vercel,npm workspaces">
-                                                                <h3>&#x2728; IRIS Translator</h3>
-                                                                <p class="project-tech">Technologies: JavaScript, React, Node.js, Google Gemini API, Vite, Vercel, npm workspaces</p>
-                                                                <p>An LLM-powered translation tool built on a custom abstraction layer that decouples the frontend from any specific AI provider. The monorepo architecture (npm workspaces) separates the React/Vite app, shared configuration, and the Gemini-backed stylist microservice into independent deployable units. 82 passing Vercel deployments.</p>
-                                                                <div class="project-links">
-                                                                                        <a href="https://iris-translator-delta.vercel.app/" class="btn-small" target="_blank" rel="noopener">Live Demo</a>a>
-                                                                                        <a href="https://github.com/cgpeterson/IRISTranslator" class="btn-small" target="_blank" rel="noopener">Source Code</a>a>
-                                                                </div>div>
-                                            </div>div>
-                            </div>div>
-                </section>section>
-        </main>main>
+    <main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../projects.html">Projects</a> / Tools
+            </div>
+            <h1>🔧 Tools</h1>
+            <p>Utility applications and productivity tools</p>
+        </section>
+
+        <!-- Technology Filter -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <label for="tech-filter">Filter by Technology:</label>
+                <select id="tech-filter" class="tech-filter">
+                    <option value="all">All Technologies</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <div class="projects-grid">
+                <!-- IRISTranslator - Featured -->
+                <div class="project-card featured" data-technologies="JavaScript,Node.js,Google Gemini,AI,LLM,React,Vite,Vercel,npm workspaces">
+                    <h3>&#x2728; IRIS Translator</h3>
+                    <p class="project-tech">Technologies: JavaScript, React, Node.js, Google Gemini API, Vite, Vercel, npm workspaces</p>
+                    <p>An LLM-powered translation tool built on a custom abstraction layer that decouples the frontend from any specific AI provider. The monorepo architecture (npm workspaces) separates the React/Vite app, shared configuration, and the Gemini-backed stylist microservice into independent deployable units. 82 passing Vercel deployments.</p>
+                    <div class="project-links">
+                        <a href="https://iris-translator-delta.vercel.app/" class="btn-small" target="_blank" rel="noopener">Live Demo</a>
+                        <a href="https://github.com/cgpeterson/IRISTranslator" class="btn-small" target="_blank" rel="noopener">Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="footer">
-            <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
-    </footer>footer>
+        <p>&copy; 2026 Beyond The Vale. All rights reserved.</p>
+    </footer>
 
     <script src="../script.js"></script>
 </body>
-</html>html></p></p></h1>
-</body></title>
-    </head>
+</html>
