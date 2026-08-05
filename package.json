@@ -1,0 +1,20 @@
+{
+  "name": "beyondthevale",
+  "private": true,
+  "version": "2.0.0",
+  "description": "beyondthevale.net — Cody Peterson's consulting site. Plain HTML/CSS/JS served by GitHub Pages; this package exists only for the dev/test toolchain.",
+  "type": "module",
+  "scripts": {
+    "serve": "http-server -p 8080 -c-1 .",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test \"tests/unit/*.test.mjs\"",
+    "test:e2e": "playwright test",
+    "validate:html": "html-validate index.html about.html services.html projects.html contact.html casestudies.html 404.html projects/fitness.html projects/games.html projects/tools.html projects/simulations.html"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.52.0",
+    "html-validate": "^9.5.0",
+    "http-server": "^14.1.1"
+  }
+}
