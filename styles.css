@@ -430,7 +430,7 @@ h1, h2, h3, .logo a {
     --gx: 78%; --gy: -6%; --ga: 196deg; --gi: 0.11;
 }
 
-.card h2, .project-card h3 {
+.card h2, .project-card h2, .project-card h3 {
     color: var(--text-main);
     margin-bottom: 1.25rem;
     font-size: 1.6rem;
@@ -711,6 +711,7 @@ h1, h2, h3, .logo a {
 /* Capability detail cards */
 .capability-details { margin-top: 4rem; }
 .capability-details .capabilities-bar { scroll-margin-top: 100px; }
+.service-card[id], .case-study-card[id] { scroll-margin-top: 100px; }
 .detail-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

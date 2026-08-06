@@ -2,7 +2,7 @@
 // network. Success shows a thank-you; failure falls back to the direct email.
 import { test, expect } from '@playwright/test';
 
-const FALLBACK_EMAIL = 'peterson.cody16@gmail.com';
+const FALLBACK_EMAIL = 'cody@beyondthevale.net';
 
 async function fillForm(page) {
     await page.locator('#contactName').fill('Test User');

@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Cody Peterson - Software Consultant | Beyond The Vale</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <meta name="description" content="Enterprise software consulting: C#/.NET architecture, Azure integrations, Power Platform, and production AI integrations for teams that cannot afford downtime.">
+    <meta name="description" content="Enterprise software consulting: C#/.NET architecture, Azure and Azure Government integrations, Power Platform, and production AI for teams that cannot afford downtime.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/">
+    <meta property="og:title" content="Cody Peterson - Software Consultant | Beyond The Vale">
+    <meta property="og:description" content="Enterprise software consulting: C#/.NET architecture, Azure and Azure Government integrations, Power Platform, and production AI for teams that cannot afford downtime.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -52,7 +58,7 @@
                 </div>
                 <div class="metric-item">
                     <span class="metric-number">4 yrs</span>
-                    <span class="metric-label">Mission-Critical Gov Systems</span>
+                    <span class="metric-label">Azure Government Platforms</span>
                 </div>
             </div>
         </section>
@@ -60,28 +66,33 @@
         <section class="content mt-xlarge reveal">
             <div class="section-intro">
                 <span class="eyebrow">What I Do</span>
-                <h2>Four ways I help teams ship and stay up</h2>
+                <h2>How I help teams ship and stay up</h2>
                 <p>Whether it&rsquo;s an architecture review or a production AI build, the job is the same. Figure out the real problem, plan for the ways it can break, and build it so it lasts.</p>
             </div>
             <div class="skills-grid">
-                <a href="services.html" class="skill-item skill-item--link">
+                <a href="services.html#architecture" class="skill-item skill-item--link">
                     <h3>System Architecture</h3>
                     <p>Architecture reviews, greenfield design, and modernization roadmaps, with the trade-offs explained instead of glossed over.</p>
                     <span class="skill-cta">Explore &rarr;</span>
                 </a>
-                <a href="services.html" class="skill-item skill-item--link">
+                <a href="services.html#enterprise" class="skill-item skill-item--link">
                     <h3>Enterprise Platforms</h3>
                     <p>Backend services, Azure integrations, and Dynamics 365 / Power Platform builds taken from vague requirements to reliable production.</p>
                     <span class="skill-cta">Explore &rarr;</span>
                 </a>
-                <a href="services.html" class="skill-item skill-item--link">
+                <a href="services.html#ai" class="skill-item skill-item--link">
                     <h3>AI Integration</h3>
                     <p>Production multi-provider LLM architecture that&rsquo;s resilient, observable, and hot-swappable. Not a chatbot wrapper.</p>
                     <span class="skill-cta">Explore &rarr;</span>
                 </a>
-                <a href="services.html" class="skill-item skill-item--link">
+                <a href="services.html#devops" class="skill-item skill-item--link">
                     <h3>CI/CD Modernization</h3>
                     <p>Pipeline design and deployment automation. I cut one government deploy from 4 hours to 15 minutes.</p>
+                    <span class="skill-cta">Explore &rarr;</span>
+                </a>
+                <a href="services.html#web" class="skill-item skill-item--link">
+                    <h3>Websites &amp; Custom Tools</h3>
+                    <p>Fixed-price business sites, internal tools, and automation scripts, built with the same discipline as the enterprise work.</p>
                     <span class="skill-cta">Explore &rarr;</span>
                 </a>
             </div>
@@ -90,7 +101,7 @@
         <section class="content mt-xlarge reveal">
             <a href="projects/simulations.html" class="sim-card" id="simCard" aria-label="Explore the interactive simulations">
                 <canvas id="simCanvas"></canvas>
-                <div class="sim-label" id="simLabel"></div>
+                <div class="sim-label" id="simLabel">Interactive Simulations</div>
             </a>
         </section>
 
@@ -105,13 +116,13 @@
                     <span class="detail-label">Azure &middot; Government</span>
                     <h3>Bulk Dataverse Import Pipeline</h3>
                     <p>Replaced weeks of manual data entry with an Azure Function pipeline. It took 40,000 individual API calls down to about 40 batched ones, and kept a full per-row audit trail.</p>
-                    <a href="casestudies.html" class="btn-small">Read Case Study</a>
+                    <a href="casestudies.html#dataverse-import" class="btn-small">Read Case Study</a>
                 </div>
                 <div class="detail-card">
                     <span class="detail-label">AI Integration</span>
                     <h3>Multi-Provider AI Layer</h3>
                     <p>A multi-provider LLM abstraction with per-subsystem rate limiting, caching, and fallback chains. Models are hot-swappable with zero application-side changes.</p>
-                    <a href="casestudies.html" class="btn-small">Read Case Study</a>
+                    <a href="casestudies.html#ai-integration" class="btn-small">Read Case Study</a>
                 </div>
             </div>
         </section>
@@ -129,7 +140,8 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 Beyond The Vale. Built with precision and intent.</p>
+        <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
+        <p><a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>
 
     <script src="script.js"></script>

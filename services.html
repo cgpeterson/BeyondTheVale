@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Services - Beyond The Vale | Cody Peterson Software Consulting</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <meta name="description" content="Software consulting services: .NET architecture, Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
+    <meta name="description" content="Software consulting services: .NET architecture, Azure Government and commercial Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/services.html">
+    <meta property="og:title" content="Services - Beyond The Vale | Cody Peterson Software Consulting">
+    <meta property="og:description" content="Software consulting services: .NET architecture, Azure Government and commercial Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -38,7 +44,7 @@
     <section class="services-layout mt-large">
         <div class="services-grid">
 
-            <div class="service-card reveal">
+            <div class="service-card reveal" id="architecture">
                 <h2>System Architecture &amp; Technical Strategy</h2>
                 <p class="service-engagement">Fixed-Scope Engagement &mdash; 2-Week Audit + Written Recommendations</p>
                 <p>Architecture reviews, greenfield system design, and modernization roadmaps for teams that need an outside eye before committing to a direction. You get a written deliverable: a clear assessment of what you have, what's fragile, and a prioritized path forward &mdash; with trade-offs explained, not glossed over.</p>
@@ -47,16 +53,16 @@
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card reveal">
+            <div class="service-card reveal" id="enterprise">
                 <h2>Enterprise Platform Development</h2>
                 <p class="service-engagement">Project-Based or Retainer</p>
                 <p>Backend services, Azure integrations, and Dynamics 365 / Power Platform builds and customizations. This is the work of taking requirements that are vague on paper and making them real in production: designing data models, wiring up integrations, handling edge cases, and shipping something the business can rely on daily.</p>
-                <p>I've done this at scale on a government platform serving hundreds of users at 99.9% uptime. I'm comfortable with the full lifecycle, not just the interesting parts.</p>
+                <p>I've done this at scale inside Azure Government, on a platform serving hundreds of users at 99.9% uptime. Authentication runs on managed identities rather than stored credentials, and row-level Dataverse security keeps each team's data scoped to exactly the people who should see it. I'm comfortable with the full lifecycle, not just the interesting parts.</p>
                 <div class="service-tech"><strong>Technologies:</strong> C# &middot; .NET &middot; Azure Functions &middot; Azure DevOps &middot; Dynamics 365 &middot; Power Platform &middot; Dataverse &middot; SharePoint &middot; Managed Identity &middot; SQL Server</div>
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card reveal">
+            <div class="service-card reveal" id="ai">
                 <h2>AI Integration Architecture</h2>
                 <p class="service-engagement">Project-Based</p>
                 <p>Production AI integrations using LLM APIs (Anthropic Claude, OpenAI, and others), including multi-provider abstraction layers, per-subsystem rate limiting, caching, fallback chains, and RAG patterns. Not chatbot wrappers &mdash; production-grade AI features built to stay up under real load, without vendor lock-in.</p>
@@ -65,12 +71,22 @@
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
-            <div class="service-card reveal">
+            <div class="service-card reveal" id="devops">
                 <h2>CI/CD &amp; DevOps Modernization</h2>
                 <p class="service-engagement">Project-Based</p>
                 <p>Pipeline design, build automation, and deployment modernization using Azure DevOps. I've cut deployment time by 94% &mdash; from 4 hours to 15 minutes &mdash; on a mission-critical government system, eliminating manual steps that were a source of human error and release anxiety.</p>
                 <p>If your team dreads deploys, ships less often than it should, or is running manual steps that should be automated, this is a high-leverage engagement with measurable results.</p>
                 <div class="service-tech"><strong>Technologies:</strong> Azure DevOps &middot; PowerShell &middot; YAML Pipelines &middot; Git &middot; Automated Testing &middot; Infrastructure as Code</div>
+                <a href="contact.html" class="btn">Scope a Project</a>
+            </div>
+
+            <div class="service-card reveal" id="web">
+                <h2>Business Websites &amp; Custom Tools</h2>
+                <p class="service-engagement">Fixed Price &middot; Typically 2-4 Weeks</p>
+                <p>The same engineering discipline, applied to smaller systems: business sites, internal tools, console apps, and automation scripts. These are fixed-price engagements, not hourly &mdash; the scope and the cost are known before the work starts, and they stay known.</p>
+                <p>Everything is built to be fast, accessible, and actually findable in search, which is where most small-business sites quietly fail. Optional ongoing maintenance keeps it patched and current after launch so it doesn't rot.</p>
+                <p><strong>Business sites start at $4,500. Custom internal tools start at $6,000. Maintenance retainers from $200/month.</strong></p>
+                <div class="service-tech"><strong>Technologies:</strong> Static Site Architecture &middot; JavaScript &middot; HTML/CSS &middot; Headless CMS &middot; Performance Optimization &middot; SEO Fundamentals &middot; Accessibility (WCAG 2.1)</div>
                 <a href="contact.html" class="btn">Scope a Project</a>
             </div>
 
@@ -85,7 +101,8 @@
 </main>
 
 <footer class="footer">
-    <p>&copy; 2026 Beyond The Vale. Built with precision and intent.</p>
+    <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
+    <p><a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
 </footer>
 
 <script src="script.js"></script>

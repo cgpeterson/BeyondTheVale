@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>A* Pathfinding - Beyond The Vale</title>
+    <meta name="description" content="Interactive A* pathfinding visualizer: place walls, set start and end points, and watch the search algorithm find the shortest path across the grid.">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
+        main { display: flex; flex-direction: column; align-items: center; width: 100%; }
         h1 { font-size: 1.4rem; color: #c5a059; margin-bottom: 0.5rem; }
         .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.5rem; }
         button { background: #011a13; color: #c5a059; border: 1px solid #c5a059; padding: 0.4rem 0.8rem; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; transition: background 0.2s; }
@@ -28,6 +30,7 @@
     </style>
 </head>
 <body>
+    <main>
     <h1>A* Pathfinding</h1>
     <div class="info">Click: place walls | Shift+click: set start | Ctrl+click: set end</div>
     <div class="legend">
@@ -48,6 +51,7 @@
     </div>
     <canvas id="c"></canvas>
     <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
+    </main>
     <script>
     (function() {
         const canvas = document.getElementById('c');

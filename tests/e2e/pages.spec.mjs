@@ -16,6 +16,7 @@ const CHROME_PAGES = [
     '/projects/games.html',
     '/projects/tools.html',
     '/projects/simulations.html',
+    '/projects/fitness/fitness-level-tracking/',
 ];
 
 // Standalone full-screen pages (no site chrome, own styles).
