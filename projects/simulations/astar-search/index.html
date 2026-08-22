@@ -6,6 +6,27 @@
     <title>A* Pathfinding - Beyond The Vale</title>
     <meta name="description" content="Interactive A* pathfinding visualizer: place walls, set start and end points, and watch the search algorithm find the shortest path across the grid.">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/projects/simulations/astar-search/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/projects/simulations/astar-search/">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:title" content="A* Pathfinding - Beyond The Vale">
+    <meta property="og:description" content="Interactive A* pathfinding visualizer: place walls, set start and end points, and watch the search algorithm find the shortest path across the grid.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Simulations", "item": "https://beyondthevale.net/projects/simulations.html" },
+            { "@type": "ListItem", "position": 4, "name": "A* Pathfinding", "item": "https://beyondthevale.net/projects/simulations/astar-search/" }
+        ]
+    }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
@@ -27,6 +48,10 @@
         canvas { border: 1px solid #c5a059; cursor: crosshair; max-width: 100%; }
         a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
         a.back:hover { color: #f3e5ab; }
+        .explainer { max-width: 640px; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(197,160,89,0.2); }
+        .explainer h2 { font-size: 0.95rem; color: #ecdcad; margin-bottom: 0.5rem; }
+        .explainer p { font-size: 0.85rem; line-height: 1.7; color: #b8b3c4; margin-bottom: 0.85rem; }
+        .explainer p:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -50,6 +75,14 @@
         <button id="diagBtn">Diag: On</button>
     </div>
     <canvas id="c"></canvas>
+
+    <section class="explainer">
+        <h2>About this simulation</h2>
+        <p>A* (pronounced "A-star") is a graph search algorithm that finds the shortest path between two points while exploring far fewer nodes than a naive breadth-first search. It works by scoring every candidate cell with <code>f = g + h</code>: <code>g</code> is the actual cost from the start, and <code>h</code> is a heuristic estimate of the remaining distance to the goal. By always expanding the cell with the lowest combined score, the search stays biased toward the goal instead of fanning out in every direction.</p>
+        <p>It's the algorithm behind most real-time pathfinding &mdash; game NPCs navigating a level, robotics motion planning, and routing engines all lean on the same idea. The trade-off is the heuristic: a good one (like the Chebyshev distance used here, since diagonal movement is allowed) keeps the search fast and still guarantees the shortest path; a bad one can make it slower than brute force or wrong altogether.</p>
+        <p>This implementation visualizes the search live: cells in the open set (still being considered) and the closed set (already evaluated) are colored separately, so you can watch the frontier expand toward the goal step by step, or run it to completion and see the final path highlighted.</p>
+    </section>
+
     <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
     </main>
     <script>

@@ -8,8 +8,6 @@
    specular highlight that gives "gloss."
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap');
-
 :root {
     /* ---- Racing Green ramp (the surface / the material) ---- */
     --green-100: #C2E5D6;
@@ -1007,10 +1005,6 @@ h1, h2, h3, .logo a {
    ============================================================ */
 @media screen and (max-width: 900px) {
     .services-grid { grid-template-columns: 1fr; }
-}
-
-@media screen and (max-width: 768px) {
-    body { background-attachment: scroll; }
 
     .hamburger { display: flex; }
     .nav-menu {
@@ -1030,6 +1024,10 @@ h1, h2, h3, .logo a {
     .nav-menu.active { left: 0; }
     .nav-item { padding: 1.2rem 0; }
     .nav-link { font-size: 1rem; }
+}
+
+@media screen and (max-width: 768px) {
+    body { background-attachment: scroll; }
 
     .metrics-bar { grid-template-columns: 1fr; padding: 1.25rem 0.5rem; }
     .metric-item::after { display: none; }

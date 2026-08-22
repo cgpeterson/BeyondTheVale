@@ -6,10 +6,34 @@
     <title>Hollow Duel — Multiplayer Souls Combat</title>
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
     <meta name="description" content="A 3D souls-like multiplayer combat game built with Three.js and Firebase. Fight procedurally generated bosses with friends.">
+    <link rel="canonical" href="https://beyondthevale.net/projects/games/hollow-duel/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/projects/games/hollow-duel/">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:title" content="Hollow Duel — Multiplayer Souls Combat">
+    <meta property="og:description" content="A 3D souls-like multiplayer combat game built with Three.js and Firebase. Fight procedurally generated bosses with friends.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Games", "item": "https://beyondthevale.net/projects/games.html" },
+            { "@type": "ListItem", "position": 4, "name": "Hollow Duel", "item": "https://beyondthevale.net/projects/games/hollow-duel/" }
+        ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -54,6 +78,7 @@
                 <p><span class="key">WASD</span> Move &nbsp;&nbsp; <span class="key">SPACE</span> Dash &nbsp;&nbsp; <span class="key">E</span> Heal &nbsp;&nbsp; <span class="key">L-CLICK</span> Attack (hold heavy) &nbsp;&nbsp; <span class="key">R-CLICK</span> Deflect</p>
                 <p><span class="key">L-STICK</span> Move &nbsp;&nbsp; <span class="key">A</span> Dash &nbsp;&nbsp; <span class="key">Y</span> Heal &nbsp;&nbsp; <span class="key">X / RB</span> Attack &nbsp;&nbsp; <span class="key">LB</span> Deflect</p>
             </div>
+            <p class="about-blurb">Hollow Duel is a Souls-like multiplayer boss fight built with Three.js and Firebase Realtime Database for authoritative state sync. Parry timing, stamina management, and a posture-break system drive the combat; the boss and its arena are procedurally varied by name and map seed each session. Everyone who joins with the same boss name fights the same fight together.</p>
         </div>
 
         <!-- HUD -->

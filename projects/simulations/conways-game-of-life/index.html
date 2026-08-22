@@ -6,6 +6,27 @@
     <title>Conway's Game of Life - Beyond The Vale</title>
     <meta name="description" content="Interactive Conway's Game of Life simulation: draw cells, adjust speed, and watch the classic cellular automaton evolve on a wrapping grid.">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/projects/simulations/conways-game-of-life/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/projects/simulations/conways-game-of-life/">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:title" content="Conway's Game of Life - Beyond The Vale">
+    <meta property="og:description" content="Interactive Conway's Game of Life simulation: draw cells, adjust speed, and watch the classic cellular automaton evolve on a wrapping grid.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Simulations", "item": "https://beyondthevale.net/projects/simulations.html" },
+            { "@type": "ListItem", "position": 4, "name": "Conway's Game of Life", "item": "https://beyondthevale.net/projects/simulations/conways-game-of-life/" }
+        ]
+    }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
@@ -19,6 +40,10 @@
         canvas { border: 1px solid #c5a059; cursor: crosshair; max-width: 100%; }
         a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
         a.back:hover { color: #f3e5ab; }
+        .explainer { max-width: 640px; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(197,160,89,0.2); }
+        .explainer h2 { font-size: 0.95rem; color: #ecdcad; margin-bottom: 0.5rem; }
+        .explainer p { font-size: 0.85rem; line-height: 1.7; color: #b8b3c4; margin-bottom: 0.85rem; }
+        .explainer p:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -33,6 +58,14 @@
         <button id="speedBtn">Speed: 10</button>
     </div>
     <canvas id="c"></canvas>
+
+    <section class="explainer">
+        <h2>About this simulation</h2>
+        <p>Conway's Game of Life is a zero-player cellular automaton devised by mathematician John Conway in 1970. Every cell on the grid is either alive or dead, and the entire next generation is determined in one pass from four rules: a live cell with 2 or 3 live neighbors survives, a dead cell with exactly 3 live neighbors becomes alive, and every other cell dies or stays dead. No randomness, no player input after the first move &mdash; just those rules, applied simultaneously to every cell, generation after generation.</p>
+        <p>What makes it interesting is how much complexity falls out of such a small rule set: stable shapes that never change, oscillators that repeat in a fixed cycle, and gliders that translate across the grid indefinitely. It's a small, self-contained example of emergent behavior &mdash; the same kind of complexity-from-simple-rules that shows up in real distributed and multi-agent systems.</p>
+        <p>This implementation grid-wraps at the edges (a cell that walks off the right side reappears on the left), runs on double-buffered typed arrays for performance, and lets you draw or erase live cells directly by clicking or dragging on the canvas.</p>
+    </section>
+
     <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
     </main>
     <script>

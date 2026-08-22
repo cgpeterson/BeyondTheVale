@@ -6,7 +6,23 @@
     <title>Fitness Level Tracking - Beyond The Vale</title>
     <meta name="description" content="Fitness Level Tracking: a data-driven C#/.NET Windows desktop application for coaches and athletes to track physical metrics and progress over time.">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/projects/fitness/fitness-level-tracking/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../styles.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Fitness", "item": "https://beyondthevale.net/projects/fitness.html" },
+            { "@type": "ListItem", "position": 4, "name": "Fitness Level Tracking", "item": "https://beyondthevale.net/projects/fitness/fitness-level-tracking/" }
+        ]
+    }
+    </script>
     <style>
         /* Project Detail Page Styles */
         .project-detail {
@@ -65,40 +81,6 @@
             margin-bottom: 3rem;
         }
         
-        .screenshot-gallery {
-            margin: 3rem 0;
-        }
-        
-        .screenshot-gallery h2 {
-            color: var(--accent-gold);
-            margin-bottom: 1.5rem;
-        }
-        
-        .screenshot-placeholder {
-            background: rgba(255, 255, 255, 0.02);
-            border: 2px dashed var(--glass-white);
-            padding: 4rem 2rem;
-            text-align: center;
-            color: var(--text-muted);
-        }
-        
-        .screenshot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .screenshot-grid img {
-            width: 100%;
-            border: 1px solid var(--glass-white);
-            border-radius: 4px;
-            transition: transform 0.3s ease;
-        }
-        
-        .screenshot-grid img:hover {
-            transform: scale(1.02);
-        }
-        
         .feature-list {
             margin: 3rem 0;
         }
@@ -151,11 +133,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="../../../index.html">Beyond The Vale</a>
+                <a href="/">Beyond The Vale</a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="../../../index.html" class="nav-link">Home</a>
+                    <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../../about.html" class="nav-link">About</a>
@@ -165,6 +147,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="../../../projects.html" class="nav-link active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../../casestudies.html" class="nav-link">Case Studies</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../../contact.html" class="nav-link">Contact</a>
@@ -231,25 +216,6 @@
                 </ul>
             </div>
 
-            <!-- Screenshots -->
-            <div class="screenshot-gallery">
-                <h2>Screenshots</h2>
-                <div class="screenshot-placeholder">
-                    <p>📸 Add screenshots of your application here</p>
-                    <p style="font-size: 0.85rem; margin-top: 1rem;">
-                        Place images in this folder and update the HTML:<br>
-                        <code>projects/fitness/fitness-level-tracking/screenshots/</code>
-                    </p>
-                </div>
-                <!-- Uncomment and update when you have screenshots
-                <div class="screenshot-grid">
-                    <img src="screenshots/main-dashboard.png" alt="Main Dashboard">
-                    <img src="screenshots/workout-log.png" alt="Workout Log">
-                    <img src="screenshots/progress-chart.png" alt="Progress Chart">
-                </div>
-                -->
-            </div>
-
             <!-- Download Section -->
             <div class="download-section">
                 <h2>Download</h2>
@@ -263,7 +229,7 @@
 
     <footer class="footer">
         <p>&copy; 2026 Beyond The Vale LLC. All rights reserved.</p>
-        <p><a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
+        <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>
 
     <script src="../../../script.js"></script>

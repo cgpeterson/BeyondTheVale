@@ -9,7 +9,8 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test \"tests/unit/*.test.mjs\"",
     "test:e2e": "playwright test",
-    "validate:html": "html-validate index.html about.html services.html projects.html contact.html casestudies.html 404.html projects/fitness.html projects/games.html projects/tools.html projects/simulations.html"
+    "validate:html": "html-validate index.html about.html services.html projects.html contact.html casestudies.html 404.html services/business-websites.html services/enterprise-platform-development.html projects/fitness.html projects/games.html projects/tools.html projects/simulations.html projects/fitness/fitness-level-tracking/index.html projects/games/hollow-duel/index.html projects/simulations/astar-search/index.html projects/simulations/conways-game-of-life/index.html projects/simulations/sorting-algorithms/index.html",
+    "notify:indexnow": "node scripts/indexnow.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",

@@ -3,20 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Simulations - Beyond The Vale</title>
+    <title>Algorithm Simulations &amp; Visualizations | Cody Peterson</title>
     <meta name="description" content="Interactive algorithm visualizations by Cody Peterson: Conway's Game of Life, A* pathfinding, and sorting algorithms.">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/projects/simulations.html">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/projects/simulations.html">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Algorithm Simulations &amp; Visualizations | Cody Peterson">
+    <meta property="og:description" content="Interactive algorithm visualizations by Cody Peterson: Conway's Game of Life, A* pathfinding, and sorting algorithms.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Simulations", "item": "https://beyondthevale.net/projects/simulations.html" }
+        ]
+    }
+    </script>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="../index.html">Beyond The Vale</a>
+                <a href="/">Beyond The Vale</a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="../about.html" class="nav-link">About</a>
@@ -26,6 +52,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="../projects.html" class="nav-link active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../casestudies.html" class="nav-link">Case Studies</a>
                 </li>
                 <li class="nav-item">
                     <a href="../contact.html" class="nav-link">Contact</a>
@@ -55,7 +84,7 @@
                     <p class="project-tech">Technologies: JavaScript, Canvas, Cellular Automata</p>
                     <p>A streamlined implementation of Conway's classic cellular automaton. Features draw-to-paint cells, adjustable speed, and wrapping grid edges. Built with typed arrays and canvas for maximum performance.</p>
                     <div class="project-links">
-                        <a href="simulations/conways-game-of-life/index.html" class="btn-small">Run Simulation</a>
+                        <a href="simulations/conways-game-of-life/" class="btn-small">Run Simulation</a>
                     </div>
                 </div>
 
@@ -64,7 +93,7 @@
                     <p class="project-tech">Technologies: JavaScript, Canvas, A* Algorithm</p>
                     <p>An interactive A* search visualization. Draw walls, place start and end points, then watch the algorithm explore. Supports diagonal movement, step-through mode, and random maze generation.</p>
                     <div class="project-links">
-                        <a href="simulations/astar-search/index.html" class="btn-small">Run Simulation</a>
+                        <a href="simulations/astar-search/" class="btn-small">Run Simulation</a>
                     </div>
                 </div>
 
@@ -73,7 +102,7 @@
                     <p class="project-tech">Technologies: JavaScript, Canvas, Sorting Algorithms</p>
                     <p>Compare Merge Sort, Quick Sort, Heap Sort, and Shell Sort side by side. Visualizes comparisons, swaps, and sorted regions in real time with adjustable speed and array size.</p>
                     <div class="project-links">
-                        <a href="simulations/sorting-algorithms/index.html" class="btn-small">Run Simulation</a>
+                        <a href="simulations/sorting-algorithms/" class="btn-small">Run Simulation</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +111,7 @@
 
     <footer class="footer">
         <p>&copy; 2026 Beyond The Vale LLC. All rights reserved.</p>
-        <p><a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
+        <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>
 
     <script src="../script.js"></script>

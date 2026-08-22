@@ -6,6 +6,27 @@
     <title>Sorting Algorithms - Beyond The Vale</title>
     <meta name="description" content="Interactive sorting visualizer comparing Merge Sort, Quick Sort, Heap Sort, and Shell Sort with live comparison counts and adjustable speed.">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/projects/simulations/sorting-algorithms/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beyondthevale.net/projects/simulations/sorting-algorithms/">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:title" content="Sorting Algorithms - Beyond The Vale">
+    <meta property="og:description" content="Interactive sorting visualizer comparing Merge Sort, Quick Sort, Heap Sort, and Shell Sort with live comparison counts and adjustable speed.">
+    <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://beyondthevale.net/" },
+            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://beyondthevale.net/projects.html" },
+            { "@type": "ListItem", "position": 3, "name": "Simulations", "item": "https://beyondthevale.net/projects/simulations.html" },
+            { "@type": "ListItem", "position": 4, "name": "Sorting Algorithms", "item": "https://beyondthevale.net/projects/simulations/sorting-algorithms/" }
+        ]
+    }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0d0515; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 1rem; }
@@ -26,6 +47,10 @@
         canvas { border: 1px solid #c5a059; max-width: 100%; }
         a.back { color: #c5a059; font-size: 0.8rem; margin-top: 0.75rem; text-decoration: none; }
         a.back:hover { color: #f3e5ab; }
+        .explainer { max-width: 640px; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(197,160,89,0.2); }
+        .explainer h2 { font-size: 0.95rem; color: #ecdcad; margin-bottom: 0.5rem; }
+        .explainer p { font-size: 0.85rem; line-height: 1.7; color: #b8b3c4; margin-bottom: 0.85rem; }
+        .explainer p:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -47,6 +72,14 @@
         <button id="speedBtn">Speed: Fast</button>
     </div>
     <canvas id="c"></canvas>
+
+    <section class="explainer">
+        <h2>About this visualizer</h2>
+        <p>Four classic comparison-based sorting algorithms, run on the same shuffled array so their behavior is directly comparable. <strong style="color:#ecdcad;">Merge Sort</strong> splits the array in half recursively and merges the sorted halves back together &mdash; always O(n log n), stable, but needs auxiliary memory. <strong style="color:#ecdcad;">Quick Sort</strong> partitions around a pivot and recurses on each side &mdash; fast in practice and in-place, but its worst case degrades to O(n&sup2;) on already-sorted or adversarial input.</p>
+        <p><strong style="color:#ecdcad;">Heap Sort</strong> builds a binary max-heap from the array, then repeatedly extracts the maximum &mdash; guaranteed O(n log n) with no extra memory, at the cost of worse cache locality than Merge or Quick Sort. <strong style="color:#ecdcad;">Shell Sort</strong> is an extension of insertion sort that compares elements a decreasing "gap" apart, moving values closer to their final position early so the final full pass is nearly free.</p>
+        <p>Each run records the actual comparison and swap operations as they happen, then replays them against the canvas so the highlighted colors (comparing, swapping, sorted) reflect the algorithm's real behavior rather than a scripted animation.</p>
+    </section>
+
     <a class="back" href="../../simulations.html">&larr; Back to Simulations</a>
     </main>
     <script>

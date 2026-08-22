@@ -5,26 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Services - Beyond The Vale | Cody Peterson Software Consulting</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://beyondthevale.net/services.html">
     <meta name="description" content="Software consulting services: .NET architecture, Azure Government and commercial Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beyondthevale.net/services.html">
+    <meta property="og:site_name" content="Beyond The Vale">
+    <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Services - Beyond The Vale | Cody Peterson Software Consulting">
     <meta property="og:description" content="Software consulting services: .NET architecture, Azure Government and commercial Azure integrations, Power Platform, AI integration architecture, and CI/CD modernization for enterprise and government teams.">
     <meta property="og:image" content="https://beyondthevale.net/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Beyond The Vale &mdash; Enterprise Systems That Hold Up Under Pressure.">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Services - Beyond The Vale | Cody Peterson Software Consulting">
+    <meta name="twitter:description" content="Software consulting services: .NET architecture, Azure Government, Power Platform, AI integration, and CI/CD modernization.">
+    <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Beyond The Vale LLC",
+        "url": "https://beyondthevale.net/",
+        "logo": "https://beyondthevale.net/favicon.svg",
+        "image": "https://beyondthevale.net/og-image.png",
+        "email": "cody@beyondthevale.net",
+        "telephone": "+1-208-371-3525",
+        "address": { "@type": "PostalAddress", "addressLocality": "Boise", "addressRegion": "ID", "addressCountry": "US" },
+        "areaServed": "US",
+        "sameAs": ["https://www.linkedin.com/in/cody-peterson-837526129"],
+        "founder": {
+            "@type": "Person",
+            "name": "Cody Peterson",
+            "jobTitle": "Software Architect & Consultant",
+            "sameAs": ["https://www.linkedin.com/in/cody-peterson-837526129"]
+        },
+        "makesOffer": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "System Architecture & Technical Strategy", "description": "Architecture reviews, greenfield system design, and modernization roadmaps.", "url": "https://beyondthevale.net/services.html#architecture" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Enterprise Platform Development", "description": "Backend services, Azure integrations, and Dynamics 365 / Power Platform builds, including Azure Government work.", "url": "https://beyondthevale.net/services/enterprise-platform-development.html" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Integration Architecture", "description": "Production multi-provider LLM integrations: rate limiting, caching, fallback chains, and RAG patterns.", "url": "https://beyondthevale.net/services.html#ai" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CI/CD & DevOps Modernization", "description": "Pipeline design and deployment automation using Azure DevOps.", "url": "https://beyondthevale.net/services.html#devops" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business Websites & Custom Tools", "description": "Fixed-price business sites and internal tools, built fast, accessible, and findable in search.", "url": "https://beyondthevale.net/services/business-websites.html" } }
+        ]
+    }
+    </script>
 </head>
 <body>
 <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
-            <a href="index.html">BEYOND THE VALE</a>
+            <a href="/">BEYOND THE VALE</a>
         </div>
         <ul class="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
             <li class="nav-item"><a href="services.html" class="nav-link active">Services</a></li>
             <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+            <li class="nav-item"><a href="casestudies.html" class="nav-link">Case Studies</a></li>
             <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
         </ul>
         <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -56,10 +97,10 @@
             <div class="service-card reveal" id="enterprise">
                 <h2>Enterprise Platform Development</h2>
                 <p class="service-engagement">Project-Based or Retainer</p>
-                <p>Backend services, Azure integrations, and Dynamics 365 / Power Platform builds and customizations. This is the work of taking requirements that are vague on paper and making them real in production: designing data models, wiring up integrations, handling edge cases, and shipping something the business can rely on daily.</p>
-                <p>I've done this at scale inside Azure Government, on a platform serving hundreds of users at 99.9% uptime. Authentication runs on managed identities rather than stored credentials, and row-level Dataverse security keeps each team's data scoped to exactly the people who should see it. I'm comfortable with the full lifecycle, not just the interesting parts.</p>
-                <div class="service-tech"><strong>Technologies:</strong> C# &middot; .NET &middot; Azure Functions &middot; Azure DevOps &middot; Dynamics 365 &middot; Power Platform &middot; Dataverse &middot; SharePoint &middot; Managed Identity &middot; SQL Server</div>
-                <a href="contact.html" class="btn">Scope a Project</a>
+                <p>Backend services, Azure integrations, and Dynamics 365 / Power Platform builds and customizations &mdash; including deep experience inside Azure Government: Managed Identity auth, row-level Dataverse security, and full audit trails on data pipelines.</p>
+                <p>Done at scale on a platform serving hundreds of users at 99.9% uptime. See the full breakdown for the Azure Government specifics and a linked case study.</p>
+                <div class="service-tech"><strong>Technologies:</strong> C# &middot; .NET &middot; Azure Functions &middot; Dynamics 365 &middot; Power Platform &middot; Dataverse &middot; Managed Identity</div>
+                <a href="services/enterprise-platform-development.html" class="btn">Read the Full Breakdown</a>
             </div>
 
             <div class="service-card reveal" id="ai">
@@ -83,11 +124,10 @@
             <div class="service-card reveal" id="web">
                 <h2>Business Websites &amp; Custom Tools</h2>
                 <p class="service-engagement">Fixed Price &middot; Typically 2-4 Weeks</p>
-                <p>The same engineering discipline, applied to smaller systems: business sites, internal tools, console apps, and automation scripts. These are fixed-price engagements, not hourly &mdash; the scope and the cost are known before the work starts, and they stay known.</p>
-                <p>Everything is built to be fast, accessible, and actually findable in search, which is where most small-business sites quietly fail. Optional ongoing maintenance keeps it patched and current after launch so it doesn't rot.</p>
+                <p>The same engineering discipline, applied to smaller systems: business sites, internal tools, and automation scripts for Boise-area businesses and beyond. Fixed-price, fast, accessible, and built to actually be found in search.</p>
                 <p><strong>Business sites start at $4,500. Custom internal tools start at $6,000. Maintenance retainers from $200/month.</strong></p>
-                <div class="service-tech"><strong>Technologies:</strong> Static Site Architecture &middot; JavaScript &middot; HTML/CSS &middot; Headless CMS &middot; Performance Optimization &middot; SEO Fundamentals &middot; Accessibility (WCAG 2.1)</div>
-                <a href="contact.html" class="btn">Scope a Project</a>
+                <div class="service-tech"><strong>Technologies:</strong> Static Site Architecture &middot; JavaScript &middot; HTML/CSS &middot; Performance Optimization &middot; SEO Fundamentals</div>
+                <a href="services/business-websites.html" class="btn">Read the Full Breakdown</a>
             </div>
 
         </div>
@@ -102,7 +142,7 @@
 
 <footer class="footer">
     <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
-    <p><a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
+    <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
 </footer>
 
 <script src="script.js"></script>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-
 :root {
     --blood: #c0392b;
     --blood-bright: #e74c3c;
@@ -321,6 +319,20 @@ button {
     font-weight: 500;
     letter-spacing: 0.03em;
     background: rgba(255,255,255,0.02);
+}
+
+/* About blurb */
+.about-blurb {
+    margin-top: 28px;
+    max-width: 560px;
+    color: rgba(138, 133, 120, 0.55);
+    text-align: center;
+    font-size: 0.78rem;
+    line-height: 1.75;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+    animation: subtitleFadeIn 2s ease-out 0.8s both;
 }
 
 /* Color Picker */
