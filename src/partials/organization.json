@@ -11,7 +11,7 @@
     "telephone": "+1-208-371-3525",
     "address": { "@type": "PostalAddress", "addressLocality": "Boise", "addressRegion": "ID", "addressCountry": "US" },
     "areaServed": [ { "@type": "City", "name": "Boise" }, { "@type": "State", "name": "Idaho" }, { "@type": "Country", "name": "US" } ],
-    "sameAs": ["https://www.linkedin.com/in/cody-peterson-837526129", "https://github.com/cgpeterson"],
+    "sameAs": ["https://www.linkedin.com/in/cody-peterson-837526129", "https://github.com/cgpeterson", "https://clutch.co/profile/beyond-vale", "https://www.goodfirms.co/company/beyond-the-vale-llc"],
     "knowsAbout": ["Microsoft Power Platform", "Power Apps", "Power Automate", "Dynamics 365", "Dataverse", "C#", ".NET", "Azure", "Azure Government", "AI Integration", "Large Language Models", "Python", "C++", "JavaScript", "React", "OpenCV", "Unity"],
     "founder": {
         "@type": "Person",
