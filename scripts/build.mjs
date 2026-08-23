@@ -8,7 +8,7 @@ import { ORIGIN, SRC_PAGES, STANDALONE_PAGES, REDIRECTS, pageList, expectedCanon
 
 const NAV_KEYS = ['home', 'about', 'services', 'work', 'casestudies', 'contact'];
 const OG_IMAGE = `${ORIGIN}/og-image.png`;
-const DEFAULT_OG_ALT = 'Beyond The Vale &mdash; Enterprise Systems That Hold Up Under Pressure.';
+const DEFAULT_OG_ALT = 'Beyond The Vale &mdash; Custom software for any job, any size.';
 
 const read = (p) => fs.readFileSync(p, 'utf8');
 const layout = read('src/layout.html');
@@ -140,10 +140,12 @@ export function renderRedirect(to) {
 `;
 }
 
+/** Last commit date of a file, or today if it is new or has uncommitted changes. */
 function gitDate(file) {
     try {
+        const dirty = execSync(`git status --porcelain -- "${file}"`, { encoding: 'utf8' }).trim() !== '';
         const out = execSync(`git log -1 --format=%cs -- "${file}"`, { encoding: 'utf8' }).trim();
-        if (/^\d{4}-\d{2}-\d{2}$/.test(out)) return out;
+        if (!dirty && /^\d{4}-\d{2}-\d{2}$/.test(out)) return out;
     } catch { /* not a git checkout */ }
     return new Date().toISOString().slice(0, 10);
 }

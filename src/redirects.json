@@ -1,1 +1,4 @@
-{}
+{
+    "services/enterprise-platform-development.html": "/services/dotnet-development.html",
+    "projects/fitness.html": "/projects/tools.html"
+}

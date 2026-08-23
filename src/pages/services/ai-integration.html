@@ -1,0 +1,87 @@
+<!--
+{
+    "title": "AI Integration Consultant for Business Software | Beyond The Vale",
+    "description": "Add LLM features to your software the right way: multi-provider abstraction, rate limiting, caching, fallbacks, and RAG. Production AI integration from Boise, Idaho.",
+    "nav": "services",
+    "priority": 0.8,
+    "breadcrumbs": [
+        { "name": "Services", "path": "services.html" },
+        { "name": "AI Integration" }
+    ],
+    "jsonld": [
+        {
+            "@type": "Service",
+            "serviceType": "AI Integration",
+            "name": "AI Integration & Custom AI Tools",
+            "description": "LLM features and custom AI tools built with multi-provider abstraction, rate limiting, caching, fallback chains, and RAG.",
+            "provider": { "@type": "ProfessionalService", "name": "Beyond The Vale LLC", "url": "https://beyondthevale.net/" },
+            "areaServed": { "@type": "Country", "name": "US" },
+            "url": "https://beyondthevale.net/services/ai-integration.html"
+        }
+    ]
+}
+-->
+<main class="main-content">
+    <header class="page-header">
+        <div class="breadcrumb">
+            <a href="../services.html">Services</a> / AI Integration
+        </div>
+        <h1>AI Integration &amp; Custom AI Tools</h1>
+        <p>LLM features inside the software you already have, or standalone tools built around your data. Built to keep working when the provider doesn&rsquo;t.</p>
+    </header>
+
+    <section class="about-layout mt-large">
+        <div class="about-card about-card--bio">
+            <h2>Not a chatbot wrapper</h2>
+            <p>Calling an LLM API is the easy part. The hard part is everything around it: what happens when the provider rate-limits you, when a model gets deprecated, when the same question gets asked 10,000 times, when the answer has to come from your documents and not the internet. I build that part.</p>
+            <p>I use these tools every day myself (Claude API, Claude Code) and I&rsquo;ve shipped production AI integrations, so I know the difference between a demo that works once and a feature that works at 2 a.m. on a Sunday. I work in this space as an architect, not just a user.</p>
+        </div>
+
+        <div class="capabilities-bar">
+            <h2>What I build</h2>
+        </div>
+        <div class="about-card about-card--bio about-card--spaced">
+            <ul class="feature-list">
+                <li><strong>LLM features inside your app</strong>: .NET, Power Platform, or web. Summarization, extraction, classification, drafting, search over your own data.</li>
+                <li><strong>Custom AI tools</strong> for one job done well, like a translator with a provider-agnostic backend or an internal assistant that only knows your documents.</li>
+                <li><strong>Multi-provider abstraction</strong> so you can move between Anthropic, OpenAI, and others without touching application code.</li>
+                <li><strong>Rate limiting, caching, and fallback chains</strong> per feature, so one noisy subsystem can&rsquo;t take down the rest.</li>
+                <li><strong>RAG pipelines</strong> (retrieval over your data with a vector database) when the use case actually calls for it, and a straight answer when it doesn&rsquo;t.</li>
+                <li><strong>Observability and evals</strong> so you can see what the model is doing and tell when it gets worse.</li>
+            </ul>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-card reveal">
+                <span class="detail-label">Engagement</span>
+                <h3>Project-Based</h3>
+                <p>Usually starts with a short discovery to figure out whether AI is the right tool for the problem at all. If it is, I scope the build with a written plan and a price. If it isn&rsquo;t, I&rsquo;ll say so and suggest what is.</p>
+            </div>
+            <div class="detail-card reveal">
+                <span class="detail-label">Proof</span>
+                <h3>Multi-Provider AI Layer</h3>
+                <p>Four independent AI subsystems behind one provider interface, each with its own rate limits, cache, and fallback chain. Swap the model and nothing else changes.</p>
+                <a href="../casestudies.html#ai-integration" class="btn-small">Read Case Study</a>
+            </div>
+            <div class="detail-card reveal">
+                <span class="detail-label">Proof</span>
+                <h3>IRIS Translator</h3>
+                <p>An LLM-powered translation tool whose front end doesn&rsquo;t know or care which model is behind it. React, Node, and a Gemini-backed microservice in a monorepo, 80+ production deploys.</p>
+                <a href="../projects/tools.html" class="btn-small">See Project</a>
+            </div>
+        </div>
+
+        <div class="about-card about-card--bio about-card--spaced-top">
+            <div class="service-tech"><strong>Technologies:</strong> Anthropic Claude API &middot; OpenAI API &middot; Google Gemini API &middot; C# / .NET &middot; Python &middot; Go &middot; RAG &middot; Vector Databases &middot; Rate Limiting &middot; Caching &middot; Fallback Chains</div>
+        </div>
+    </section>
+
+    <div class="card card--cta">
+        <h2>Have an AI feature in mind?</h2>
+        <p>Tell me what you want it to do. I&rsquo;ll tell you whether it&rsquo;s a good fit for an LLM, what it would take, and what it would cost to run.</p>
+        <div class="hero-cta-group">
+            <a href="../contact.html" class="btn">Scope a Project</a>
+            <a href="../services.html" class="btn btn--outline">All Services</a>
+        </div>
+    </div>
+</main>

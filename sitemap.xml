@@ -21,12 +21,27 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://beyondthevale.net/services/ai-integration.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://beyondthevale.net/services/dotnet-development.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://beyondthevale.net/services/power-platform.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://beyondthevale.net/services/business-websites.html</loc>
         <lastmod>2026-08-23</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://beyondthevale.net/services/enterprise-platform-development.html</loc>
+        <loc>https://beyondthevale.net/services/custom-tools-and-automation.html</loc>
         <lastmod>2026-08-23</lastmod>
         <priority>0.8</priority>
     </url>
@@ -37,11 +52,6 @@
     </url>
     <url>
         <loc>https://beyondthevale.net/contact.html</loc>
-        <lastmod>2026-08-23</lastmod>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://beyondthevale.net/projects/fitness.html</loc>
         <lastmod>2026-08-23</lastmod>
         <priority>0.6</priority>
     </url>
