@@ -6,9 +6,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ORIGIN, REDIRECTS, expectedCanonical } from '../../scripts/site.mjs';
 
-const ORIGIN = 'https://beyondthevale.net';
-const SKIP_DIRS = new Set(['node_modules', '.git', 'test-results', 'Context']);
+const SKIP_DIRS = new Set(['node_modules', '.git', 'test-results', 'playwright-report', 'Context', 'src']);
 
 /** Every HTML file in the repo, as repo-relative POSIX paths. */
 function findHtml(dir = '.') {
@@ -25,20 +25,24 @@ const read = (page) => fs.readFileSync(page, 'utf8');
 const attr = (html, re) => html.match(re)?.[1] ?? null;
 const isNoindex = (html) => /<meta name="robots" content="[^"]*noindex/.test(html);
 
-/** The URL Google should index for a file: index.html -> directory with trailing slash. */
-function expectedCanonical(page) {
-    const p = page === 'index.html' ? '' : page.replace(/index\.html$/, '');
-    return `${ORIGIN}/${p}`;
-}
-
 const INDEXABLE = ALL_PAGES.filter(p => !isNoindex(read(p)));
 
 const sitemapXml = read('sitemap.xml');
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
 
-test('only 404.html is noindex', () => {
+test('only 404.html and redirect stubs are noindex', () => {
     const noindexed = ALL_PAGES.filter(p => isNoindex(read(p)));
-    assert.deepEqual(noindexed, ['404.html']);
+    assert.deepEqual(noindexed.sort(), ['404.html', ...Object.keys(REDIRECTS)].sort());
+});
+
+test('redirect stubs point at live pages and carry a matching canonical', () => {
+    for (const [from, to] of Object.entries(REDIRECTS)) {
+        const html = read(from);
+        const target = to.endsWith('/') ? `${to.slice(1)}index.html` : to.slice(1);
+        assert.ok(fs.existsSync(target), `${from}: redirect target ${to} does not exist`);
+        assert.ok(html.includes(`<meta http-equiv="refresh" content="0; url=${to}">`), `${from}: missing meta refresh`);
+        assert.ok(html.includes(`<link rel="canonical" href="${ORIGIN}${to}">`), `${from}: canonical should point at the new URL`);
+    }
 });
 
 test('every indexable page has one absolute canonical matching its own URL', () => {

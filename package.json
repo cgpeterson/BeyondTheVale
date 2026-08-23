@@ -2,14 +2,17 @@
   "name": "beyondthevale",
   "private": true,
   "version": "2.0.0",
-  "description": "beyondthevale.net — Cody Peterson's consulting site. Plain HTML/CSS/JS served by GitHub Pages; this package exists only for the dev/test toolchain.",
+  "description": "beyondthevale.net — Cody Peterson's consulting site. Plain HTML/CSS/JS served by GitHub Pages; pages are stamped from src/ by scripts/build.mjs and the output is committed.",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
     "serve": "http-server -p 8080 -c-1 .",
+    "pretest": "npm run build:check",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test \"tests/unit/*.test.mjs\"",
     "test:e2e": "playwright test",
-    "validate:html": "html-validate index.html about.html services.html projects.html contact.html casestudies.html 404.html services/business-websites.html services/enterprise-platform-development.html projects/fitness.html projects/games.html projects/tools.html projects/simulations.html projects/fitness/fitness-level-tracking/index.html projects/games/hollow-duel/index.html projects/simulations/astar-search/index.html projects/simulations/conways-game-of-life/index.html projects/simulations/sorting-algorithms/index.html",
+    "validate:html": "html-validate \"*.html\" \"services/*.html\" \"projects/**/*.html\"",
     "notify:indexnow": "node scripts/indexnow.mjs"
   },
   "devDependencies": {

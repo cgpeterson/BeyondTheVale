@@ -1,0 +1,50 @@
+<!--
+{
+    "title": "Developer Tools & Automation Projects | Beyond The Vale",
+    "description": "Developer tools by Cody Peterson, including IRIS Translator, an LLM-powered translation tool with a provider-agnostic abstraction layer.",
+    "nav": "work",
+    "breadcrumbs": [
+        {
+            "name": "Projects",
+            "path": "projects.html"
+        },
+        {
+            "name": "Tools"
+        }
+    ]
+}
+-->
+<main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../projects.html">Projects</a> / Tools
+            </div>
+            <h1>🔧 Tools</h1>
+            <p>Utility applications and productivity tools</p>
+        </section>
+
+        <!-- Technology Filter -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <label for="tech-filter">Filter by Technology:</label>
+                <select id="tech-filter" class="tech-filter">
+                    <option value="all">All Technologies</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <div class="projects-grid">
+                <!-- IRISTranslator - Featured -->
+                <div class="project-card featured" data-technologies="JavaScript,Node.js,Google Gemini,AI,LLM,React,Vite,Vercel,npm workspaces">
+                    <h2>&#x2728; IRIS Translator</h2>
+                    <p class="project-tech">Technologies: JavaScript, React, Node.js, Google Gemini API, Vite, Vercel, npm workspaces</p>
+                    <p>An LLM-powered translation tool built on a custom abstraction layer that decouples the frontend from any specific AI provider. The monorepo architecture (npm workspaces) separates the React/Vite app, shared configuration, and the Gemini-backed stylist microservice into independent deployable units. 82 passing Vercel deployments.</p>
+                    <div class="project-links">
+                        <a href="https://iris-translator-delta.vercel.app/" class="btn-small" target="_blank" rel="noopener">Live Demo</a>
+                        <a href="https://github.com/cgpeterson/IRISTranslator" class="btn-small" target="_blank" rel="noopener">Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>

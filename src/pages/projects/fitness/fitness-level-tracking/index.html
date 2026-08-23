@@ -1,0 +1,190 @@
+<!--
+{
+    "title": "Fitness Level Tracking | Beyond The Vale",
+    "description": "Fitness Level Tracking: a data-driven C#/.NET Windows desktop application for coaches and athletes to track physical metrics and progress over time.",
+    "nav": "work",
+    "breadcrumbs": [
+        {
+            "name": "Projects",
+            "path": "projects.html"
+        },
+        {
+            "name": "Fitness",
+            "path": "projects/fitness.html"
+        },
+        {
+            "name": "Fitness Level Tracking"
+        }
+    ]
+}
+-->
+<template data-slot="head">
+    <style>
+        /* Project Detail Page Styles */
+        .project-detail {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .project-header h1 {
+            color: var(--accent-gold-bright);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .tech-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-tag {
+            background: var(--velvet-purple-glow);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 3px;
+        }
+        
+        .project-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-list {
+            margin: 3rem 0;
+        }
+        
+        .feature-list h2 {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--glass-white);
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        
+        .download-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-white);
+            padding: 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .download-section h2 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .download-section p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</template>
+<main class="main-content">
+        <section class="page-header">
+            <div class="breadcrumb">
+                <a href="../../../projects.html">Projects</a> / 
+                <a href="../../fitness.html">Fitness</a> / 
+                Fitness Level Tracking
+            </div>
+        </section>
+
+        <section class="project-detail">
+            <div class="project-header">
+                <h1>💪 Fitness Level Tracking</h1>
+                <p>A data-driven desktop application for tracking multiple athletes and their physical metrics</p>
+            </div>
+
+            <div class="tech-tags">
+                <span class="tech-tag">C#</span>
+                <span class="tech-tag">.NET</span>
+                <span class="tech-tag">Windows Forms</span>
+                <span class="tech-tag">Data-Driven</span>
+            </div>
+
+            <div class="project-actions">
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking" class="btn" target="_blank" rel="noopener">View on GitHub</a>
+                <!-- Uncomment when you have releases
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking/releases" class="btn-small" target="_blank" rel="noopener">Download Latest</a>
+                -->
+            </div>
+
+            <!-- Project Description -->
+            <div class="card">
+                <h2>About This Project</h2>
+                <p>
+                    Fitness Level Tracking is a locally-run, data-driven Windows Forms application designed for coaches and athletes. 
+                    It enables tracking of multiple athletes through a tabbed interface, with comprehensive test metrics to monitor 
+                    physical growth and performance over time. The application supports advanced filtering capabilities for 
+                    in-depth self-study and performance analysis.
+                </p>
+            </div>
+
+            <!-- Features -->
+            <div class="feature-list">
+                <h2>Key Features</h2>
+                <ul>
+                    <li>Multi-athlete support with tabbed profile management</li>
+                    <li>Comprehensive physical test metrics tracking</li>
+                    <li>Growth visualization and progress monitoring</li>
+                    <li>Advanced data filtering for self-study analysis</li>
+                    <li>Local data storage for privacy and offline use</li>
+                    <li>Clean, intuitive Windows desktop interface</li>
+                </ul>
+            </div>
+
+            <!-- Download Section -->
+            <div class="download-section">
+                <h2>Download</h2>
+                <p>This is a Windows desktop application. Clone the repository and build locally, or download from GitHub Releases.</p>
+                <a href="https://github.com/cgpeterson/Fitness-Level-Tracking" class="btn" target="_blank" rel="noopener">
+                    View on GitHub
+                </a>
+            </div>
+        </section>
+    </main>

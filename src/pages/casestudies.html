@@ -1,0 +1,80 @@
+<!--
+{
+    "title": "Case Studies: Azure Government & AI Integration | Beyond The Vale",
+    "description": "Real-world case studies: Bulk Dataverse import pipeline cutting 40,000 API calls to 40, and a multi-provider AI integration layer built for production resilience.",
+    "nav": "casestudies",
+    "priority": 0.8,
+    "breadcrumbs": [
+        {
+            "name": "Case Studies"
+        }
+    ]
+}
+-->
+<main class="main-content">
+    <header class="page-header">
+        <h1>Case Studies</h1>
+        <p>Real problems, real solutions, real results.</p>
+    </header>
+
+    <section class="case-studies-layout mt-large">
+
+        <div class="case-study-card reveal" id="dataverse-import">
+            <span class="case-study-label">Azure Functions &middot; Government</span>
+            <h2>Bulk Dataverse Import Pipeline</h2>
+
+            <div class="case-study-section">
+                <h3>Problem</h3>
+                <p>A government client needed to migrate large datasets &mdash; 20,000-row Excel files &mdash; into Microsoft Dataverse. The manual process required staff to enter records one by one, taking weeks per file. Errors were common, there was no audit trail, and the volume was only growing.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Solution</h3>
+                <p>Built an Azure Function deployed to Azure Government that handles the entire pipeline: Excel parsing, parent record lookups against existing Dataverse data, and batched inserts using the Dataverse Web API's <code>$batch</code> endpoint at 1,000 operations per request. Authentication uses System-Assigned Managed Identity &mdash; no credentials stored in code or configuration. Failed rows are logged back to a SharePoint list with full error details, giving the client a per-row audit trail and a clear queue for any records that need manual review.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Result</h3>
+                <p>A process that had required weeks of manual data entry became a fully automated, repeatable pipeline. 40,000 individual API calls were reduced to roughly 40 batched requests. The client now imports new data files in minutes, with a complete audit log and zero manual intervention for the happy path.</p>
+            </div>
+
+            <div class="case-study-tech">
+                <strong>Technologies:</strong> Azure Functions &middot; C# &middot; Dataverse Web API &middot; System-Assigned Managed Identity &middot; SharePoint &middot; Azure Government &middot; Excel parsing
+            </div>
+        </div>
+
+        <div class="case-study-card reveal" id="ai-integration">
+            <span class="case-study-label">AI Integration &middot; Architecture</span>
+            <h2>DelveMUD AI Integration Layer</h2>
+
+            <div class="case-study-section">
+                <h3>Problem</h3>
+                <p>Building AI-powered game features &mdash; NPC conversation, procedural dungeon generation, quest creation, item crafting and appraisal &mdash; with a naive single-provider integration creates hard dependencies: one vendor outage or rate limit cascade takes down all AI functionality at once. Model upgrades require touching game logic. There's no isolation between subsystems.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Solution</h3>
+                <p>Designed and built a multi-provider LLM abstraction layer where each AI subsystem (NPC agent, dungeon director, quest generator, item appraiser) is implemented as an independent module behind a common provider interface. Each subsystem has its own rate limiting, response caching, and fallback chain &mdash; so a rate limit on the NPC agent doesn't affect dungeon generation, and a model provider going down triggers an automatic fallback rather than an error. Providers are registered by name; swapping the model behind any subsystem is a configuration change, not a code change.</p>
+            </div>
+
+            <div class="case-study-section">
+                <h3>Result</h3>
+                <p>Models are hot-swappable with zero game-side code changes. Subsystem failures are isolated. The architecture absorbs provider outages and rate limits without cascading. The pattern is directly applicable to enterprise production systems: any application that needs resilient, observable, multi-provider AI features without vendor lock-in.</p>
+            </div>
+
+            <div class="case-study-tech">
+                <strong>Technologies:</strong> Go &middot; Anthropic Claude API &middot; Microservices Patterns &middot; Rate Limiting &middot; Response Caching &middot; Fallback Chains &middot; RAG Patterns &middot; Provider Abstraction
+            </div>
+        </div>
+
+        <div class="card card--cta">
+            <h2>Need this kind of work?</h2>
+            <p>Both of these projects are representative of how I approach real engagements: understand the actual problem, design for the failure cases, build it to stay up. If you have a similar challenge, let's talk.</p>
+            <div class="hero-cta-group">
+                <a href="contact.html" class="btn">Scope a Project</a>
+                <a href="services.html" class="btn btn--outline">View Services</a>
+            </div>
+        </div>
+
+    </section>
+</main>
