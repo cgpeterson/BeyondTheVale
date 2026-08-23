@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Contact a Software Consultant in Boise, ID | Beyond The Vale</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="canonical" href="https://beyondthevale.net/contact.html">
     <meta name="description" content="Get in touch with Cody Peterson, a Boise, Idaho-based software consultant, for .NET architecture, Azure integrations, and production AI engineering inquiries.">
     <meta property="og:type" content="website">
@@ -31,7 +34,7 @@
         "@type": "ProfessionalService",
         "name": "Beyond The Vale LLC",
         "url": "https://beyondthevale.net/",
-        "logo": "https://beyondthevale.net/favicon.svg",
+        "logo": "https://beyondthevale.net/images/icon-512.png",
         "image": "https://beyondthevale.net/og-image.png",
         "email": "cody@beyondthevale.net",
         "telephone": "+1-208-371-3525",
@@ -45,26 +48,26 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="/">BEYOND THE VALE</a>
+                <a href="/" aria-label="Beyond The Vale — Home"><img src="/images/logo-header.png" alt="Beyond The Vale" width="720" height="319" decoding="async" fetchpriority="high"></a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
+                    <a href="/about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="services.html" class="nav-link">Services</a>
+                    <a href="/services.html" class="nav-link">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="/projects.html" class="nav-link">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a href="casestudies.html" class="nav-link">Case Studies</a>
+                    <a href="/casestudies.html" class="nav-link">Case Studies</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.html" class="nav-link active">Contact</a>
+                    <a href="/contact.html" class="nav-link active">Contact</a>
                 </li>
             </ul>
             <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -117,11 +120,11 @@
                     <p class="form-sub">Fill out the form and I'll get back to you within one business day.</p>
                     <form id="contactForm">
                         <div class="form-group">
-                            <label for="contactName">Name <span style="color:var(--accent-gold);">*</span></label>
+                            <label for="contactName">Name <span class="required">*</span></label>
                             <input type="text" id="contactName" name="name" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="contactEmail">Email <span style="color:var(--accent-gold);">*</span></label>
+                            <label for="contactEmail">Email <span class="required">*</span></label>
                             <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required>
                         </div>
                         <div class="form-group">
@@ -129,20 +132,21 @@
                             <input type="text" id="contactSubject" name="subject" placeholder="What's this about?">
                         </div>
                         <div class="form-group">
-                            <label for="contactMessage">Message <span style="color:var(--accent-gold);">*</span></label>
+                            <label for="contactMessage">Message <span class="required">*</span></label>
                             <textarea id="contactMessage" name="message" placeholder="Describe your project or what you're looking for..." required></textarea>
                         </div>
-                        <div id="formStatus" style="display:none;padding:0.75rem 1rem;margin-bottom:1rem;border-radius:2px;font-size:0.9rem;"></div>
-                        <button type="submit" class="btn" style="width:100%;">Send Message</button>
+                        <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+                        <button type="submit" class="btn btn--block">Send Message</button>
                     </form>
-                    <p style="margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem;text-align:center;">Or reach out directly at <a href="mailto:cody@beyondthevale.net" style="color:var(--accent-gold);">cody@beyondthevale.net</a></p>
+                    <p class="form-footnote">Or reach out directly at <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 Beyond The Vale LLC. All rights reserved.</p>
+        <a href="/" class="footer-mark" aria-label="Beyond The Vale — Home"><img src="/images/logo-mark.png" alt="" width="240" height="240" loading="lazy" decoding="async"></a>
+        <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
         <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>
 
@@ -156,7 +160,7 @@
 
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
-        statusEl.style.display = 'none';
+        statusEl.className = 'form-status';
 
         const data = {
             name: form.name.value,
@@ -173,10 +177,7 @@
             });
             if (response.ok) {
                 statusEl.textContent = "Thanks, I'll be in touch soon.";
-                statusEl.style.background = 'rgba(3, 53, 38, 0.5)';
-                statusEl.style.border = '1px solid rgba(197, 160, 89, 0.4)';
-                statusEl.style.color = 'var(--accent-gold-bright)';
-                statusEl.style.display = 'block';
+                statusEl.classList.add('form-status--ok');
                 form.reset();
             } else {
                 const result = await response.json();
@@ -184,10 +185,7 @@
             }
         } catch (err) {
             statusEl.textContent = 'Something went wrong. Please email cody@beyondthevale.net directly.';
-            statusEl.style.background = 'rgba(80, 0, 0, 0.3)';
-            statusEl.style.border = '1px solid rgba(200, 50, 50, 0.4)';
-            statusEl.style.color = '#ff9999';
-            statusEl.style.display = 'block';
+            statusEl.classList.add('form-status--error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Send Message';

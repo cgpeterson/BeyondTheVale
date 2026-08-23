@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Azure Government &amp; Enterprise Platform Development | Beyond The Vale</title>
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Azure Government Platform Development | Beyond The Vale</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="canonical" href="https://beyondthevale.net/services/enterprise-platform-development.html">
-    <meta name="description" content="Backend services, Azure integrations, and Dynamics 365 / Power Platform builds &mdash; including deep experience inside Azure Government (GCC), Managed Identity auth, and Dataverse row-level security.">
+    <meta name="description" content="Backend services, Azure integrations, and Dynamics 365 / Power Platform builds, with deep Azure Government (GCC), Managed Identity, and Dataverse security experience.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beyondthevale.net/services/enterprise-platform-development.html">
     <meta property="og:site_name" content="Beyond The Vale">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="Azure Government &amp; Enterprise Platform Development | Beyond The Vale">
-    <meta property="og:description" content="Backend services, Azure integrations, and Dynamics 365 / Power Platform builds &mdash; including deep experience inside Azure Government (GCC), Managed Identity auth, and Dataverse row-level security.">
+    <meta property="og:title" content="Azure Government Platform Development | Beyond The Vale">
+    <meta property="og:description" content="Backend services, Azure integrations, and Dynamics 365 / Power Platform builds, with deep Azure Government (GCC), Managed Identity, and Dataverse security experience.">
     <meta property="og:image" content="https://beyondthevale.net/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Azure Government &amp; Enterprise Platform Development | Beyond The Vale">
+    <meta name="twitter:title" content="Azure Government Platform Development | Beyond The Vale">
     <meta name="twitter:description" content="Backend services, Azure integrations, and Dynamics 365 / Power Platform builds, including deep Azure Government experience.">
     <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,15 +60,15 @@
 <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
-            <a href="/">BEYOND THE VALE</a>
+            <a href="/" aria-label="Beyond The Vale — Home"><img src="/images/logo-header.png" alt="Beyond The Vale" width="720" height="319" decoding="async" fetchpriority="high"></a>
         </div>
         <ul class="nav-menu">
             <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="../about.html" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="../services.html" class="nav-link active">Services</a></li>
-            <li class="nav-item"><a href="../projects.html" class="nav-link">Projects</a></li>
-            <li class="nav-item"><a href="../casestudies.html" class="nav-link">Case Studies</a></li>
-            <li class="nav-item"><a href="../contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item"><a href="/about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="/services.html" class="nav-link active">Services</a></li>
+            <li class="nav-item"><a href="/projects.html" class="nav-link">Projects</a></li>
+            <li class="nav-item"><a href="/casestudies.html" class="nav-link">Case Studies</a></li>
+            <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
         </ul>
         <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
             <span class="bar"></span>
@@ -94,14 +97,14 @@
         <div class="capabilities-bar">
             <h2>Built for Azure Government</h2>
         </div>
-        <div class="about-card about-card--bio" style="margin-bottom:2rem;">
+        <div class="about-card about-card--bio about-card--spaced">
             <p>I've done this at scale inside Azure Government (GCC), on a platform serving hundreds of users at 99.9% uptime. That environment comes with real constraints &mdash; compliance requirements, approval chains, and the kind of bureaucratic friction that slows down less experienced contractors. I know how to move carefully inside it and still ship:</p>
-            <ul style="margin:1rem 0 0 1.25rem;color:var(--text-soft);line-height:1.9;">
-                <li><strong style="color:var(--text-main);">Managed Identity authentication</strong> &mdash; no credentials stored in code or configuration.</li>
-                <li><strong style="color:var(--text-main);">Row-level Dataverse security</strong> &mdash; each team's data scoped to exactly the people who should see it.</li>
-                <li><strong style="color:var(--text-main);">Full audit trails</strong> on data pipelines, built in from the start rather than bolted on after an incident.</li>
+            <ul class="feature-list">
+                <li><strong>Managed Identity authentication</strong> &mdash; no credentials stored in code or configuration.</li>
+                <li><strong>Row-level Dataverse security</strong> &mdash; each team's data scoped to exactly the people who should see it.</li>
+                <li><strong>Full audit trails</strong> on data pipelines, built in from the start rather than bolted on after an incident.</li>
             </ul>
-            <p style="margin-top:1.25rem;">For a concrete example of this in production, see the <a href="../casestudies.html#dataverse-import">Bulk Dataverse Import Pipeline case study</a>: 40,000 individual API calls reduced to roughly 40 batched requests, with a complete per-row audit trail.</p>
+            <p>For a concrete example of this in production, see the <a href="../casestudies.html#dataverse-import">Bulk Dataverse Import Pipeline case study</a>: 40,000 individual API calls reduced to roughly 40 batched requests, with a complete per-row audit trail.</p>
         </div>
 
         <div class="detail-grid">
@@ -117,14 +120,14 @@
             </div>
         </div>
 
-        <div class="about-card about-card--bio" style="margin-top:2rem;">
+        <div class="about-card about-card--bio about-card--spaced-top">
             <div class="service-tech"><strong>Technologies:</strong> C# &middot; .NET &middot; Azure Functions &middot; Azure DevOps &middot; Dynamics 365 &middot; Power Platform &middot; Dataverse &middot; SharePoint &middot; Managed Identity &middot; SQL Server</div>
         </div>
     </section>
 
-    <div class="card" style="text-align:center;margin:3rem 0;">
+    <div class="card card--cta">
         <h2>Have a platform that needs to hold up?</h2>
-        <p style="max-width:560px;margin:0 auto 1.75rem;">Tell me what you're building or what's currently fragile, and I'll be direct about whether I'm the right fit.</p>
+        <p>Tell me what you're building or what's currently fragile, and I'll be direct about whether I'm the right fit.</p>
         <div class="hero-cta-group">
             <a href="../contact.html" class="btn">Scope a Project</a>
             <a href="../services.html" class="btn btn--outline">All Services</a>
@@ -133,6 +136,7 @@
 </main>
 
 <footer class="footer">
+        <a href="/" class="footer-mark" aria-label="Beyond The Vale — Home"><img src="/images/logo-mark.png" alt="" width="240" height="240" loading="lazy" decoding="async"></a>
     <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
     <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
 </footer>

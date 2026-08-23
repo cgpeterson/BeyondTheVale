@@ -57,7 +57,7 @@ test.describe('desktop navigation (1280x800)', () => {
     test('hamburger is hidden and nav links are inline', async ({ page }) => {
         await page.goto('/index.html');
         await expect(page.locator('.hamburger')).toBeHidden();
-        await expect(page.locator('.nav-menu .nav-link')).toHaveCount(5);
+        await expect(page.locator('.nav-menu .nav-link')).toHaveCount(6);
         await expect(page.locator('.nav-menu .nav-link').first()).toBeVisible();
     });
 });

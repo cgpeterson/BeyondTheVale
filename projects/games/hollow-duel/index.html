@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Hollow Duel — Multiplayer Souls Combat</title>
-    <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <title>Hollow Duel | Beyond The Vale</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="description" content="A 3D souls-like multiplayer combat game built with Three.js and Firebase. Fight procedurally generated bosses with friends.">
     <link rel="canonical" href="https://beyondthevale.net/projects/games/hollow-duel/">
     <meta property="og:type" content="website">
@@ -71,7 +74,7 @@
                     <div class="color-swatch" data-color="0xe74c3c" style="background:#e74c3c" title="Crimson"></div>
                     <div class="color-swatch" data-color="0xd4a853" style="background:#d4a853" title="Gold"></div>
                 </div>
-                <button id="startBtn">Enter the Arena</button>
+                <button type="button" id="startBtn">Enter the Arena</button>
                 <div class="status-text" id="statusText"></div>
             </div>
             <div class="controls">
@@ -79,6 +82,7 @@
                 <p><span class="key">L-STICK</span> Move &nbsp;&nbsp; <span class="key">A</span> Dash &nbsp;&nbsp; <span class="key">Y</span> Heal &nbsp;&nbsp; <span class="key">X / RB</span> Attack &nbsp;&nbsp; <span class="key">LB</span> Deflect</p>
             </div>
             <p class="about-blurb">Hollow Duel is a Souls-like multiplayer boss fight built with Three.js and Firebase Realtime Database for authoritative state sync. Parry timing, stamina management, and a posture-break system drive the combat; the boss and its arena are procedurally varied by name and map seed each session. Everyone who joins with the same boss name fights the same fight together.</p>
+            <a class="back" href="../../games.html">&larr; Back to Games</a>
         </div>
 
         <!-- HUD -->
@@ -118,7 +122,7 @@
         <!-- END SCREEN -->
         <div id="endScreen" class="overlay hidden">
             <div id="endText" class="death-text">DEATH</div>
-            <button id="resurrectBtn">Return</button>
+            <button type="button" id="resurrectBtn">Return</button>
         </div>
     </div>
 

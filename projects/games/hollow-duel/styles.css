@@ -628,3 +628,16 @@ button {
         border-color: var(--bone);
         background: rgba(232, 220, 200, 0.06);
     }
+
+/* Route back to the portfolio so the game is not a dead end */
+.back {
+    position: relative;
+    z-index: 1;
+    margin-top: 1rem;
+    color: #c5a059;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.back:hover { color: #f3e5ab; }

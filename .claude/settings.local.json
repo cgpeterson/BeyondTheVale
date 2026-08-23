@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(gh api:*)",
-      "WebFetch(domain:api.github.com)"
+      "WebFetch(domain:api.github.com)",
+      "PowerShell(git ls-tree *)",
+      "PowerShell(git *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o inter-400.woff2 \"https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2\")",
+      "Bash(curl -s -o inter-500.woff2 \"https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2\")",
+      "Bash(curl -s -o inter-600.woff2 \"https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2\")",
+      "Bash(curl -s -o outfit-800.woff2 \"https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2\")",
+      "Bash(grep -B5 \"^/\\\\* latin \\\\*/\" -A6 fonts.css)"
     ]
   }
 }

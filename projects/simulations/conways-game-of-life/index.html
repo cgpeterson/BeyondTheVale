@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Conway's Game of Life - Beyond The Vale</title>
+    <title>Conway's Game of Life | Beyond The Vale</title>
     <meta name="description" content="Interactive Conway's Game of Life simulation: draw cells, adjust speed, and watch the classic cellular automaton evolve on a wrapping grid.">
-    <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="canonical" href="https://beyondthevale.net/projects/simulations/conways-game-of-life/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beyondthevale.net/projects/simulations/conways-game-of-life/">
@@ -51,11 +54,11 @@
     <h1>Conway's Game of Life</h1>
     <div class="info">Gen: <span id="gen">0</span> | Alive: <span id="alive">0</span> | Click to draw, drag to paint</div>
     <div class="controls">
-        <button id="playBtn">Play</button>
-        <button id="stepBtn">Step</button>
-        <button id="clearBtn">Clear</button>
-        <button id="randomBtn">Random</button>
-        <button id="speedBtn">Speed: 10</button>
+        <button type="button" id="playBtn">Play</button>
+        <button type="button" id="stepBtn">Step</button>
+        <button type="button" id="clearBtn">Clear</button>
+        <button type="button" id="randomBtn">Random</button>
+        <button type="button" id="speedBtn">Speed: 10</button>
     </div>
     <canvas id="c"></canvas>
 

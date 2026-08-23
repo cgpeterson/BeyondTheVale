@@ -13,27 +13,31 @@ const CHROME_PAGES = [
     'contact.html',
     'casestudies.html',
     '404.html',
+    'services/business-websites.html',
+    'services/enterprise-platform-development.html',
     'projects/fitness.html',
     'projects/games.html',
     'projects/tools.html',
     'projects/simulations.html',
+    'projects/fitness/fitness-level-tracking/index.html',
 ];
 const SIM_PAGES = [
     'projects/simulations/conways-game-of-life/index.html',
     'projects/simulations/astar-search/index.html',
     'projects/simulations/sorting-algorithms/index.html',
+    'projects/games/hollow-duel/index.html',
 ];
 const ALL = [...CHROME_PAGES, ...SIM_PAGES];
 
 const readPage = (page) => fs.readFileSync(page, 'utf8');
 const countMatches = (html, re) => (html.match(re) ?? []).length;
 
-test('every chrome page has a navbar with exactly five nav links and a footer', () => {
+test('every chrome page has a navbar with exactly six nav links and a footer', () => {
     for (const page of CHROME_PAGES) {
         const html = readPage(page);
         assert.ok(html.includes('<nav class="navbar">'), `${page}: missing navbar`);
-        assert.equal(countMatches(html, /class="nav-link[" ]/g), 5,
-            `${page}: expected exactly five nav links`);
+        assert.equal(countMatches(html, /class="nav-link[" ]/g), 6,
+            `${page}: expected exactly six nav links`);
         assert.ok(html.includes('<footer class="footer">'), `${page}: missing footer`);
         assert.ok(html.includes('class="hamburger"'), `${page}: missing hamburger button`);
     }
@@ -52,10 +56,15 @@ test('every page has a non-empty, unique title containing the site name', () => 
     }
 });
 
-test('every page declares the SVG favicon', () => {
+test('every page declares the PNG favicon, apple-touch-icon, and manifest', () => {
     for (const page of ALL) {
-        assert.match(readPage(page), /<link rel="icon" type="image\/svg\+xml" href="[^"]*favicon\.svg">/,
+        const html = readPage(page);
+        assert.match(html, /<link rel="icon" type="image\/png" sizes="32x32" href="\/favicon-32\.png">/,
             `${page}: missing favicon link`);
+        assert.match(html, /<link rel="apple-touch-icon" sizes="180x180" href="\/apple-touch-icon\.png">/,
+            `${page}: missing apple-touch-icon`);
+        assert.match(html, /<link rel="manifest" href="\/site\.webmanifest">/,
+            `${page}: missing manifest`);
     }
 });
 

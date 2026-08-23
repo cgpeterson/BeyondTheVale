@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>About Cody Peterson - Software Consultant | Beyond The Vale</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="canonical" href="https://beyondthevale.net/about.html">
-    <meta name="description" content="Cody Peterson is a software architect and .NET engineer with 4 years building mission-critical systems in Azure and Azure Government. Based in Boise, Idaho &mdash; specializing in enterprise architecture, Power Platform, and production AI integration.">
+    <meta name="description" content="Cody Peterson, Boise software architect: 4 years building mission-critical .NET systems in Azure and Azure Government, Power Platform, and production AI.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beyondthevale.net/about.html">
     <meta property="og:site_name" content="Beyond The Vale">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="About Cody Peterson - Software Consultant | Beyond The Vale">
-    <meta property="og:description" content="Cody Peterson is a software architect and .NET engineer with 4 years building mission-critical systems in Azure and Azure Government. Based in Boise, Idaho &mdash; specializing in enterprise architecture, Power Platform, and production AI integration.">
+    <meta property="og:description" content="Cody Peterson, Boise software architect: 4 years building mission-critical .NET systems in Azure and Azure Government, Power Platform, and production AI.">
     <meta property="og:image" content="https://beyondthevale.net/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -31,7 +34,7 @@
         "@type": "ProfessionalService",
         "name": "Beyond The Vale LLC",
         "url": "https://beyondthevale.net/",
-        "logo": "https://beyondthevale.net/favicon.svg",
+        "logo": "https://beyondthevale.net/images/icon-512.png",
         "image": "https://beyondthevale.net/og-image.png",
         "email": "cody@beyondthevale.net",
         "telephone": "+1-208-371-3525",
@@ -51,26 +54,26 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="/">BEYOND THE VALE</a>
+                <a href="/" aria-label="Beyond The Vale — Home"><img src="/images/logo-header.png" alt="Beyond The Vale" width="720" height="319" decoding="async" fetchpriority="high"></a>
             </div>
             <ul class="nav-menu">
             <li class="nav-item">
                 <a href="/" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="about.html" class="nav-link active">About</a>
+                <a href="/about.html" class="nav-link active">About</a>
             </li>
             <li class="nav-item">
-                <a href="services.html" class="nav-link">Services</a>
+                <a href="/services.html" class="nav-link">Services</a>
             </li>
             <li class="nav-item">
-                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="/projects.html" class="nav-link">Projects</a>
             </li>
             <li class="nav-item">
-                <a href="casestudies.html" class="nav-link">Case Studies</a>
+                <a href="/casestudies.html" class="nav-link">Case Studies</a>
             </li>
             <li class="nav-item">
-                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="/contact.html" class="nav-link">Contact</a>
             </li>
         </ul>
             <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -236,13 +239,13 @@
         <div class="capabilities-bar">
             <h2>Working Together</h2>
         </div>
-        <div class="about-card about-card--bio" style="margin:0 0 2rem;">
+        <div class="about-card about-card--bio about-card--spaced">
             <p>I communicate directly and keep the technical noise low. You get clear status updates, honest assessments when something isn't viable, and architecture decisions explained in terms of trade-offs, not jargon. I don't disappear once scoping is done.</p>
             <p>I'm comfortable in environments with real constraints like GCC environments, Managed Identity auth, federal compliance requirements, approval chains, and the kind of bureaucratic friction that slows down less experienced contractors. I've operated as an Architect on a mission-critical government system; I know how to move carefully and still deliver.</p>
             <p>My preference is to own problems end-to-end: from discovery and architecture through implementation and production. I'll tell you what I think the right approach is, explain why, and build it. If your requirements change mid-project, we adapt. The goal is a system that works reliably, not one that looks good in a slide deck.</p>
-            <div class="ai-callout" style="margin-top:1.5rem;padding:1.25rem 1.5rem;border:1px solid rgba(197,160,89,0.3);background:rgba(197,160,89,0.05);">
-                <h3 style="color:var(--accent-gold);font-size:0.9rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.75rem;">AI-Augmented Development</h3>
-                <p style="margin:0;">I use AI tooling (Claude API, Claude Code) daily as a force multiplier, not as a crutch but as an accelerant for the parts of engineering that benefit from it. More importantly, I've <em>built</em> production AI integrations: multi-provider LLM abstraction layers, rate limiting, caching, fallback chains, and RAG patterns. I work in this space as an architect, not just a user.</p>
+            <div class="ai-callout">
+                <h3>AI-Augmented Development</h3>
+                <p>I use AI tooling (Claude API, Claude Code) daily as a force multiplier, not as a crutch but as an accelerant for the parts of engineering that benefit from it. More importantly, I've <em>built</em> production AI integrations: multi-provider LLM abstraction layers, rate limiting, caching, fallback chains, and RAG patterns. I work in this space as an architect, not just a user.</p>
             </div>
         </div>
         </section>
@@ -261,6 +264,7 @@
     </main>
 
     <footer class="footer">
+        <a href="/" class="footer-mark" aria-label="Beyond The Vale — Home"><img src="/images/logo-mark.png" alt="" width="240" height="240" loading="lazy" decoding="async"></a>
         <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
         <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>

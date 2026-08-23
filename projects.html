@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Software Projects &amp; Case Studies | Cody Peterson</title>
+    <title>Software Projects &amp; Case Studies | Beyond The Vale</title>
     <meta name="description" content="Projects by Cody Peterson: tools, algorithm simulations, fitness applications, games, and enterprise case studies.">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="canonical" href="https://beyondthevale.net/projects.html">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beyondthevale.net/projects.html">
     <meta property="og:site_name" content="Beyond The Vale">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="Software Projects &amp; Case Studies | Cody Peterson">
+    <meta property="og:title" content="Software Projects &amp; Case Studies | Beyond The Vale">
     <meta property="og:description" content="Projects by Cody Peterson: tools, algorithm simulations, fitness applications, games, and enterprise case studies.">
     <meta property="og:image" content="https://beyondthevale.net/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Beyond The Vale &mdash; Enterprise Systems That Hold Up Under Pressure.">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Software Projects &amp; Case Studies | Cody Peterson">
+    <meta name="twitter:title" content="Software Projects &amp; Case Studies | Beyond The Vale">
     <meta name="twitter:description" content="Projects by Cody Peterson: tools, algorithm simulations, fitness applications, games, and enterprise case studies.">
     <meta name="twitter:image" content="https://beyondthevale.net/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,26 +43,26 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="/">BEYOND THE VALE</a>
+                <a href="/" aria-label="Beyond The Vale — Home"><img src="/images/logo-header.png" alt="Beyond The Vale" width="720" height="319" decoding="async" fetchpriority="high"></a>
             </div>
             <ul class="nav-menu">
             <li class="nav-item">
                 <a href="/" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="about.html" class="nav-link">About</a>
+                <a href="/about.html" class="nav-link">About</a>
             </li>
             <li class="nav-item">
-                <a href="services.html" class="nav-link">Services</a>
+                <a href="/services.html" class="nav-link">Services</a>
             </li>
             <li class="nav-item">
-                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="/projects.html" class="nav-link active">Projects</a>
             </li>
             <li class="nav-item">
-                <a href="casestudies.html" class="nav-link">Case Studies</a>
+                <a href="/casestudies.html" class="nav-link">Case Studies</a>
             </li>
             <li class="nav-item">
-                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="/contact.html" class="nav-link">Contact</a>
             </li>
         </ul>
             <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -112,22 +115,22 @@
         <div class="capabilities-bar">
             <h2>Case Studies</h2>
         </div>
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">Real problems, real solutions, real results.</p>
+        <p class="page-lead">Real problems, real solutions, real results.</p>
         <div class="detail-grid">
             <div class="detail-card reveal">
                 <span class="detail-label">Azure Functions</span>
                 <h3>Bulk Dataverse Import Pipeline</h3>
-                <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> 20,000-row Excel files requiring weeks of manual data entry into Microsoft Dataverse for a government client.</p>
-                <p><strong style="color:var(--accent-gold-bright);">Solution:</strong> Azure Function on Azure Government handling Excel parsing, parent record lookups, and <code>$batch</code> inserts at 1,000 operations per request. System-Assigned Managed Identity for auth (no credentials in code), per-row error logging back to SharePoint for full audit trail.</p>
-                <p><strong style="color:var(--accent-gold-bright);">Result:</strong> 40,000 individual API calls reduced to roughly 40. A process that would have taken weeks was fully automated and repeatable.</p>
+                <p><strong class="highlight">Problem:</strong> 20,000-row Excel files requiring weeks of manual data entry into Microsoft Dataverse for a government client.</p>
+                <p><strong class="highlight">Solution:</strong> Azure Function on Azure Government handling Excel parsing, parent record lookups, and <code>$batch</code> inserts at 1,000 operations per request. System-Assigned Managed Identity for auth (no credentials in code), per-row error logging back to SharePoint for full audit trail.</p>
+                <p><strong class="highlight">Result:</strong> 40,000 individual API calls reduced to roughly 40. A process that would have taken weeks was fully automated and repeatable.</p>
                 <div class="detail-tech">Azure Functions &middot; C# &middot; Dataverse Web API &middot; Managed Identity &middot; SharePoint</div>
             </div>
             <div class="detail-card reveal">
                 <span class="detail-label">AI Integration</span>
                 <h3>DelveMUD AI Integration Layer</h3>
-                <p><strong style="color:var(--accent-gold-bright);">Problem:</strong> Building AI features (NPC conversation, dungeon generation, quest creation, item crafting) that need to stay up under real load without creating vendor lock-in or a single point of failure.</p>
-                <p><strong style="color:var(--accent-gold-bright);">Solution:</strong> Multi-provider LLM abstraction layer where each AI subsystem (NPC agent, dungeon director, quest generator, item appraiser) runs independently behind a provider interface. Per-subsystem rate limiting, caching, and fallback chains ensure resilience. No game-side code needs to change when a model is swapped.</p>
-                <p><strong style="color:var(--accent-gold-bright);">Result:</strong> Models are hot-swappable with zero game-side changes. The architecture pattern translates directly to production enterprise AI features.</p>
+                <p><strong class="highlight">Problem:</strong> Building AI features (NPC conversation, dungeon generation, quest creation, item crafting) that need to stay up under real load without creating vendor lock-in or a single point of failure.</p>
+                <p><strong class="highlight">Solution:</strong> Multi-provider LLM abstraction layer where each AI subsystem (NPC agent, dungeon director, quest generator, item appraiser) runs independently behind a provider interface. Per-subsystem rate limiting, caching, and fallback chains ensure resilience. No game-side code needs to change when a model is swapped.</p>
+                <p><strong class="highlight">Result:</strong> Models are hot-swappable with zero game-side changes. The architecture pattern translates directly to production enterprise AI features.</p>
                 <div class="detail-tech">Go &middot; Anthropic Claude API &middot; Microservices &middot; Rate Limiting &middot; RAG Patterns</div>
             </div>
         </div>
@@ -136,7 +139,8 @@
 </main>
 
     <footer class="footer">
-        <p>&copy; 2026 Beyond The Vale LLC. All rights reserved.</p>
+        <a href="/" class="footer-mark" aria-label="Beyond The Vale — Home"><img src="/images/logo-mark.png" alt="" width="240" height="240" loading="lazy" decoding="async"></a>
+        <p>&copy; 2026 Beyond The Vale LLC. Built with precision and intent.</p>
         <p>Boise, Idaho &middot; <a href="mailto:cody@beyondthevale.net">cody@beyondthevale.net</a></p>
     </footer>
 

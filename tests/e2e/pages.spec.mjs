@@ -12,6 +12,8 @@ const CHROME_PAGES = [
     '/contact.html',
     '/casestudies.html',
     '/404.html',
+    '/services/business-websites.html',
+    '/services/enterprise-platform-development.html',
     '/projects/fitness.html',
     '/projects/games.html',
     '/projects/tools.html',
@@ -19,12 +21,14 @@ const CHROME_PAGES = [
     '/projects/fitness/fitness-level-tracking/',
 ];
 
-// Standalone full-screen pages (no site chrome, own styles).
-const STANDALONE_PAGES = [
-    '/projects/simulations/conways-game-of-life/',
-    '/projects/simulations/astar-search/',
-    '/projects/simulations/sorting-algorithms/',
-];
+// Standalone full-screen pages (no site chrome, own styles) and the page
+// their back link must return to.
+const STANDALONE_PAGES = {
+    '/projects/simulations/conways-game-of-life/': '../../simulations.html',
+    '/projects/simulations/astar-search/': '../../simulations.html',
+    '/projects/simulations/sorting-algorithms/': '../../simulations.html',
+    '/projects/games/hollow-duel/': '../../games.html',
+};
 
 const IGNORED_ERROR = /formspree|fonts\.googleapis|fonts\.gstatic|favicon/i;
 
@@ -56,9 +60,9 @@ test.describe('page smoke tests', () => {
 
             await expect(page).toHaveTitle(/Beyond The Vale/);
 
-            // Exactly five nav links, all visible (desktop viewport).
+            // Exactly six nav links, all visible (desktop viewport).
             const navLinks = page.locator('.nav-menu .nav-link');
-            await expect(navLinks).toHaveCount(5);
+            await expect(navLinks).toHaveCount(6);
             for (const link of await navLinks.all()) {
                 await expect(link).toBeVisible();
             }
@@ -73,7 +77,7 @@ test.describe('page smoke tests', () => {
         });
     }
 
-    for (const path of STANDALONE_PAGES) {
+    for (const [path, backHref] of Object.entries(STANDALONE_PAGES)) {
         test(`standalone sim loads cleanly: ${path}`, async ({ page }) => {
             const errors = collectErrors(page);
 
@@ -82,10 +86,10 @@ test.describe('page smoke tests', () => {
 
             await expect(page).toHaveTitle(/Beyond The Vale/);
 
-            // Each sim links back to the simulations index.
+            // Each standalone page links back into the site.
             const back = page.locator('a.back');
             await expect(back).toBeVisible();
-            await expect(back).toHaveAttribute('href', '../../simulations.html');
+            await expect(back).toHaveAttribute('href', backHref);
 
             await page.waitForTimeout(300);
             expect(errors).toEqual([]);
