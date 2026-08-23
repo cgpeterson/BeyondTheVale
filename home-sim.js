@@ -6,7 +6,20 @@
     const CELL = 6;
     const VIEW_H = 460;
     const sims = ['life', 'astar', 'sort'];
+    // The sim only runs while the card is on screen. Each time it scrolls into
+    // view it starts fresh: new random sim, new random seed, same as a refresh.
+    let stop = null;
+    const observer = new IntersectionObserver(function(entries) {
+        for (const entry of entries) {
+            if (entry.isIntersecting && !stop) stop = start();
+            else if (!entry.isIntersecting && stop) { stop(); stop = null; }
+        }
+    }, { threshold: 0.2 });
+    observer.observe(document.getElementById('simCard'));
+
+    function start() {
     const sim = sims[Math.floor(Math.random() * sims.length)];
+    let timer = null;
 
     function resize() {
         const card = document.getElementById('simCard');
@@ -48,7 +61,7 @@
                         ctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 1, CELL - 1);
         }
         draw();
-        setInterval(function() { step(); draw(); }, 100);
+        timer = setInterval(function() { step(); draw(); }, 100);
 
     } else if (sim === 'astar') {
         label.textContent = 'A* Pathfinding';
@@ -121,8 +134,8 @@
             }
         }
         draw();
-        const iv = setInterval(function() {
-            for (let i = 0; i < 3; i++) { if (!stepSearch()) { clearInterval(iv); break; } }
+        timer = setInterval(function() {
+            for (let i = 0; i < 3; i++) { if (!stepSearch()) { clearInterval(timer); break; } }
             draw();
         }, 30);
 
@@ -245,7 +258,7 @@
 
         draw();
         const stepsPerFrame = Math.max(1, Math.floor(queue.length / 300));
-        const iv = setInterval(function() {
+        timer = setInterval(function() {
             for (let s = 0; s < stepsPerFrame && queue.length > 0; s++) {
                 const op = queue.shift();
                 if (op.type === 'c') { highlight.compare = op.indices; highlight.swap = []; }
@@ -260,9 +273,14 @@
             if (queue.length === 0) {
                 highlight.compare = []; highlight.swap = [];
                 for (let i = 0; i < arr.length; i++) highlight.sorted.add(i);
-                clearInterval(iv);
+                clearInterval(timer);
             }
             draw();
         }, 16);
+    }
+    return function stop() {
+        clearInterval(timer);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
     }
 })();
