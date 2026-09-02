@@ -35,6 +35,7 @@
                 statusEl.textContent = "Thanks, I'll be in touch soon.";
                 statusEl.classList.add('form-status--ok');
                 form.reset();
+                if (typeof gtag === "function") gtag("event", "generate_lead", { method: "contact_form" });
             } else {
                 const result = await response.json();
                 throw new Error(result.error || 'Submission failed.');

@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DN54X9YLDK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", "G-DN54X9YLDK");
+    </script>
     <title>Contact a Software Consultant in Boise, ID | Beyond The Vale</title>
     <meta name="description" content="Get in touch with Cody Peterson, a Boise, Idaho software consultant, about Power Platform, C#/.NET, AI integration, custom tools, or a website. Most replies same day.">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -276,6 +284,7 @@
                 statusEl.textContent = "Thanks, I'll be in touch soon.";
                 statusEl.classList.add('form-status--ok');
                 form.reset();
+                if (typeof gtag === "function") gtag("event", "generate_lead", { method: "contact_form" });
             } else {
                 const result = await response.json();
                 throw new Error(result.error || 'Submission failed.');

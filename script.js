@@ -154,3 +154,16 @@ function initScrollReveal() {
 
     targets.forEach(function(el) { observer.observe(el); });
 }
+
+// ============================================
+// ANALYTICS — count email/phone clicks as leads.
+// GA4 enhanced measurement does not see mailto:/tel: links, so we send
+// these ourselves. No-op when gtag is absent or blocked.
+// ============================================
+document.addEventListener("click", function(e) {
+    const link = e.target.closest("a[href^=\"mailto:\"], a[href^=\"tel:\"]");
+    if (!link || typeof gtag !== "function") return;
+    gtag("event", "contact_click", {
+        method: link.getAttribute("href").startsWith("tel:") ? "phone" : "email"
+    });
+});
