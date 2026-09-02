@@ -161,9 +161,10 @@ function initScrollReveal() {
 // these ourselves. No-op when gtag is absent or blocked.
 // ============================================
 document.addEventListener("click", function(e) {
-    const link = e.target.closest("a[href^=\"mailto:\"], a[href^=\"tel:\"]");
+    const link = e.target.closest("a[href^=\"mailto:\"], a[href^=\"tel:\"], a[data-book-call]");
     if (!link || typeof gtag !== "function") return;
-    gtag("event", "contact_click", {
-        method: link.getAttribute("href").startsWith("tel:") ? "phone" : "email"
-    });
+    const href = link.getAttribute("href");
+    const method = link.hasAttribute("data-book-call") ? "booking"
+        : href.startsWith("tel:") ? "phone" : "email";
+    gtag("event", "contact_click", { method: method });
 });
