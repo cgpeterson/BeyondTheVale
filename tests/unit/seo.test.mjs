@@ -30,9 +30,9 @@ const INDEXABLE = ALL_PAGES.filter(p => !isNoindex(read(p)));
 const sitemapXml = read('sitemap.xml');
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
 
-test('only 404.html and redirect stubs are noindex', () => {
+test('only 404.html, privacy.html and redirect stubs are noindex', () => {
     const noindexed = ALL_PAGES.filter(p => isNoindex(read(p)));
-    assert.deepEqual(noindexed.sort(), ['404.html', ...Object.keys(REDIRECTS)].sort());
+    assert.deepEqual(noindexed.sort(), ['404.html', 'privacy.html', ...Object.keys(REDIRECTS)].sort());
 });
 
 test('redirect stubs point at live pages and carry a matching canonical', () => {
